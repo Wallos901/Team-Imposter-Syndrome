@@ -1,0 +1,58 @@
+const router = require('express').Router();
+let Post = require('../models/post.model');
+
+router.route('/').get((req, res) => {
+    Post.find()
+        .then(posts => res.json(posts))
+        .catch(err => res.status(400).json('Error: ' + err));
+});
+
+router.route('/:id').get((req, res) => {
+    Post.findById(req.params.id)
+        .then(post => res.json(post))
+        .catch(err => res.status(400).json('Error: ' + err));
+});
+
+router.route('/add').post((req, res) => {
+    const content = req.body.content;
+    const alt_text = req.body.alt_text;
+    const created_at = Date.parse(req.body.created_at);
+    const user_id = req.body.user_id;
+    const status_id = req.body.status_id;
+
+    const newPost =new Post({
+        content,
+        alt_text,
+        created_at,
+        user_id,
+        status_id
+    });
+
+    newPost.save()
+        .then(() => res.json('Post added!'))
+        .catch(err => res.status(400).json('Error: ' + err));
+});
+
+router.route('/update/:id').post((req, res) => {
+    Post.findById(req.params.id)
+        .then(post => {
+            post.content = req.body.content;
+            post.alt_text = req.body.alt_text;
+            post.created_at = Date.parse(req.body.created_at);
+            post.user_id = req.body.user_id;
+            post.status_id = req.body.status_id;
+
+            post.save()
+                .then(() => res.json('Post updated!'))
+                .catch(err => res.status(400).json('Error: ' + err));
+        })
+        .catch(err => res.status(400).json('Error: ' + err));
+});
+
+router.route('/:id').delete((req, res) => {
+    Post.findByIdAndDelete(req.params.id)
+        .then(() => res.json('Post deleted.'))
+        .catch(err => res.status(400).json('Error: ' + err));
+});
+
+module.exports = router;
