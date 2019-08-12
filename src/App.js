@@ -1,25 +1,17 @@
 import React from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
-import {
-  Collapse,
-  Navbar,
-  NavbarToggler,
-  NavbarBrand,
-  Nav,
-  NavItem,
-  NavLink,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem } from 'reactstrap';
+import { BrowserRouter as Router } from 'react-router-dom';
 
 import NavbarComp from "./components/navbar.component";
+import CardComp from "./components/card.component";
 
 function App() {
   return (
     <Router>
+      <div className="container-fluid">
+        <NavbarComp/>
+      </div>
       <div className="container">
-        <Navbar/>
+        <CardComp/>
       </div>
     </Router>
   );
