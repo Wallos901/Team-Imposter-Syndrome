@@ -12,6 +12,7 @@
     "react-scripts": "3.0.1"
   },
   "scripts": {
+    "database": "nodemon ./backend/server",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -31,5 +32,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.1"
   }
 }
