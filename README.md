@@ -14,7 +14,7 @@ You will also see any lint errors in the console.
 
 ### `npm run database`
 
-Runs the server.js file, connecting the application to the MongoDB Database instance.
+Runs the server.js file, connecting the application to the MongoDB Database instance.<br>
 References [http://localhost:5000](http://localhost:5000) when making http calls.
 
 Server will reload if any changes are made to the server.js file.
