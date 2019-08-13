@@ -1,10 +1,19 @@
 import React from 'react';
+import { BrowserRouter as Router } from 'react-router-dom';
+
+import NavbarComp from "./components/navbar.component";
+import CardComp from "./components/card.component";
 
 function App() {
   return (
-    <div>
-      <h1>Hello World</h1>
-    </div>
+    <Router>
+      <div className="container-fluid">
+        <NavbarComp/>
+      </div>
+      <div className="container">
+        <CardComp/>
+      </div>
+    </Router>
   );
 }
 
