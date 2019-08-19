@@ -8,7 +8,10 @@ import { Card,
     CardSubtitle,
     CardBody } from 'reactstrap';
 
+import PostModalComp from "./postModal.component";
+
 export default class CardComp extends React.Component {
+
     render() {
         return (
             <div>
@@ -19,7 +22,7 @@ export default class CardComp extends React.Component {
                         <CardTitle>Card title</CardTitle>
                         <CardSubtitle>Card subtitle</CardSubtitle>
                         <CardText>This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</CardText>
-                        <Button>Button</Button>
+                        <Button onClick={''}>Show Modal</Button>
                     </CardBody>
                 </Card>
                 <Card>
@@ -53,6 +56,8 @@ export default class CardComp extends React.Component {
                     <Button color="secondary">Button</Button>
                 </Card>
                 </CardColumns>
+
+                <PostModalComp/>
             </div>
           );
     }
