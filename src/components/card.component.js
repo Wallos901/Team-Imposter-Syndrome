@@ -8,7 +8,7 @@ import { Card,
     CardSubtitle,
     CardBody } from 'reactstrap';
 
-import PostModalComp from "./postModal.component";
+import ModalComp from "./modal.component";
 
 export default class CardComp extends React.Component {
 
@@ -22,7 +22,7 @@ export default class CardComp extends React.Component {
                         <CardTitle>Card title</CardTitle>
                         <CardSubtitle>Card subtitle</CardSubtitle>
                         <CardText>This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</CardText>
-                        <PostModalComp/>
+                        <ModalComp type={'post'} button={'zoom'}/>
                     </CardBody>
                 </Card>
                 <Card>
