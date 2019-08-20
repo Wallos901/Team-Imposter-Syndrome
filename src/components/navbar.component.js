@@ -11,6 +11,7 @@ import {
     DropdownToggle,
     DropdownMenu,
     DropdownItem } from 'reactstrap';
+import ModalComp from "./modal.component";
 
 export default class NavbarComp extends React.Component {
   constructor(props) {
@@ -36,7 +37,7 @@ export default class NavbarComp extends React.Component {
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
               <NavItem>
-                <NavLink>Upload</NavLink>
+                <ModalComp type={'upload'} button={'Upload'}/>
               </NavItem>
               <NavItem>
                 <NavLink>Leaderboard</NavLink>
