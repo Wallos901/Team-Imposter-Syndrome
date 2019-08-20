@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 
 import NavbarComp from "./components/navbar.component";
 import CardComp from "./components/card.component";
@@ -11,7 +11,7 @@ function App() {
         <NavbarComp/>
       </div>
       <div className="container">
-        <Route path="/" exact component={CardComp} />
+        <CardComp/>
       </div>
     </Router>
   );
