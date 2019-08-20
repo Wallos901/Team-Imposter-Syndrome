@@ -22,7 +22,7 @@ export default class CardComp extends React.Component {
                         <CardTitle>Card title</CardTitle>
                         <CardSubtitle>Card subtitle</CardSubtitle>
                         <CardText>This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</CardText>
-                        <ModalComp type={'post'} button={'zoom'}/>
+                        <ModalComp type={'post'} text={'zoom'}/>
                     </CardBody>
                 </Card>
                 <Card>
