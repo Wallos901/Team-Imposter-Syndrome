@@ -1,15 +1,6 @@
 import React from 'react';
-import ReactS3 from 'react-s3';
-import axios from "axios";
 import {ModalBody, ModalHeader, Form, FormGroup, Input, FormText, Button} from "reactstrap";
-
-const config = {
-    bucketName: "discussion-board",
-    dirName: "photos",
-    region: "ap-southeast-2",
-    accessKeyId: process.env.REACT_APP_AWS_ACCESS_KEY,
-    secretAccessKey: process.env.REACT_APP_AWS_SECRET_KEY
-};
+import Upload from "../../utilities/upload.util";
 
 export default class UploadModal extends React.Component {
     constructor(props) {
@@ -22,26 +13,8 @@ export default class UploadModal extends React.Component {
 
     handleUploadClick() {
         if (document.getElementById("fileUpload").value !== "") {
-            ReactS3.uploadFile(document.getElementById("fileUpload").files[0], config)
-                .then(data => {
-                    const post = {
-                        content: data.location,
-                        alt_text: "default",
-                        user_id: "12345678",
-                        status_id: "APPROVED"
-                    };
-
-                    axios.post("http://localhost:5000/posts/add/", post)
-                        .then(res => {
-                            alert("Post uploaded successfully!");
-                            document.getElementById("fileUpload").value = "";
-                            console.log(document.getElementById("fileUpload").files)
-                        })
-                        .catch(err => console.log(err));
-                })
-                .catch(err => {
-                    console.log(err);
-                })
+            Upload(document.getElementById("fileUpload").files[0], "post");
+            document.getElementById("fileUpload").value = "";
         }
     }
 
