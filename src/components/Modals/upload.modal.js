@@ -1,22 +1,18 @@
 import React from 'react';
-import {ModalBody, ModalHeader, Form, FormGroup, Input, FormText, Button} from "reactstrap";
+import {ModalBody, ModalHeader, Form, FormGroup, Input, FormText, Button, ModalFooter} from "reactstrap";
 import Upload from "../../utilities/upload.util";
 
 export default class UploadModal extends React.Component {
-    constructor(props) {
-        super(props);
-
-        this.handleUploadClick = this.handleUploadClick.bind(this);
-
-        this.state = {}
-    }
-
-    handleUploadClick() {
+    handleUploadClick = () => {
         if (document.getElementById("fileUpload").value !== "") {
-            Upload(document.getElementById("fileUpload").files[0], "post");
+            if (Upload(document.getElementById("fileUpload").files[0], "post")){
+            }
             document.getElementById("fileUpload").value = "";
         }
-    }
+        else {
+            alert('Please select an image/gif to upload.');
+        }
+    };
 
     render() {
         return (
@@ -31,8 +27,11 @@ export default class UploadModal extends React.Component {
                             </FormText>
                         </FormGroup>
                     </Form>
-                    <Button onClick={this.handleUploadClick}>Upload</Button>
                 </ModalBody>
+                <ModalFooter>
+                    <Button onClick={this.handleUploadClick}>Upload</Button>
+                    <Button onClick={this.props.closeModal}>Close</Button>
+                </ModalFooter>
             </div>
         );
     }

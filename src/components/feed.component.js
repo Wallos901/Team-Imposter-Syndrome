@@ -27,7 +27,6 @@ export default class FeedComp extends React.Component {
             })
             .finally(() => {
                 console.log('Loaded all posts.');
-
             });
     };
 
@@ -35,11 +34,25 @@ export default class FeedComp extends React.Component {
         // Load All Posts
         await this.getAllPosts();
         this.state.loadedPosts.forEach((post) => {
-            console.log(post);
             this.setState(prevState => ({
                 postCardComps: [...prevState.postCardComps, <CardComp imageUrl={post.content} userId={post.user_id} key={post._id} createdAt={post.createdAt} />]
             }));
         });
+    }
+
+    async shouldComponentUpdate(nextProps, nextState){
+        // Load All Posts
+        if(this.props !== nextProps) {
+            // await this.getAllPosts();
+            // this.state.loadedPosts.forEach((post) => {
+            //     this.setState(prevState => ({
+            //         postCardComps: [...prevState.postCardComps,
+            //             <CardComp imageUrl={post.content} userId={post.user_id} key={post._id}
+            //                       createdAt={post.createdAt}/>]
+            //     }));
+            // });
+            console.log('yeehaw');
+        }
     }
 
     render() {
