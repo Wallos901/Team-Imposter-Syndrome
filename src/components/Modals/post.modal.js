@@ -17,7 +17,7 @@ export default class PostModal extends React.Component {
                     src={this.props.imageUrl}
                     alt="image goes here"
                 />
-                <Modal size={"xl"} isOpen={this.state.showPostModal} toggle={this.toggleModal}>
+                <Modal size={"xl"} isOpen={this.state.showModal} toggle={this.toggleModal}>
                     <ModalHeader>{this.props.title}</ModalHeader>
                     <ModalBody class={"modal-body"}>
                         <img src={this.props.imageUrl} alt={"some alt text"}/>
