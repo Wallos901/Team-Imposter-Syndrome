@@ -50,9 +50,7 @@ export default class NavbarComp extends React.Component {
                             </DropdownToggle>
                             <DropdownMenu right>
                                 <ModalComp type={'profile'} text={'View Profile'}/>
-                                <DropdownItem>
-                                    Eat ass
-                                </DropdownItem>
+                                <ModalComp type={'settings'} text={'Settings'}/>
                                 <DropdownItem divider/>
                                 <DropdownItem>
                                     Reset

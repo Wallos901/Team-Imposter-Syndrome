@@ -3,6 +3,7 @@ import {Button, DropdownItem, Modal, ModalBody, ModalFooter, NavLink} from 'reac
 import PostModal from "./Modals/post.modal";
 import UploadModal from "./Modals/upload.modal";
 import ProfileModal from "./Modals/profile.modal";
+import SettingsModal from "./Modals/settings.modal";
 
 export default class ModalComp extends React.Component {
     constructor(props) {
@@ -23,16 +24,20 @@ export default class ModalComp extends React.Component {
     render() {
         return (
             <div>
+                {/* Modal Button */}
                 {(() => {
                     switch (this.props.type) {
                         case "upload":
                             return <NavLink onClick={this.togglePostModal}>{this.props.text}</NavLink>;
                         case "profile":
+                        case "settings":
                             return <DropdownItem onClick={this.togglePostModal}>{this.props.text}</DropdownItem>;
                         default:
                             return <Button onClick={this.togglePostModal}>{this.props.text}</Button>;
                     }
                 })()}
+
+                {/* Modal Body */}
                 <Modal isOpen={this.state.showPostModal} toggle={this.togglePostModal}>
                     <ModalBody>
                         {(() => {
@@ -43,6 +48,8 @@ export default class ModalComp extends React.Component {
                                     return <UploadModal/>;
                                 case "profile":
                                     return <ProfileModal/>;
+                                case "settings":
+                                    return <SettingsModal/>;
                                 default:
                                     return;
                             }
