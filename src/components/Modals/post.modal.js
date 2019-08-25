@@ -22,7 +22,6 @@ export default class PostModal extends React.Component {
                     <img src={this.props.imageUrl} alt={"some alt text"}/>
                     <Comments/>
                 </ModalBody>
-                </Modal>
             </div>
         );
     }
