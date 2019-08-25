@@ -9,15 +9,15 @@ export default class ModalComp extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            showPostModal: false
+            showModal: false
         };
 
-        this.togglePostModal = this.togglePostModal.bind(this);
+        this.toggleModal = this.toggleModal.bind(this);
     }
 
-    togglePostModal() {
+    toggleModal() {
         this.setState(() => ({
-            showPostModal: !this.state.showPostModal
+            showModal: !this.state.showModal
         }));
     }
 
@@ -28,17 +28,17 @@ export default class ModalComp extends React.Component {
                 {(() => {
                     switch (this.props.type) {
                         case "upload":
-                            return <NavLink onClick={this.togglePostModal}>{this.props.text}</NavLink>;
+                            return <NavLink onClick={this.toggleModal}>{this.props.text}</NavLink>;
                         case "profile":
                         case "settings":
-                            return <DropdownItem onClick={this.togglePostModal}>{this.props.text}</DropdownItem>;
+                            return <DropdownItem onClick={this.toggleModal}>{this.props.text}</DropdownItem>;
                         default:
-                            return <Button onClick={this.togglePostModal}>{this.props.text}</Button>;
+                            return <Button onClick={this.toggleModal}>{this.props.text}</Button>;
                     }
                 })()}
 
                 {/* Modal Body */}
-                <Modal isOpen={this.state.showPostModal} toggle={this.togglePostModal}>
+                <Modal isOpen={this.state.showModal} toggle={this.toggleModal}>
                     <ModalBody>
                         {(() => {
                             switch (this.props.type){
@@ -56,7 +56,7 @@ export default class ModalComp extends React.Component {
                         })()}
                     </ModalBody>
                     <ModalFooter>
-                        <Button color="secondary" onClick={this.togglePostModal}>Cancel</Button>
+                        <Button color="secondary" onClick={this.toggleModal}>Cancel</Button>
                     </ModalFooter>
                 </Modal>
             </div>

@@ -9,7 +9,7 @@ export default class CardComp extends React.Component {
             <div>
                 <Card>
                     <ModalComp
-                        imageUrl="https://knowpathology.com.au/app/uploads/2018/07/Happy-Test-Screen-01-825x510.png"/>
+                        imageUrl="https://knowpathology.com.au/app/uploads/2018/07/Happy-Test-Screen-01-825x510.png" type="post" title="Image Here"/>
                 </Card>
             </div>
         );

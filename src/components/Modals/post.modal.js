@@ -17,8 +17,8 @@ export default class PostModal extends React.Component {
                     src={this.props.imageUrl}
                     alt="image goes here"
                 />
-                <Modal size={"xl"} isOpen={this.state.showPostModal} toggle={this.togglePostModal}>
-                    <ModalHeader>Image Here</ModalHeader>
+                <Modal size={"xl"} isOpen={this.state.showPostModal} toggle={this.toggleModal}>
+                    <ModalHeader>{this.props.title}</ModalHeader>
                     <ModalBody class={"modal-body"}>
                         <img src={this.props.imageUrl} alt={"some alt text"}/>
                         <Comments/>
@@ -27,7 +27,7 @@ export default class PostModal extends React.Component {
                         <Button color="primary">
                             Reply
                         </Button>
-                        <Button color="secondary" onClick={this.togglePostModal}>
+                        <Button color="secondary" onClick={this.toggleModal}>
                             Close
                         </Button>
                     </ModalFooter>
