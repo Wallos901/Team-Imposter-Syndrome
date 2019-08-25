@@ -41,7 +41,7 @@ export default class NavbarComp extends React.Component {
                             <ModalComp type={'upload'} text={'Upload'}/>
                         </NavItem>
                         <NavItem>
-                            <NavLink>Leaderboard</NavLink>
+                            <ModalComp type={'leaderboard'} text={'Leaderboard'}/>
                         </NavItem>
                         <UncontrolledDropdown nav inNavbar>
                             <DropdownToggle nav caret>
