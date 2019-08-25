@@ -43,7 +43,7 @@ export default class ModalComp extends React.Component {
                         {(() => {
                             switch (this.props.type){
                                 case "post":
-                                    return <PostModal/>;
+                                    return <PostModal imageUrl={this.props.imageUrl}/>;
                                 case "upload":
                                     return <UploadModal/>;
                                 case "profile":
