@@ -1,6 +1,6 @@
 import React from 'react';
 import {ModalBody, ModalHeader, Form, FormGroup, Input, FormText, Button} from "reactstrap";
-import Upload from "../../utilities/upload.util";
+import Upload from "../../utilities/upload/upload.util";
 
 export default class UploadModal extends React.Component {
     constructor(props) {

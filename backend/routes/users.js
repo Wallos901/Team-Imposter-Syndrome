@@ -1,3 +1,7 @@
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import validateRegisterInput from "../../src/utilities/validation/register.util";
+
 const router = require('express').Router();
 let User = require('../models/user.model');
 
@@ -23,20 +27,40 @@ router.route('/add').post((req, res) => {
     const status = req.body.status;
     const user_status_id = req.body.user_status_id;
 
-    const newUser =new User({
-        username,
-        hashed_password,
-        email,
-        last_activity,
-        is_moderator,
-        is_admin,
-        status,
-        user_status_id
-    });
+    const { errors, isValid } = validateRegisterInput(req.body);
 
-    newUser.save()
-        .then(() => res.json('User added!'))
-        .catch(err => res.status(400).json('Error: ' + err));
+    //Check validation
+    if(!isValid) {
+        return res.status(400).json(errors);
+    }
+
+    User.findOne({ email: req.body.email })
+        .then(user => {
+            if(user) {
+                return res.status(400).json({ email: "Email already exists." });
+            } else {
+                const newUser = new User({
+                    username,
+                    hashed_password,
+                    email,
+                    last_activity,
+                    is_moderator,
+                    is_admin,
+                    status,
+                    user_status_id
+                });
+
+                bcrypt.genSalt(10, (err, salt) => {
+                    bcrypt.hash(newUser.hashed_password, salt, (err, hash) => {
+                        if (err) throw err;
+                        newUser.hashed_password = hash;
+                        newUser.save()
+                            .then(() => res.json('User added!'))
+                            .catch(err => res.status(400).json('Error: ' + err));
+                    });
+                });
+            }
+        });
 });
 
 router.route('/update/:id').post((req, res) => {
