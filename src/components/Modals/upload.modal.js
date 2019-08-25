@@ -22,7 +22,7 @@ export default class UploadModal extends React.Component {
 
     handleUploadClick() {
         if (document.getElementById("fileUpload").value !== "") {
-            ReactS3.uploadFile(document.getElementById("fileUpload").value, config)
+            ReactS3.uploadFile(document.getElementById("fileUpload").files[0], config)
                 .then(data => {
                     const post = {
                         content: data.location,
@@ -35,6 +35,7 @@ export default class UploadModal extends React.Component {
                         .then(res => {
                             alert("Post uploaded successfully!");
                             document.getElementById("fileUpload").value = "";
+                            console.log(document.getElementById("fileUpload").files)
                         })
                         .catch(err => console.log(err));
                 })
@@ -51,7 +52,7 @@ export default class UploadModal extends React.Component {
                 <ModalBody>
                     <Form>
                         <FormGroup>
-                            <Input id="fileUpload" type="file"/>
+                            <Input id="fileUpload" type="file" accept=".jpg, .png, .gif"/>
                             <FormText color="muted">
                                 Please select a file of type jpg, png, or gif.
                             </FormText>
