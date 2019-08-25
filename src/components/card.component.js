@@ -1,7 +1,7 @@
 import React from "react";
 import {Card} from "reactstrap";
 
-import ModalComp from "./postModal.component";
+import ModalComp from "./modal.component";
 
 export default class CardComp extends React.Component {
     render() {
