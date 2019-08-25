@@ -11,7 +11,7 @@ export default class PostModal extends React.Component {
         return (
             <div>
                 <CardImg
-                    onClick={this.togglePostModal}
+                    onClick={this.toggleModal}
                     top
                     width="100%"
                     src={this.props.imageUrl}
