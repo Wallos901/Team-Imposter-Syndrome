@@ -1,62 +1,17 @@
-import React from 'react';
-import { Card,
-    Button,
-    CardImg,
-    CardTitle,
-    CardText,
-    CardColumns,
-    CardSubtitle,
-    CardBody } from 'reactstrap';
+import React from "react";
+import {Card} from "reactstrap";
 
-import ModalComp from "./modal.component";
+import PostModalComp from "./postModal.component";
 
 export default class CardComp extends React.Component {
-
     render() {
         return (
             <div>
-              <CardColumns>
                 <Card>
-                    <CardImg top width="100%" src="https://placeholdit.imgix.net/~text?txtsize=33&txt=256%C3%97180&w=256&h=180" alt="Card image cap" />
-                    <CardBody>
-                        <CardTitle>Card title</CardTitle>
-                        <CardSubtitle>Card subtitle</CardSubtitle>
-                        <CardText>This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</CardText>
-                        <ModalComp type={'post'} button={'zoom'}/>
-                    </CardBody>
+                    <PostModalComp
+                        imageUrl="https://knowpathology.com.au/app/uploads/2018/07/Happy-Test-Screen-01-825x510.png"/>
                 </Card>
-                <Card>
-                    <CardImg top width="100%" src="https://placeholdit.imgix.net/~text?txtsize=33&txt=256%C3%97180&w=256&h=180" alt="Card image cap" />
-                </Card>
-                <Card>
-                    <CardBody>
-                        <CardTitle>Card title</CardTitle>
-                        <CardSubtitle>Card subtitle</CardSubtitle>
-                        <CardText>This card has supporting text below as a natural lead-in to additional content.</CardText>
-                        <Button>Button</Button>
-                    </CardBody>
-                </Card>
-                <Card body inverse style={{ backgroundColor: '#333', borderColor: '#333' }}>
-                    <CardTitle>Special Title Treatment</CardTitle>
-                    <CardText>With supporting text below as a natural lead-in to additional content.</CardText>
-                    <Button>Button</Button>
-                </Card>
-                <Card>
-                    <CardImg top width="100%" src="https://placeholdit.imgix.net/~text?txtsize=33&txt=256%C3%97180&w=256&h=180" alt="Card image cap" />
-                    <CardBody>
-                        <CardTitle>Card title</CardTitle>
-                        <CardSubtitle>Card subtitle</CardSubtitle>
-                        <CardText>This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</CardText>
-                        <Button>Button</Button>
-                    </CardBody>
-                </Card>
-                <Card body inverse color="primary">
-                    <CardTitle>Special Title Treatment</CardTitle>
-                    <CardText>With supporting text below as a natural lead-in to additional content.</CardText>
-                    <Button color="secondary">Button</Button>
-                </Card>
-                </CardColumns>
             </div>
-          );
+        );
     }
 }

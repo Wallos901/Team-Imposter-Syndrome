@@ -1,5 +1,5 @@
 import React from 'react';
-import {ModalHeader, ModalBody} from 'reactstrap';
+import {ModalHeader, ModalBody, CardImg, Modal, ModalFooter, Button} from 'reactstrap';
 import Comments from "../comments.component";
 
 export default class PostModal extends React.Component {
@@ -10,10 +10,28 @@ export default class PostModal extends React.Component {
     render() {
         return (
             <div>
-                <ModalHeader>Image Here</ModalHeader>
-                <ModalBody>
-                    <Comments/>
-                </ModalBody>
+                <CardImg
+                    onClick={this.togglePostModal}
+                    top
+                    width="100%"
+                    src={this.props.imageUrl}
+                    alt="image goes here"
+                />
+                <Modal size={"xl"} isOpen={this.state.showPostModal} toggle={this.togglePostModal}>
+                    <ModalHeader>Image Here</ModalHeader>
+                    <ModalBody class={"modal-body"}>
+                        <img src={this.props.imageUrl} alt={"some alt text"}/>
+                        <Comments/>
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button color="primary">
+                            Reply
+                        </Button>
+                        <Button color="secondary" onClick={this.togglePostModal}>
+                            Close
+                        </Button>
+                    </ModalFooter>
+                </Modal>
             </div>
         );
     }
