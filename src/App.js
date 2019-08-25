@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 
 import NavbarComp from "./components/navbar.component";
-import CardComp from "./components/card.component";
+import FeedComp from "./components/feed.component";
 
 function App() {
   return (
@@ -11,7 +11,7 @@ function App() {
         <NavbarComp/>
       </div>
       <div className="container">
-        <CardComp/>
+        <FeedComp/>
       </div>
     </Router>
   );
