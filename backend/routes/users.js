@@ -17,7 +17,6 @@ router.route('/add').post((req, res) => {
     const username = req.body.username;
     const hashed_password = req.body.hashed_password;
     const email = req.body.email;
-    const created_at = Date.parse(req.body.created_at);
     const last_activity = Date.parse(req.body.last_activity);
     const is_moderator = req.body.is_moderator;
     const is_admin = req.body.is_admin;
@@ -28,7 +27,6 @@ router.route('/add').post((req, res) => {
         username,
         hashed_password,
         email,
-        created_at,
         last_activity,
         is_moderator,
         is_admin,
@@ -47,7 +45,6 @@ router.route('/update/:id').post((req, res) => {
             user.username = req.body.username;
             user.hashed_password = req.body.hashed_password;
             user.email = req.body.email;
-            user.created_at = Date.parse(req.body.created_at);
             user.last_activity = Date.parse(req.body.last_activity);
             user.is_moderator = req.body.is_moderator;
             user.is_admin = req.body.is_admin;
