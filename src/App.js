@@ -7,7 +7,7 @@ import FeedComp from "./components/feed.component";
 function App() {
   return (
     <Router>
-      <div className="container-fluid">
+      <div>
         <NavbarComp/>
       </div>
       <div className="container">

@@ -39,7 +39,6 @@ export default class ModalComp extends React.Component {
                                 <div>
                                     <CardImg
                                         onClick={this.toggleModal}
-                                        top
                                         width="100%"
                                         src={this.props.imageUrl}
                                         alt="an uploaded image"
@@ -52,7 +51,7 @@ export default class ModalComp extends React.Component {
                 })()}
 
                 {/* Modal Body */}
-                <Modal isOpen={this.state.showModal} toggle={this.toggleModal} size={this.props.type==="post" && "xl"}>
+                <Modal isOpen={this.state.showModal} toggle={this.toggleModal} size={this.props.type==="post" ? "xl" : "m"}>
                     {(() => {
                         switch (this.props.type){
                             case "post":
