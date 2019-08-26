@@ -41,6 +41,7 @@
     ]
   },
   "devDependencies": {
-    "nodemon": "^1.19.1"
+    "nodemon": "^1.19.1",
+    "react-masonry-css": "^1.0.12"
   }
 }

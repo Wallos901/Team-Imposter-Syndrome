@@ -1,9 +1,20 @@
 .modal-body {
     align-self: center;
 }
-.post-gallery {
-    padding: 5px;
-}
 .container {
-    display: block;
+    width: 100%;
+}
+.post-grid {
+    display: flex;
+    margin-left: -10px; /* gutter size offset */
+    width: auto;
+    padding-top: 15px;
+}
+.post-container { /* post container */
+    padding-left: 10px; /* gutter size */
+    background-clip: padding-box;
+}
+.post-container > div { /* post container card */
+   background: white;
+   margin-bottom: 10px;
 }

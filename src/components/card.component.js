@@ -6,13 +6,11 @@ import ModalComp from "./modal.component";
 export default class CardComp extends React.Component {
     render() {
         return (
-            <div>
-                <Card>
-                    <ModalComp
-                        imageUrl={this.props.imageUrl} type="post" title="Image Here"
-                    />
-                </Card>
-            </div>
+            <Card style={{alignItems: 'center'}}>
+                <ModalComp
+                    imageUrl={this.props.imageUrl} type="post" title="Image Here"
+                />
+            </Card>
         );
     }
 }

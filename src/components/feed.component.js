@@ -1,17 +1,18 @@
 import React from "react";
 
 import '../styling.css' ;
-import Masonry from 'react-masonry-component';
+import Masonry from 'react-masonry-css';
 
 import CardComp from "./card.component";
-import {Col, Row} from "reactstrap";
 
 const axios = require('axios');
 
-const masonryOptions = {
-    transitionDuration: 1000
+const dynamicColunmBreakpoints = {
+    default: 4,
+    1100: 3,
+    700: 2,
+    500: 1
 };
-const imagesLoadedOptions = { backgroundColor: '#FF0000' };
 
 export default class FeedComp extends React.Component {
     constructor(props) {
@@ -19,6 +20,7 @@ export default class FeedComp extends React.Component {
         this.state = {
             loadedPosts: {},
             postGrid: [],
+            test: [],
         };
     }
 
@@ -45,9 +47,7 @@ export default class FeedComp extends React.Component {
         this.state.loadedPosts.forEach((post) => {
             this.setState(prevState => ({
                 postGrid: [...prevState.postGrid,
-                    <div key={post._id}>
-                        <CardComp imageUrl={post.content} userId={post.user_id} key={post._id} createdAt={post.createdAt}/>
-                    </div>]
+                    <CardComp imageUrl={post.content} userId={post.user_id} key={post._id} createdAt={post.createdAt}/>]
             }));
 
         });
@@ -56,10 +56,9 @@ export default class FeedComp extends React.Component {
     render() {
         return (
             <Masonry
-                className={'post-gallery'}
-                elementType={'div'}
-                options={masonryOptions}
-                imagesLoadedOptions={imagesLoadedOptions}
+                breakpointCols={dynamicColunmBreakpoints}
+                className="post-grid"
+                columnClassName="post-container"
             >
                 {this.state.postGrid}
             </Masonry>
