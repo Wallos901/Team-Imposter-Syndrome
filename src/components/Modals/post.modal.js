@@ -8,7 +8,7 @@ export default class PostModal extends React.Component {
             <div>
                 <ModalHeader>{this.props.title}</ModalHeader>
                 <ModalBody className={"modal-body"}>
-                    <img src={this.props.imageUrl} alt={"some alt text"} width='100%'/>
+                    <img src={this.props.imageUrl} alt={"some alt text"} height='100%' width='100%'/>
                     <Comments/>
                 </ModalBody>
             </div>

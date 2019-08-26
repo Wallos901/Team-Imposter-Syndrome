@@ -1,6 +1,9 @@
 import React from "react";
 
+import '../styling.css' ;
+
 import CardComp from "./card.component";
+import {Row, Col} from "reactstrap";
 
 const axios = require('axios');
 
@@ -9,7 +12,7 @@ export default class FeedComp extends React.Component {
         super(props);
         this.state = {
             loadedPosts: {},
-            postCardComps: [],
+            postGrid: [],
         };
     }
 
@@ -33,32 +36,33 @@ export default class FeedComp extends React.Component {
     async componentDidMount() {
         // Load All Posts
         await this.getAllPosts();
+        const rowSize = 4;
+        let counter = 0;
+        const grid = [];
+        let row = [];
+        // Organise posts into rows and columns in the grid.
         this.state.loadedPosts.forEach((post) => {
-            this.setState(prevState => ({
-                postCardComps: [...prevState.postCardComps, <CardComp imageUrl={post.content} userId={post.user_id} key={post._id} createdAt={post.createdAt} />]
-            }));
+            if (counter%rowSize===0 && counter!==0) {
+                grid.push(<Row key={'row_'+counter/4}>{row}</Row>);
+                row = [];
+            }
+            row.push(<Col className={'post-column'} style={{padding:5}} key={'column_'+counter}>
+                <CardComp imageUrl={post.content} userId={post.user_id} key={post._id} createdAt={post.createdAt} />
+            </Col>);
+            counter++;
         });
-    }
-
-    async shouldComponentUpdate(nextProps, nextState){
-        // Load All Posts
-        if(this.props !== nextProps) {
-            // await this.getAllPosts();
-            // this.state.loadedPosts.forEach((post) => {
-            //     this.setState(prevState => ({
-            //         postCardComps: [...prevState.postCardComps,
-            //             <CardComp imageUrl={post.content} userId={post.user_id} key={post._id}
-            //                       createdAt={post.createdAt}/>]
-            //     }));
-            // });
-            console.log('yeehaw');
+        if(row.length > 0){
+            grid.push(<Row key={'row_'+counter/4+1}>{row}</Row>)
         }
+        this.setState(prevState => ({
+            postGrid: [...prevState.postGrid, grid]
+        }));
     }
 
     render() {
         return (
             <div>
-                {this.state.postCardComps}
+                {this.state.postGrid}
             </div>
         );
     }

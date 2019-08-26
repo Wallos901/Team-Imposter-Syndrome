@@ -1,3 +1,7 @@
 .modal-body {
     align-self: center;
 }
+.post-column {
+    display: flex;
+    align-items: center;
+}
