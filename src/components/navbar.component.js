@@ -6,7 +6,6 @@ import {
     NavbarBrand,
     Nav,
     NavItem,
-    NavLink,
     UncontrolledDropdown,
     DropdownToggle,
     DropdownMenu,
@@ -20,7 +19,7 @@ export default class NavbarComp extends React.Component {
 
         this.toggle = this.toggle.bind(this);
         this.state = {
-            isOpen: false
+            isOpen: false,
         };
     }
 
@@ -38,7 +37,7 @@ export default class NavbarComp extends React.Component {
                 <Collapse isOpen={this.state.isOpen} navbar>
                     <Nav className="ml-auto" navbar>
                         <NavItem>
-                            <ModalComp type={'upload'} text={'Upload'}/>
+                            <ModalComp type={'upload'} text={'Upload'} upload={this.props.upload}/>
                         </NavItem>
                         <NavItem>
                             <ModalComp type={'leaderboard'} text={'Leaderboard'}/>

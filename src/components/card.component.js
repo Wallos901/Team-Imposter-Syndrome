@@ -4,10 +4,6 @@ import {Card} from "reactstrap";
 import ModalComp from "./modal.component";
 
 export default class CardComp extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         return (
             <div>

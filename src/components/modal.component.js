@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, CardImg, DropdownItem, Modal, ModalBody, ModalFooter, NavLink} from 'reactstrap';
+import {Button, CardImg, DropdownItem, Modal, ModalFooter, NavLink} from 'reactstrap';
 import PostModal from "./Modals/post.modal";
 import UploadModal from "./Modals/upload.modal";
 import ProfileModal from "./Modals/profile.modal";
@@ -10,7 +10,7 @@ export default class ModalComp extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            showModal: false
+            showModal: false,
         };
 
         this.toggleModal = this.toggleModal.bind(this);
@@ -57,7 +57,7 @@ export default class ModalComp extends React.Component {
                             case "post":
                                 return <PostModal imageUrl={this.props.imageUrl}/>;
                             case "upload":
-                                return <UploadModal/>;
+                                return <UploadModal closeModal={() => this.toggleModal()} upload={this.props.upload}/>;
                             case "leaderboard":
                                 return <LeaderboardModal/>;
                             case "profile":
@@ -68,10 +68,14 @@ export default class ModalComp extends React.Component {
                                 return;
                         }
                     })()}
-                    <ModalFooter>
-                        <Button color="secondary" onClick={this.toggleModal}>Cancel</Button>
-                    </ModalFooter>
+                    {this.props.type !== 'upload' &&
+                        <ModalFooter>
+
+                            <Button color="secondary" onClick={this.toggleModal}>Cancel</Button>
+                        </ModalFooter>
+                    }
                 </Modal>
+
             </div>
         );
     }
