@@ -1,3 +1,9 @@
 .modal-body {
     align-self: center;
 }
+.post-gallery {
+    padding: 5px;
+}
+.container {
+    display: block;
+}

@@ -1,15 +1,24 @@
 import React from "react";
 
+import '../styling.css' ;
+import Masonry from 'react-masonry-component';
+
 import CardComp from "./card.component";
+import {Col, Row} from "reactstrap";
 
 const axios = require('axios');
+
+const masonryOptions = {
+    transitionDuration: 1000
+};
+const imagesLoadedOptions = { backgroundColor: '#FF0000' };
 
 export default class FeedComp extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             loadedPosts: {},
-            postCardComps: [],
+            postGrid: [],
         };
     }
 
@@ -35,31 +44,25 @@ export default class FeedComp extends React.Component {
         await this.getAllPosts();
         this.state.loadedPosts.forEach((post) => {
             this.setState(prevState => ({
-                postCardComps: [...prevState.postCardComps, <CardComp imageUrl={post.content} userId={post.user_id} key={post._id} createdAt={post.createdAt} />]
+                postGrid: [...prevState.postGrid,
+                    <div key={post._id}>
+                        <CardComp imageUrl={post.content} userId={post.user_id} key={post._id} createdAt={post.createdAt}/>
+                    </div>]
             }));
-        });
-    }
 
-    async shouldComponentUpdate(nextProps, nextState){
-        // Load All Posts
-        if(this.props !== nextProps) {
-            // await this.getAllPosts();
-            // this.state.loadedPosts.forEach((post) => {
-            //     this.setState(prevState => ({
-            //         postCardComps: [...prevState.postCardComps,
-            //             <CardComp imageUrl={post.content} userId={post.user_id} key={post._id}
-            //                       createdAt={post.createdAt}/>]
-            //     }));
-            // });
-            console.log('yeehaw');
-        }
+        });
     }
 
     render() {
         return (
-            <div>
-                {this.state.postCardComps}
-            </div>
+            <Masonry
+                className={'post-gallery'}
+                elementType={'div'}
+                options={masonryOptions}
+                imagesLoadedOptions={imagesLoadedOptions}
+            >
+                {this.state.postGrid}
+            </Masonry>
         );
     }
 }
