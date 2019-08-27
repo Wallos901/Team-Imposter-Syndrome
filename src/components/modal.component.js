@@ -39,7 +39,7 @@ export default class ModalComp extends React.Component {
                                 <div>
                                     <CardImg
                                         onClick={this.toggleModal}
-                                        width="100%"
+                                        width='100%'
                                         src={this.props.imageUrl}
                                         alt="an uploaded image"
                                     />
