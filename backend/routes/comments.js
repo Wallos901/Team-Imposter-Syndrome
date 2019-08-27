@@ -15,14 +15,12 @@ router.route('/:id').get((req, res) => {
 
 router.route('/add').post((req, res) => {
     const content = req.body.content;
-    const created_at = Date.parse(req.body.created_at);
     const user_id = req.body.user_id;
     const post_id = req.body.post_id;
     const status_id = req.body.status_id;
 
     const newComment =new Comment({
         content,
-        created_at,
         user_id,
         post_id,
         status_id
@@ -37,7 +35,6 @@ router.route('/update/:id').post((req, res) => {
     Comment.findById(req.params.id)
         .then(comment => {
             comment.content = req.body.content;
-            comment.created_at = Date.parse(req.body.created_at);
             comment.user_id = req.body.user_id;
             comment.post_id = req.body.post_id;
             comment.status_id = req.body.status_id;

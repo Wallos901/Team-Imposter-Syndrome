@@ -16,14 +16,12 @@ router.route('/:id').get((req, res) => {
 router.route('/add').post((req, res) => {
     const content = req.body.content;
     const alt_text = req.body.alt_text;
-    const created_at = Date.parse(req.body.created_at);
     const user_id = req.body.user_id;
     const status_id = req.body.status_id;
 
     const newPost =new Post({
         content,
         alt_text,
-        created_at,
         user_id,
         status_id
     });
@@ -38,7 +36,6 @@ router.route('/update/:id').post((req, res) => {
         .then(post => {
             post.content = req.body.content;
             post.alt_text = req.body.alt_text;
-            post.created_at = Date.parse(req.body.created_at);
             post.user_id = req.body.user_id;
             post.status_id = req.body.status_id;
 
