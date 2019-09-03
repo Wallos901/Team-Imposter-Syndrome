@@ -1,9 +1,15 @@
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
-import validateRegisterInput from "../../src/utilities/validation/register.util";
 
+// Package imports
 const router = require('express').Router();
-let User = require('../models/user.model');
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+
+// Load input validation
+const validateRegisterInput = require("../../src/utilities/validation/register.util");
+const validateLoginInput = require("../../src/utilities/validation/login.util");
+
+// Load user model
+const User = require('../models/user.model');
 
 router.route('/').get((req, res) => {
     User.find()
@@ -26,41 +32,21 @@ router.route('/add').post((req, res) => {
     const is_admin = req.body.is_admin;
     const status = req.body.status;
     const user_status_id = req.body.user_status_id;
+    
+    const newUser = new User({
+        username,
+        hashed_password,
+        email,
+        last_activity,
+        is_moderator,
+        is_admin,
+        status,
+        user_status_id
+    });
 
-    const { errors, isValid } = validateRegisterInput(req.body);
-
-    //Check validation
-    if(!isValid) {
-        return res.status(400).json(errors);
-    }
-
-    User.findOne({ email: req.body.email })
-        .then(user => {
-            if(user) {
-                return res.status(400).json({ email: "Email already exists." });
-            } else {
-                const newUser = new User({
-                    username,
-                    hashed_password,
-                    email,
-                    last_activity,
-                    is_moderator,
-                    is_admin,
-                    status,
-                    user_status_id
-                });
-
-                bcrypt.genSalt(10, (err, salt) => {
-                    bcrypt.hash(newUser.hashed_password, salt, (err, hash) => {
-                        if (err) throw err;
-                        newUser.hashed_password = hash;
-                        newUser.save()
-                            .then(() => res.json('User added!'))
-                            .catch(err => res.status(400).json('Error: ' + err));
-                    });
-                });
-            }
-        });
+    newUser.save()
+        .then(() => res.json('User added!'))
+        .catch(err => res.status(400).json('Error: ' + err));
 });
 
 router.route('/update/:id').post((req, res) => {
@@ -87,5 +73,38 @@ router.route('/:id').delete((req, res) => {
         .then(() => res.json('User deleted.'))
         .catch(err => res.status(400).json('Error: ' + err));
 });
+
+router.route('/register').post((req, res) => {
+    // Form validation
+    const { errors, isValid } = validateRegisterInput(req.body);
+    
+    // Check validation
+    if (!isValid) {
+        return res.status(400).json(errors);
+    }
+
+    // Check if user email already exists
+    User.findOne({ email: req.body.email }).then(user => {
+        if (user) {
+            return res.status(400).json({ email: "Email already exists" });
+        } 
+        else {
+            // Create new user
+            const newUser = new User({
+                name: req.body.name,
+                email: req.body.email,
+                password: req.body.password
+            });
+
+            // Hash password before saving into the database
+            newUser.password = newUser.generateHash(newUser.password);
+
+            // Save the user to the database
+            newUser.save()
+                .then(user => res.json(user))
+                .catch(err => console.log(err));
+        }
+    });
+})
 
 module.exports = router;
