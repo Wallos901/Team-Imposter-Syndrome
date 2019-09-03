@@ -24,11 +24,15 @@ const commentsRouter = require('./routes/comments');
 const statusRouter = require('./routes/status');
 const user_statusRouter = require('./routes/user_status');
 
+const wordRouter = require('./routes/words');
+
 app.use('/users', usersRouter);
 app.use('/posts', postsRouter);
 app.use('/comments', commentsRouter);
 app.use('/status', statusRouter);
 app.use('/user_status', user_statusRouter);
+
+app.use('/words', wordRouter);
 
 app.listen(port, () => {
     console.log(`Server is running on port: ${port}`);
