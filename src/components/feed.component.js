@@ -1,11 +1,12 @@
 import React from "react";
+import { connect } from "react-redux";
+import { getPosts } from "../redux/actions/postActions";
+import PropTypes from "prop-types";
 
 import '../styling.css' ;
 import Masonry from 'react-masonry-css';
 
 import CardComp from "./card.component";
-
-const axios = require('axios');
 
 const dynamicColunmBreakpoints = {
     default: 4,
@@ -14,54 +15,42 @@ const dynamicColunmBreakpoints = {
     500: 1
 };
 
-export default class FeedComp extends React.Component {
+class FeedComp extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            loadedPosts: {},
             postGrid: [],
             test: [],
         };
     }
 
-    async getAllPosts() {
-        await axios.get("http://localhost:5000/posts")
-            .then((response) => {
-                this.setState({
-                    loadedPosts: response.data
-                });
-                return response.data;
-            })
-            .catch((error) => {
-                alert(error);
-                return error;
-            })
-            .finally(() => {
-                console.log('Loaded all posts.');
-            });
+    componentDidMount() {
+        this.props.getPosts()
     };
 
-    async componentDidMount() {
-        // Load All Posts
-        await this.getAllPosts();
-        this.state.loadedPosts.forEach((post) => {
-            this.setState(prevState => ({
-                postGrid: [...prevState.postGrid,
-                    <CardComp imageUrl={post.content} userId={post.user_id} key={post._id} createdAt={post.createdAt}/>]
-            }));
-
-        });
-    }
-
     render() {
+        const { posts } = this.props.post;
         return (
             <Masonry
                 breakpointCols={dynamicColunmBreakpoints}
                 className="post-grid"
                 columnClassName="post-container"
             >
-                {this.state.postGrid}
+                {posts.map(({ content, user_id, _id, createdAt }) => (
+                    <CardComp imageUrl={content} userId={user_id} key={_id} createdAt={createdAt}/>
+                ))}
             </Masonry>
         );
     }
 }
+
+FeedComp.propTypes = {
+    getPosts: PropTypes.func.isRequired,
+    post: PropTypes.object.isRequired
+};
+
+const mapStateToProps = (state) => ({
+    post: state.post
+});
+
+export default connect(mapStateToProps, { getPosts })(FeedComp)
