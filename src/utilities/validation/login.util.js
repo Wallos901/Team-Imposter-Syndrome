@@ -1,20 +1,20 @@
 // Code taken from https://blog.bitsrc.io/build-a-login-auth-app-with-mern-stack-part-1-c405048e3669
 
-import Validator from "validator";
-import isEmpty from "is-empty";
+const Validator = require("validator");
+const isEmpty = require("is-empty");
 
-export default function validateLoginInput(data) {
+function validateLoginInput(data) {
     let errors = {};
 
     // Convert empty fields to an empty string so we can use validator functions
-    data.email = !isEmpty(data.email) ? data.email : "";
+    data.username = !isEmpty(data.username) ? data.username : "";
     data.password = !isEmpty(data.password) ? data.password : "";
 
     // Email checks
-    if (Validator.isEmpty(data.email)) {
-        errors.email = "Email field is required";
-    } else if (!Validator.isEmail(data.email)) {
-        errors.email = "Email is invalid";
+    if (Validator.isEmpty(data.username)) {
+        errors.username = "Username field is required";
+    } else if (Validator.isEmpty(data.username)) {
+        errors.username = "Username is invalid";
     }
 
     // Password checks
@@ -27,3 +27,5 @@ export default function validateLoginInput(data) {
         isValid: isEmpty(errors)
     };
 };
+
+module.exports = validateLoginInput;

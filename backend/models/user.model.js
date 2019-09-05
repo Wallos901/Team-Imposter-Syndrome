@@ -5,13 +5,12 @@ const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
     username: { type: String, required: true },
-    hashed_password: { type: String, required: true },
+    password: { type: String, required: true },
     email: { type: String, required: true },
-    last_activity: { type: Date, required: true },
-    is_moderator: { type: Boolean, required: true },
-    is_admin: { type: Boolean, required: true },
-    status: { type: String, required: true},
-    user_status_id: { type: String, required: true }
+    last_activity: { type: Date, default: Date.now() },
+    is_moderator: { type: Boolean, default: false },
+    is_admin: { type: Boolean, default: false },
+    user_status_id: { type: String, default: "1" }
 }, {
     timestamps: true,
 });

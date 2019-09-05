@@ -4,6 +4,9 @@ const router = require('express').Router();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
+// Middleware imports
+const auth = require("../../src/utilities/auth/authMiddleware");
+
 // Load input validation
 const validateRegisterInput = require("../../src/utilities/validation/register.util");
 const validateLoginInput = require("../../src/utilities/validation/login.util");
@@ -24,18 +27,11 @@ router.route('/:id').get((req, res) => {
 });
 
 router.route('/add').post((req, res) => {
-    const username = req.body.username;
-    const hashed_password = req.body.hashed_password;
-    const email = req.body.email;
-    const last_activity = Date.parse(req.body.last_activity);
-    const is_moderator = req.body.is_moderator;
-    const is_admin = req.body.is_admin;
-    const status = req.body.status;
-    const user_status_id = req.body.user_status_id;
+    const { username, password, email, last_activity, is_moderator, is_admin, status, user_status_id }  = req.body;
     
     const newUser = new User({
         username,
-        hashed_password,
+        password,
         email,
         last_activity,
         is_moderator,
@@ -53,7 +49,7 @@ router.route('/update/:id').post((req, res) => {
     User.findById(req.params.id)
         .then(user => {
             user.username = req.body.username;
-            user.hashed_password = req.body.hashed_password;
+            user.password = req.body.password;
             user.email = req.body.email;
             user.last_activity = Date.parse(req.body.last_activity);
             user.is_moderator = req.body.is_moderator;
@@ -75,6 +71,9 @@ router.route('/:id').delete((req, res) => {
 });
 
 router.route('/register').post((req, res) => {
+    // Create variables from request fields 
+    const { username, email, password } = req.body;
+
     // Form validation
     const { errors, isValid } = validateRegisterInput(req.body);
     
@@ -83,28 +82,93 @@ router.route('/register').post((req, res) => {
         return res.status(400).json(errors);
     }
 
-    // Check if user email already exists
-    User.findOne({ email: req.body.email }).then(user => {
+    // Check if username already exists
+    User.findOne({ username }).then(user => {
         if (user) {
-            return res.status(400).json({ email: "Email already exists" });
-        } 
-        else {
-            // Create new user
-            const newUser = new User({
-                name: req.body.name,
-                email: req.body.email,
-                password: req.body.password
-            });
-
-            // Hash password before saving into the database
-            newUser.password = newUser.generateHash(newUser.password);
-
-            // Save the user to the database
-            newUser.save()
-                .then(user => res.json(user))
-                .catch(err => console.log(err));
+            return res.status(400).json({ msg: "Username already exists..." });
         }
+
+        // Create new user
+        const newUser = new User({
+            username: username,
+            email: email,
+            password: password
+        });
+
+        // Hash password before saving into the database
+        newUser.password = newUser.generateHash(newUser.password);
+
+        // Save the user to the database
+        newUser.save()
+            .then(user =>
+                jwt.sign(
+                    { id: user._id },
+                    process.env.REACT_APP_JWT_SECRET_KEY,
+                    { expiresIn: 3600 },
+                    (err, token) => {
+                        if(err) throw err;
+                        res.json({
+                            token,
+                            user: {
+                                id: user._id,
+                                username: user.username,
+                                email: user.email
+                            }
+                        })
+                    }
+                )
+            )
+            .catch(err => console.log(err));
+        
+    });
+});
+
+router.route('/login').post((req, res) => {
+    // Create variables from request fields 
+    const { username, password } = req.body;
+
+    // Form validation
+    const { errors, isValid } = validateLoginInput(req.body);
+    
+    // Check validation
+    if (!isValid) {
+        return res.status(400).json(errors);
+    }
+
+    User.findOne({ username: username }).then(user => {
+        // Check if username exists
+        if (!user) {
+            return res.status(400).json({ msg: "Username doesn't exist..." });
+        }
+
+        // Validate password
+        if(!user.validatePassword(password)) {
+            return res.status(400).json({ msg: "Password is incorrect..." });
+        }
+
+        jwt.sign(
+            { id: user._id },
+            process.env.REACT_APP_JWT_SECRET_KEY,
+            { expiresIn: 3600 },
+            (err, token) => {
+                if(err) throw err;
+                res.json({
+                    token,
+                    user: {
+                        id: user._id,
+                        username: user.username,
+                        email: user.email
+                    }
+                })
+            }
+        )
     });
 })
+
+router.route("authUser", auth).get((req, res) => {
+    User.findById(req.user._id)
+        .select("-password")
+        .then(user => res.json(user));
+});
 
 module.exports = router;
