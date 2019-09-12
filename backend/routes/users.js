@@ -13,19 +13,13 @@ const validateLoginInput = require("../../src/utilities/validation/login.util");
 // Load user model
 const User = require('../models/user.model');
 
-router.route('/').get((req, res) => {
+router.get('/', (req, res) => {
     User.find()
         .then(users => res.json(users))
         .catch(err => res.status(400).json('Error: ' + err));
 });
 
-router.route('/:id').get((req, res) => {
-    User.findById(req.params.id)
-        .then(user => res.json(user))
-        .catch(err => res.status(400).json('Error: ' + err));
-});
-
-router.route('/add').post((req, res) => {
+router.post('/add', (req, res) => {
     const { username, password, email, last_activity, is_moderator, is_admin, status, user_status_id }  = req.body;
     
     const newUser = new User({
@@ -44,7 +38,7 @@ router.route('/add').post((req, res) => {
         .catch(err => res.status(400).json('Error: ' + err));
 });
 
-router.route('/update/:id').post((req, res) => {
+router.post('/update/:id', (req, res) => {
     User.findById(req.params.id)
         .then(user => {
             user.username = req.body.username;
@@ -63,13 +57,13 @@ router.route('/update/:id').post((req, res) => {
         .catch(err => res.status(400).json('Error: ' + err));
 });
 
-router.route('/:id').delete((req, res) => {
+router.delete('/:id', (req, res) => {
     User.findByIdAndDelete(req.params.id)
         .then(() => res.json('User deleted.'))
         .catch(err => res.status(400).json('Error: ' + err));
 });
 
-router.route('/register').post((req, res) => {
+router.post('/register', (req, res) => {
     // Create variables from request fields 
     const { username, email, password } = req.body;
 
@@ -99,30 +93,13 @@ router.route('/register').post((req, res) => {
 
         // Save the user to the database
         newUser.save()
-            .then(user =>
-                jwt.sign(
-                    { id: user._id },
-                    process.env.REACT_APP_JWT_SECRET_KEY,
-                    { expiresIn: 3600 },
-                    (err, token) => {
-                        if(err) throw err;
-                        res.json({
-                            token,
-                            user: {
-                                id: user._id,
-                                username: user.username,
-                                email: user.email
-                            }
-                        })
-                    }
-                )
-            )
+            .then(res.sendStatus(200))
             .catch(err => console.log(err));
         
     });
 });
 
-router.route('/login').post((req, res) => {
+router.post('/login', (req, res) => {
     // Create variables from request fields 
     const { username, password } = req.body;
 
@@ -151,23 +128,25 @@ router.route('/login').post((req, res) => {
             { expiresIn: 3600 },
             (err, token) => {
                 if(err) throw err;
-                res.json({
-                    token,
-                    user: {
-                        id: user._id,
-                        username: user.username,
-                        email: user.email
-                    }
-                })
+                res.cookie('token', token, { httpOnly: true });
             }
         )
+    })
+    .catch(err => {
+        res.status(400).json(err);
     });
+
+    User.findOne({ username: username }).select('-password').then(user => {
+        res.status(200).json(user);
+    })
+    .catch(err => {
+        res.status(400).json(err);
+    })
 })
 
-router.route("authUser", auth).get((req, res) => {
-    User.findById(req.user._id)
-        .select("-password")
-        .then(user => res.json(user));
-});
+router.post("/logout", (req, res) => {
+    res.clearCookie("token");
+    res.sendStatus(200);
+})
 
 module.exports = router;
