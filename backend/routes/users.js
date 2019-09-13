@@ -108,18 +108,20 @@ router.post('/login', (req, res) => {
     
     // Check validation
     if (!isValid) {
-        return res.status(400).json(errors);
+        return res.status(202).json(errors);
     }
 
     User.findOne({ username: username }).then(user => {
         // Check if username exists
         if (!user) {
-            return res.status(400).json({ msg: "Username doesn't exist..." });
+            errors.main = "Username or password is incorrect, please try again.";
+            return res.status(202).json(errors);
         }
 
         // Validate password
         if(!user.validatePassword(password)) {
-            return res.status(400).json({ msg: "Password is incorrect..." });
+            errors.main = "Username or password is incorrect, please try again."
+            return res.status(202).json(errors);
         }
 
         jwt.sign(
@@ -131,17 +133,17 @@ router.post('/login', (req, res) => {
                 res.cookie('token', token, { httpOnly: true });
             }
         )
+
+        User.findOne({ username: username }).select('-password').then(user => {
+            res.status(200).json(user);
+        })
+        .catch(err => {
+            res.status(400).json(err);
+        })
     })
     .catch(err => {
         res.status(400).json(err);
     });
-
-    User.findOne({ username: username }).select('-password').then(user => {
-        res.status(200).json(user);
-    })
-    .catch(err => {
-        res.status(400).json(err);
-    })
 })
 
 router.post("/logout", (req, res) => {
