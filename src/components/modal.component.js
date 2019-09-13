@@ -5,6 +5,8 @@ import UploadModal from "./Modals/upload.modal";
 import ProfileModal from "./Modals/profile.modal";
 import SettingsModal from "./Modals/settings.modal";
 import LeaderboardModal from "./Modals/leaderboard.modal";
+import LoginModal from "./Modals/login.modal";
+import RegisterModal from "./Modals/register.modal";
 
 export default class ModalComp extends React.Component {
     constructor(props) {
@@ -30,6 +32,8 @@ export default class ModalComp extends React.Component {
                     switch (this.props.type) {
                         case "upload":
                         case "leaderboard":
+                        case "login":
+                        case "register":
                             return <NavLink onClick={this.toggleModal}>{this.props.text}</NavLink>;
                         case "profile":
                         case "settings":
@@ -64,6 +68,10 @@ export default class ModalComp extends React.Component {
                                 return <ProfileModal/>;
                             case "settings":
                                 return <SettingsModal/>;
+                            case "login":
+                                return <LoginModal closeModal={() => window.location.reload()}/>;
+                            case "register":
+                                return <RegisterModal closeModal={() => this.toggleModal()}/>;
                             default:
                                 return;
                         }
