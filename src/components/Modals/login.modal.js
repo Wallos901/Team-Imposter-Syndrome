@@ -19,16 +19,21 @@ export default class ProfileModal extends React.Component {
 
     handleInputChange = async (event) => {
         const { value, name } = event.target;
-        this.setState({
-            [name]: value
-        });
+        this.setState({ [name]: value });
+    };
+
+    handleClick = async (event) => {
+        const { id } = event.target;
+        const { validate } = this.state;
+        validate[id] = null;
+        this.setState({ validate });
     };
 
     onAlertDismiss() {
         this.setState({
             mainAlertVisible: false
-        })
-    }
+        });
+    };
 
     onSubmit(e) {
         e.preventDefault();
@@ -71,11 +76,12 @@ export default class ProfileModal extends React.Component {
                                 <Input
                                     type="username"
                                     name="username"
-                                    id="username"
+                                    id="usernameState"
                                     placeholder="Enter username..."
                                     value={ username }
                                     invalid={ !!validate.usernameState }
                                     onChange={ (e) => this.handleInputChange(e) }
+                                    onClick={ (e) => this.handleClick(e) }
                                 />
                                 <FormFeedback>
                                     { validate.usernameState }
@@ -88,11 +94,12 @@ export default class ProfileModal extends React.Component {
                                 <Input
                                     type="password"
                                     name="password"
-                                    id="password"
+                                    id="passwordState"
                                     placeholder="Enter password..."
                                     value={ password }
                                     invalid={ !!validate.passwordState }
                                     onChange={ (e) => this.handleInputChange(e) }
+                                    onClick={ (e) => this.handleClick(e) }
                                 />
                                 <FormFeedback>
                                     { validate.passwordState }
