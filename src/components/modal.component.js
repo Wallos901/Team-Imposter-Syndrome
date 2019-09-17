@@ -26,7 +26,7 @@ export default class ModalComp extends React.Component {
 
     render() {
         return (
-            <div>
+            <div className={"modalCompClickable"} tabIndex={"0"}>
                 {/* Modal Button */}
                 {(() => {
                     switch (this.props.type) {
@@ -55,9 +55,10 @@ export default class ModalComp extends React.Component {
                 })()}
 
                 {/* Modal Body */}
-                <Modal isOpen={this.state.showModal} toggle={this.toggleModal} size={this.props.type==="post" ? "xl" : "m"}>
+                <Modal isOpen={this.state.showModal} toggle={this.toggleModal}
+                       size={this.props.type === "post" ? "xl" : "m"}>
                     {(() => {
-                        switch (this.props.type){
+                        switch (this.props.type) {
                             case "post":
                                 return <PostModal imageUrl={this.props.imageUrl}/>;
                             case "upload":
@@ -77,10 +78,10 @@ export default class ModalComp extends React.Component {
                         }
                     })()}
                     {this.props.type !== 'upload' &&
-                        <ModalFooter>
+                    <ModalFooter>
 
-                            <Button color="secondary" onClick={this.toggleModal}>Cancel</Button>
-                        </ModalFooter>
+                        <Button color="secondary" onClick={this.toggleModal}>Cancel</Button>
+                    </ModalFooter>
                     }
                 </Modal>
 
