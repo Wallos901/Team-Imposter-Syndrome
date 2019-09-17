@@ -48,3 +48,26 @@ If you aren’t satisfied with the build tool and configuration choices, you can
 Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
 
 You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+
+## Coding Standards
+
+### Variables
+1. Constants should all be UPPER_CASE with underscores.
+2. Class names should be CapitalisedWithCamelCase.
+3. Other variables should be in generic camelCase.
+### Comments
+4. Classes must be explained in a multiline comment above the class definition.
+5. Methods must be explained in a singleline comment above the function.
+## Syntax
+6. Semicolons must be used at the end of lines.
+7. Multiline if statements must use curly braces.
+8. Singleline if statements exist on the same line.
+9. Arrow functions must be used rather than bindings.
+## Naming
+10. Component/Model/Utility/Modal files must end with respective type suffix.
+## General
+11. Object-Oriented coding principles should be followed.
+12. For every database model a create, read, update and delete API route must be accessible.
+13. Only components that link to another page may exist in app.js.
+14. `export default class` should be used to define how classes are exported.
+15. Reactstrap should be used for styles and design principles.

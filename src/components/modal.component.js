@@ -5,6 +5,8 @@ import UploadModal from "./Modals/upload.modal";
 import ProfileModal from "./Modals/profile.modal";
 import SettingsModal from "./Modals/settings.modal";
 import LeaderboardModal from "./Modals/leaderboard.modal";
+import LoginModal from "./Modals/login.modal";
+import RegisterModal from "./Modals/register.modal";
 
 export default class ModalComp extends React.Component {
     constructor(props) {
@@ -24,12 +26,14 @@ export default class ModalComp extends React.Component {
 
     render() {
         return (
-            <div>
+            <div className={"modalCompClickable"} tabIndex={"0"}>
                 {/* Modal Button */}
                 {(() => {
                     switch (this.props.type) {
                         case "upload":
                         case "leaderboard":
+                        case "login":
+                        case "register":
                             return <NavLink onClick={this.toggleModal}>{this.props.text}</NavLink>;
                         case "profile":
                         case "settings":
@@ -39,7 +43,7 @@ export default class ModalComp extends React.Component {
                                 <div>
                                     <CardImg
                                         onClick={this.toggleModal}
-                                        width="100%"
+                                        width='100%'
                                         src={this.props.imageUrl}
                                         alt="an uploaded image"
                                     />
@@ -51,9 +55,10 @@ export default class ModalComp extends React.Component {
                 })()}
 
                 {/* Modal Body */}
-                <Modal isOpen={this.state.showModal} toggle={this.toggleModal} size={this.props.type==="post" ? "xl" : "m"}>
+                <Modal isOpen={this.state.showModal} toggle={this.toggleModal}
+                       size={this.props.type === "post" ? "xl" : "m"}>
                     {(() => {
-                        switch (this.props.type){
+                        switch (this.props.type) {
                             case "post":
                                 return <PostModal imageUrl={this.props.imageUrl}/>;
                             case "upload":
@@ -64,15 +69,19 @@ export default class ModalComp extends React.Component {
                                 return <ProfileModal/>;
                             case "settings":
                                 return <SettingsModal/>;
+                            case "login":
+                                return <LoginModal closeModal={() => window.location.reload()}/>;
+                            case "register":
+                                return <RegisterModal closeModal={() => this.toggleModal()}/>;
                             default:
                                 return;
                         }
                     })()}
                     {this.props.type !== 'upload' &&
-                        <ModalFooter>
+                    <ModalFooter>
 
-                            <Button color="secondary" onClick={this.toggleModal}>Close</Button>
-                        </ModalFooter>
+                        <Button color="secondary" onClick={this.toggleModal}>Cancel</Button>
+                    </ModalFooter>
                     }
                 </Modal>
 
