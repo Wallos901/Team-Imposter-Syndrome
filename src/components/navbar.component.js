@@ -32,7 +32,7 @@ export default class NavbarComp extends React.Component {
     render() {
         return (
             <Navbar color="dark" dark expand="md">
-                <NavbarBrand href="/">Picture This!</NavbarBrand>
+                <NavbarBrand href="/">PictureThis</NavbarBrand>
                 <NavbarToggler onClick={this.toggle}/>
                 <Collapse isOpen={this.state.isOpen} navbar>
                     <Nav className="ml-auto" navbar>
