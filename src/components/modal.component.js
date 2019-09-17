@@ -5,8 +5,7 @@ import UploadModal from "./Modals/upload.modal";
 import ProfileModal from "./Modals/profile.modal";
 import SettingsModal from "./Modals/settings.modal";
 import LeaderboardModal from "./Modals/leaderboard.modal";
-import LoginModal from "./Modals/login.modal";
-import RegisterModal from "./Modals/register.modal";
+import SignInModal from "./Modals/signin.modal";
 
 export default class ModalComp extends React.Component {
     constructor(props) {
@@ -70,16 +69,14 @@ export default class ModalComp extends React.Component {
                             case "settings":
                                 return <SettingsModal/>;
                             case "login":
-                                return <LoginModal closeModal={() => window.location.reload()}/>;
                             case "register":
-                                return <RegisterModal closeModal={() => this.toggleModal()}/>;
+                                return <SignInModal type={this.props.type}/>;
                             default:
                                 return;
                         }
                     })()}
                     {this.props.type !== 'upload' &&
                     <ModalFooter>
-
                         <Button color="secondary" onClick={this.toggleModal}>Cancel</Button>
                     </ModalFooter>
                     }
