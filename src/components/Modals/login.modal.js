@@ -1,6 +1,7 @@
 import React from "react";
 import { ModalHeader, ModalBody, Col, Form, FormGroup, Label, Input, Button } from "reactstrap";
 import axios from "axios";
+import ModalFooter from "reactstrap/es/ModalFooter";
 
 export default class ProfileModal extends React.Component {
     constructor(props) {
@@ -24,7 +25,7 @@ export default class ProfileModal extends React.Component {
             .then(res => {
                 if(res.status === 200) {
                     localStorage.user = JSON.stringify(res.data);
-                    this.props.closeModal();
+                    this.props.reloadPage();
                 }
             })
             .catch(err => {
@@ -37,8 +38,8 @@ export default class ProfileModal extends React.Component {
         return (
             <div>
                 <ModalHeader>Login Below!</ModalHeader>
+                <Form className="form" onSubmit={ (e) => this.onSubmit(e) }>
                 <ModalBody>
-                    <Form className="form" onSubmit={ (e) => this.onSubmit(e) }>
                         <Col>
                             <FormGroup>
                                 <Label for="username">Username</Label>
@@ -67,9 +68,22 @@ export default class ProfileModal extends React.Component {
                                 />
                             </FormGroup>
                         </Col>
-                        <Button>Login</Button>
-                    </Form>
                 </ModalBody>
+                <ModalFooter style={{display: "flex", justifyContent: "space-between"}}>
+                    <div>
+                        <span>Don't have an account? </span>
+                        <span
+                            className={"redirectLink"}
+                            onClick={this.props.toggle}>
+                            Register
+                        </span>
+                    </div>
+                    <div>
+                        <Button style={{marginRight: "7px"}} color="primary">Login</Button>
+                        <Button color="secondary" onClick={this.props.closeModal}>Close</Button>
+                    </div>
+                </ModalFooter>
+                </Form>
             </div>
         );
     }

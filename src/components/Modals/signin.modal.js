@@ -7,25 +7,38 @@ export default class SignInModal extends React.Component {
         super(props);
         this.state = {
             showModal: false,
+            type: this.props.type,
         };
-        this.toggleModal = this.toggleModal.bind(this);
     }
 
-    toggleModal() {
+    toggleModal = () => {
         this.setState(() => ({
             showModal: !this.state.showModal
         }));
-    }
+    };
+
+    toggleModalType = () => {
+        (this.state.type === "register")
+            ? this.setState(() => ({type: "login"}))
+            : this.setState(() => ({type: "register"}));
+    };
 
     render() {
         return (
-            <div className={"signinContainer"}>
+            <div className={"SignInContainer"}>
             {(() => {
-                switch (this.props.type) {
+                switch (this.state.type) {
                     case "login":
-                        return <LoginModal closeModal={() => window.location.reload()}/>;
+                        return <LoginModal
+                            reloadPage={() => window.location.reload()}
+                            closeModal={this.props.closeModal}
+                            toggle={() =>this.toggleModalType()}
+                        />;
                     case "register":
-                        return <RegisterModal closeModal={() => this.toggleModal()}/>;
+                        return <RegisterModal
+                            closeModal={this.props.closeModal}
+                            toggle={() => this.toggleModalType()}
+                        />;
                     default:
                         return;
                 }

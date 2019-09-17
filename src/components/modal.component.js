@@ -61,7 +61,10 @@ export default class ModalComp extends React.Component {
                             case "post":
                                 return <PostModal imageUrl={this.props.imageUrl}/>;
                             case "upload":
-                                return <UploadModal closeModal={() => this.toggleModal()} upload={this.props.upload}/>;
+                                return <UploadModal
+                                    closeModal={() => this.toggleModal()}
+                                    upload={this.props.upload}
+                                />;
                             case "leaderboard":
                                 return <LeaderboardModal/>;
                             case "profile":
@@ -70,12 +73,15 @@ export default class ModalComp extends React.Component {
                                 return <SettingsModal/>;
                             case "login":
                             case "register":
-                                return <SignInModal type={this.props.type}/>;
+                                return <SignInModal
+                                    type={this.props.type}
+                                    closeModal={() => this.toggleModal()}
+                                />;
                             default:
                                 return;
                         }
                     })()}
-                    {this.props.type !== 'upload' &&
+                    {this.props.type !== 'upload' && this.props.type !== 'login' && this.props.type !== 'register' &&
                     <ModalFooter>
                         <Button color="secondary" onClick={this.toggleModal}>Cancel</Button>
                     </ModalFooter>
