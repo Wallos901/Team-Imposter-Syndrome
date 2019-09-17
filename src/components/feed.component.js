@@ -25,7 +25,7 @@ export default class FeedComp extends React.Component {
     }
 
     async getAllPosts() {
-        await axios.get("http://localhost:5000/posts")
+        await axios.get("http://localhost:5000/api/posts")
             .then((response) => {
                 this.setState({
                     loadedPosts: response.data

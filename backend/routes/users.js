@@ -1,31 +1,30 @@
-const router = require('express').Router();
-let User = require('../models/user.model');
 
-router.route('/').get((req, res) => {
+// Package imports
+const router = require('express').Router();
+const jwt = require("jsonwebtoken");
+
+// Middleware imports
+const auth = require("../../src/utilities/auth/authMiddleware");
+
+// Load input validation
+const validateRegisterInput = require("../../src/utilities/validation/register.util");
+const validateLoginInput = require("../../src/utilities/validation/login.util");
+
+// Load user model
+const User = require('../models/user.model');
+
+router.get('/', (req, res) => {
     User.find()
         .then(users => res.json(users))
         .catch(err => res.status(400).json('Error: ' + err));
 });
 
-router.route('/:id').get((req, res) => {
-    User.findById(req.params.id)
-        .then(user => res.json(user))
-        .catch(err => res.status(400).json('Error: ' + err));
-});
-
-router.route('/add').post((req, res) => {
-    const username = req.body.username;
-    const hashed_password = req.body.hashed_password;
-    const email = req.body.email;
-    const last_activity = Date.parse(req.body.last_activity);
-    const is_moderator = req.body.is_moderator;
-    const is_admin = req.body.is_admin;
-    const status = req.body.status;
-    const user_status_id = req.body.user_status_id;
-
-    const newUser =new User({
+router.post('/add', (req, res) => {
+    const { username, password, email, last_activity, is_moderator, is_admin, status, user_status_id }  = req.body;
+    
+    const newUser = new User({
         username,
-        hashed_password,
+        password,
         email,
         last_activity,
         is_moderator,
@@ -39,11 +38,11 @@ router.route('/add').post((req, res) => {
         .catch(err => res.status(400).json('Error: ' + err));
 });
 
-router.route('/update/:id').post((req, res) => {
+router.post('/update/:id', (req, res) => {
     User.findById(req.params.id)
         .then(user => {
             user.username = req.body.username;
-            user.hashed_password = req.body.hashed_password;
+            user.password = req.body.password;
             user.email = req.body.email;
             user.last_activity = Date.parse(req.body.last_activity);
             user.is_moderator = req.body.is_moderator;
@@ -58,10 +57,96 @@ router.route('/update/:id').post((req, res) => {
         .catch(err => res.status(400).json('Error: ' + err));
 });
 
-router.route('/:id').delete((req, res) => {
+router.delete('/:id', (req, res) => {
     User.findByIdAndDelete(req.params.id)
         .then(() => res.json('User deleted.'))
         .catch(err => res.status(400).json('Error: ' + err));
 });
+
+router.post('/register', (req, res) => {
+    // Create variables from request fields 
+    const { username, email, password } = req.body;
+
+    // Form validation
+    const { errors, isValid } = validateRegisterInput(req.body);
+    
+    // Check validation
+    if (!isValid) {
+        return res.status(400).json(errors);
+    }
+
+    // Check if username already exists
+    User.findOne({ username }).then(user => {
+        if (user) {
+            return res.status(400).json({ msg: "Username already exists..." });
+        }
+
+        // Create new user
+        const newUser = new User({
+            username: username,
+            email: email,
+            password: password
+        });
+
+        // Hash password before saving into the database
+        newUser.password = newUser.generateHash(newUser.password);
+
+        // Save the user to the database
+        newUser.save()
+            .then(res.sendStatus(200))
+            .catch(err => console.log(err));
+        
+    });
+});
+
+router.post('/login', (req, res) => {
+    // Create variables from request fields 
+    const { username, password } = req.body;
+
+    // Form validation
+    const { errors, isValid } = validateLoginInput(req.body);
+    
+    // Check validation
+    if (!isValid) {
+        return res.status(400).json(errors);
+    }
+
+    User.findOne({ username: username }).then(user => {
+        // Check if username exists
+        if (!user) {
+            return res.status(400).json({ msg: "Username doesn't exist..." });
+        }
+
+        // Validate password
+        if(!user.validatePassword(password)) {
+            return res.status(400).json({ msg: "Password is incorrect..." });
+        }
+
+        jwt.sign(
+            { id: user._id },
+            process.env.REACT_APP_JWT_SECRET_KEY,
+            { expiresIn: 3600 },
+            (err, token) => {
+                if(err) throw err;
+                res.cookie('token', token, { httpOnly: true });
+            }
+        )
+    })
+    .catch(err => {
+        res.status(400).json(err);
+    });
+
+    User.findOne({ username: username }).select('-password').then(user => {
+        res.status(200).json(user);
+    })
+    .catch(err => {
+        res.status(400).json(err);
+    })
+})
+
+router.post("/logout", (req, res) => {
+    res.clearCookie("token");
+    res.sendStatus(200);
+})
 
 module.exports = router;
