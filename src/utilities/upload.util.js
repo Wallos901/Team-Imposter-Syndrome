@@ -2,6 +2,7 @@
 
 import ReactS3 from 'react-s3';
 import axios from "axios";
+import md5 from "md5";
 
 // Configuration for the S3 bucket - "ap-southeast-2" is the code for Asia Pacific (Australia) - accessKeyId and secretAccessKey are brought in from the .env file.
 const config = {
@@ -15,6 +16,10 @@ const config = {
 // file : File   : the file that is to be uploaded to the S3 bucket.
 // type : String : the type of image to be uploaded - either "post" or "comment".
 export default function upload(file, type) {
+    Object.defineProperty(file, "name", {
+        writable: true,
+        value: md5(file.name)
+    });
     return ReactS3.uploadFile(file, config)
         .then(data => {
             // alt_text is set to "default" as no functionality for alternate text is currently implemented.
@@ -27,7 +32,7 @@ export default function upload(file, type) {
             };
 
             // localhost:5000 is the local port for the database connection.
-            axios.post("http://localhost:5000/" + type + "s/add/", post)
+            axios.post("http://localhost:5000/api/" + type + "s/add/", post)
                 .then(res => {
                     alert("Post uploaded successfully!");
                 })
