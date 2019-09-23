@@ -16,25 +16,35 @@ export default class ProfileModal extends React.Component {
                 emailState: null,
                 passwordState: null,
                 password2State: null
-            }
+            },
+            usernameChecked: false
         };
     };
 
     handleInputChange = async (event) => {
         const { value, name, id } = event.target;
-        const { validate } = this.state;
+        const { validate, username } = this.state;
+        let { usernameChecked } = this.state;
         validate[id] = null;
+        if (!usernameChecked && name !== "username" && username !== "") {
+            this.checkUsername();
+        }
+        if (name === "username") {
+            validate.usernameValid = "";
+            usernameChecked = false;
+        }
         this.setState({
             [name]: value,
-            validate
+            validate,
+            usernameChecked
         });
     };
 
-    checkUsername = async (event) => {
-        const { value } = event.target;
-        const { validate } = this.state;
-        axios.get("http://localhost:5000/api/users/findUserByName", value)
-            .then(res => {
+    checkUsername = async () => {
+        const { validate, username } = this.state;
+        axios.post("http://localhost:5000/api/users/findUserByName", {
+            username: username
+        }).then(res => {
                 if (res.status === 200) {
                     validate.usernameValid = "has-success";
                     validate.usernameState = res.data.username;
@@ -43,7 +53,10 @@ export default class ProfileModal extends React.Component {
                     validate.usernameValid = "has-danger";
                     validate.usernameState = res.data.username;
                 }
-                this.setState({ validate });
+                this.setState({ 
+                    validate,
+                    usernameChecked: true
+                });
             })
     }
 
@@ -87,7 +100,7 @@ export default class ProfileModal extends React.Component {
                                     value={ username }
                                     valid={ validate.usernameValid === 'has-success' }
                                     invalid={ validate.usernameValid === 'has-danger' }
-                                    onChange={ (e) => this.checkUsername(e) }
+                                    onChange={ (e) => this.handleInputChange(e) }
                                 />
                                 <FormFeedback valid>
                                     { validate.usernameState }

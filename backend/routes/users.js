@@ -154,8 +154,9 @@ router.post("/logout", (req, res) => {
     res.sendStatus(200);
 });
 
-router.get("/findUserByName", (req, res) => {
+router.post("/findUserByName", (req, res) => {
     const { username } = req.body;
+    console.log(req.body);
     const errors = {};
     User.findOne({ username }).then(user => {
         if (user) {
