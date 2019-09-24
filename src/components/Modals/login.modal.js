@@ -1,5 +1,5 @@
 import React from "react";
-import { ModalHeader, ModalBody, Col, Form, FormGroup, Label, Input, Button } from "reactstrap";
+import { ModalHeader, ModalBody, Col, Form, FormGroup, FormFeedback, Label, Input, Button, Alert } from "reactstrap";
 import axios from "axios";
 import ModalFooter from "reactstrap/es/ModalFooter";
 
@@ -8,14 +8,31 @@ export default class ProfileModal extends React.Component {
         super(props);
         this.state = {
             username: "",
-            password: ""
+            password: "",
+            validate: {
+                usernameState: null,
+                passwordState: null,
+                mainState: null
+            },
+            mainAlertVisible: false
         };
     }
 
     handleInputChange = async (event) => {
         const { value, name } = event.target;
+        this.setState({ [name]: value });
+    };
+
+    handleClick = async (event) => {
+        const { id } = event.target;
+        const { validate } = this.state;
+        validate[id] = null;
+        this.setState({ validate });
+    };
+
+    onAlertDismiss() {
         this.setState({
-            [name]: value
+            mainAlertVisible: false
         });
     };
 
@@ -27,6 +44,17 @@ export default class ProfileModal extends React.Component {
                     localStorage.user = JSON.stringify(res.data);
                     this.props.reloadPage();
                 }
+                else if(res.status === 202) {
+                    const { validate } = this.state;
+                    const { username, password, main } = res.data;
+                    if(username) validate.usernameState = username;
+                    if(password) validate.passwordState = password;
+                    if(main) {
+                        validate.mainState = main;
+                        this.setState({ mainAlertVisible: true });
+                    }
+                    this.setState({ validate });
+                }
             })
             .catch(err => {
                 console.log(err);
@@ -34,24 +62,32 @@ export default class ProfileModal extends React.Component {
     };
 
     render() {
-        const { username, password } = this.state;
+        const { username, password, validate, mainAlertVisible } = this.state;
         return (
             <div>
                 <ModalHeader>Login Below!</ModalHeader>
                 <Form className="form" onSubmit={ (e) => this.onSubmit(e) }>
                 <ModalBody>
+                    <Alert color="danger" isOpen={ mainAlertVisible } toggle={ () => this.onAlertDismiss() }>
+                        { validate.mainState }
+                    </Alert>
+                    <Form className="form" onSubmit={ (e) => this.onSubmit(e) }>
                         <Col>
                             <FormGroup>
                                 <Label for="username">Username</Label>
                                 <Input
                                     type="username"
                                     name="username"
-                                    id="username"
+                                    id="usernameState"
                                     placeholder="Enter username..."
                                     value={ username }
+                                    invalid={ !!validate.usernameState }
                                     onChange={ (e) => this.handleInputChange(e) }
-                                    required
+                                    onClick={ (e) => this.handleClick(e) }
                                 />
+                                <FormFeedback>
+                                    { validate.usernameState }
+                                </FormFeedback>
                             </FormGroup>
                         </Col>
                         <Col>
@@ -60,12 +96,16 @@ export default class ProfileModal extends React.Component {
                                 <Input
                                     type="password"
                                     name="password"
-                                    id="password"
+                                    id="passwordState"
                                     placeholder="Enter password..."
                                     value={ password }
+                                    invalid={ !!validate.passwordState }
                                     onChange={ (e) => this.handleInputChange(e) }
-                                    required
+                                    onClick={ (e) => this.handleClick(e) }
                                 />
+                                <FormFeedback>
+                                    { validate.passwordState }
+                                </FormFeedback>
                             </FormGroup>
                         </Col>
                 </ModalBody>

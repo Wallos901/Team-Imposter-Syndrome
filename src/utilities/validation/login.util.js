@@ -10,16 +10,14 @@ function validateLoginInput(data) {
     data.username = !isEmpty(data.username) ? data.username : "";
     data.password = !isEmpty(data.password) ? data.password : "";
 
-    // Email checks
+    // Username checks
     if (Validator.isEmpty(data.username)) {
-        errors.username = "Username field is required";
-    } else if (Validator.isEmpty(data.username)) {
-        errors.username = "Username is invalid";
+        errors.username = "Required Field - Please enter a username.";
     }
 
     // Password checks
     if (Validator.isEmpty(data.password)) {
-        errors.password = "Password field is required";
+        errors.password = "Required Field - Please enter a password.";
     }
 
     return {

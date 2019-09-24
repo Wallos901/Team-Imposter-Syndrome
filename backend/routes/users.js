@@ -72,31 +72,39 @@ router.post('/register', (req, res) => {
     
     // Check validation
     if (!isValid) {
-        return res.status(400).json(errors);
-    }
+        return res.status(202).json(errors);
+    };
 
     // Check if username already exists
     User.findOne({ username }).then(user => {
         if (user) {
-            return res.status(400).json({ msg: "Username already exists..." });
+            errors.username = "Invalid Field - Username already exists.";
+            return res.status(202).json(errors);
         }
+    }).catch(err => res.status(400).json(err));
 
-        // Create new user
-        const newUser = new User({
-            username: username,
-            email: email,
-            password: password
-        });
+    // Check if email already exists
+    User.findOne({ email }).then(user => {
+        if (user) {
+            errors.email = "Invalid Field - An accound with this email address already exists.";
+            return res.status(202).json(errors);
+        }
+    }).catch(err => res.status(400).json(err));
 
-        // Hash password before saving into the database
-        newUser.password = newUser.generateHash(newUser.password);
-
-        // Save the user to the database
-        newUser.save()
-            .then(res.sendStatus(200))
-            .catch(err => console.log(err));
-        
+    // Create new user
+    const newUser = new User({
+        username: username,
+        email: email,
+        password: password
     });
+
+    // Hash password before saving into the database
+    newUser.password = newUser.generateHash(newUser.password);
+
+    // Save the user to the database
+    newUser.save()
+        .then(res.sendStatus(200))
+        .catch(err => res.status(400).json(err));
 });
 
 router.post('/login', (req, res) => {
@@ -108,19 +116,21 @@ router.post('/login', (req, res) => {
     
     // Check validation
     if (!isValid) {
-        return res.status(400).json(errors);
-    }
+        return res.status(202).json(errors);
+    };
 
-    User.findOne({ username: username }).then(user => {
+    User.findOne({ username }).then(user => {
         // Check if username exists
         if (!user) {
-            return res.status(400).json({ msg: "Username doesn't exist..." });
-        }
+            errors.main = "Username or password is incorrect, please try again.";
+            return res.status(202).json(errors);
+        };
 
         // Validate password
         if(!user.validatePassword(password)) {
-            return res.status(400).json({ msg: "Password is incorrect..." });
-        }
+            errors.main = "Username or password is incorrect, please try again."
+            return res.status(202).json(errors);
+        };
 
         jwt.sign(
             { id: user._id },
@@ -130,23 +140,35 @@ router.post('/login', (req, res) => {
                 if(err) throw err;
                 res.cookie('token', token, { httpOnly: true });
             }
-        )
-    })
-    .catch(err => {
-        res.status(400).json(err);
-    });
+        );
 
-    User.findOne({ username: username }).select('-password').then(user => {
-        res.status(200).json(user);
+        User.findOne({ username }).select('-password').then(user => {
+            res.status(200).json(user);
+        }).catch(err => res.status(400).json(err));
     })
-    .catch(err => {
-        res.status(400).json(err);
-    })
-})
+    .catch(err => res.status(400).json(err));
+});
 
 router.post("/logout", (req, res) => {
     res.clearCookie("token");
     res.sendStatus(200);
-})
+});
+
+router.post("/findUserByName", (req, res) => {
+    const { username } = req.body;
+    console.log(req.body);
+    const errors = {};
+    User.findOne({ username }).then(user => {
+        if (user) {
+            errors.username = "Invalid Field - Username already exists.";
+            res.status(202).json(errors);
+        }
+        else {
+            errors.username = "Success! This username is available.";
+            res.status(200).json(errors);
+        }
+    })
+    .catch(err => res.status(400).json(err));
+});
 
 module.exports = router;
