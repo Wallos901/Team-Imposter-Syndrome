@@ -1,5 +1,5 @@
 import React from 'react';
-import {ModalHeader, ModalBody} from 'reactstrap';
+import {ModalHeader, ModalBody, Table} from 'reactstrap';
 
 export default class LeaderboardModal extends React.Component {
     render() {
@@ -7,9 +7,32 @@ export default class LeaderboardModal extends React.Component {
             <div>
                 <ModalHeader>Leaderboard</ModalHeader>
                 <ModalBody>
-                    <p>1. medi is number 1</p>
-                    <p>2. ben is okay i guess</p>
-                    <p>9999. josh is a Loser</p>
+                    <Table striped={true} borderless={true} hover={true}>
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Username</th>
+                            <th>Score</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <th scope="row">1</th>
+                            <td>josh-nairn</td>
+                            <td>69</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">2</th>
+                            <td>Wallos901</td>
+                            <td>50</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">3</th>
+                            <td>Medi</td>
+                            <td>-69</td>
+                        </tr>
+                        </tbody>
+                    </Table>
                 </ModalBody>
             </div>
         );
