@@ -1,6 +1,6 @@
 import React from 'react';
 import {ModalBody} from 'reactstrap';
-import Comments from "../comments.component";
+import Comments from "../responses.component";
 
 export default class PostModal extends React.Component {
     render() {
