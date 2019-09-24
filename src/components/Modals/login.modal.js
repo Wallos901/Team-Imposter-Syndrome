@@ -108,6 +108,7 @@ export default class ProfileModal extends React.Component {
                                 </FormFeedback>
                             </FormGroup>
                         </Col>
+                    </Form>
                 </ModalBody>
                 <ModalFooter style={{display: "flex", justifyContent: "space-between"}}>
                     <div>
