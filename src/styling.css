@@ -21,3 +21,13 @@
 .modalCompClickable {
     cursor: pointer;
 }
+.comment-list {
+    list-style: none;
+    margin-left: 40px;
+}
+.comment-list-parent {
+    list-style: none;
+}
+.comment-post {
+    padding: 10px;
+}
