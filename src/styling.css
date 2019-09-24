@@ -21,3 +21,12 @@
 .modalCompClickable {
     cursor: pointer;
 }
+
+.redirectLink {
+    color: #0040AF;
+    text-decoration: underline;
+}
+
+.redirectLink:hover {
+    color: #3080EF;
+}

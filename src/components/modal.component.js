@@ -5,8 +5,7 @@ import UploadModal from "./Modals/upload.modal";
 import ProfileModal from "./Modals/profile.modal";
 import SettingsModal from "./Modals/settings.modal";
 import LeaderboardModal from "./Modals/leaderboard.modal";
-import LoginModal from "./Modals/login.modal";
-import RegisterModal from "./Modals/register.modal";
+import SignInModal from "./Modals/signin.modal";
 
 export default class ModalComp extends React.Component {
     constructor(props) {
@@ -62,7 +61,10 @@ export default class ModalComp extends React.Component {
                             case "post":
                                 return <PostModal imageUrl={this.props.imageUrl}/>;
                             case "upload":
-                                return <UploadModal closeModal={() => this.toggleModal()} upload={this.props.upload}/>;
+                                return <UploadModal
+                                    closeModal={() => this.toggleModal()}
+                                    upload={this.props.upload}
+                                />;
                             case "leaderboard":
                                 return <LeaderboardModal/>;
                             case "profile":
@@ -70,16 +72,17 @@ export default class ModalComp extends React.Component {
                             case "settings":
                                 return <SettingsModal/>;
                             case "login":
-                                return <LoginModal closeModal={() => window.location.reload()}/>;
                             case "register":
-                                return <RegisterModal closeModal={() => this.toggleModal()}/>;
+                                return <SignInModal
+                                    type={this.props.type}
+                                    closeModal={() => this.toggleModal()}
+                                />;
                             default:
                                 return;
                         }
                     })()}
-                    {this.props.type !== 'upload' &&
+                    {this.props.type !== 'upload' && this.props.type !== 'login' && this.props.type !== 'register' &&
                     <ModalFooter>
-
                         <Button color="secondary" onClick={this.toggleModal}>Cancel</Button>
                     </ModalFooter>
                     }

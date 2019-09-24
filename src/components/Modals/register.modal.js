@@ -1,5 +1,5 @@
 import React from "react";
-import { ModalHeader, ModalBody, Col, Form, FormGroup, FormFeedback, Label, Input, Button } from "reactstrap";
+import { ModalHeader, ModalBody, ModalFooter, Col, Form, FormGroup, FormFeedback, Label, Input, Button } from "reactstrap";
 import axios from "axios";
 
 export default class ProfileModal extends React.Component {
@@ -87,6 +87,7 @@ export default class ProfileModal extends React.Component {
         return (
             <div>
                 <ModalHeader>Register Below!</ModalHeader>
+                <Form className="form" onSubmit={ (e) => this.onSubmit(e) }>
                 <ModalBody>
                     <Form className="form" onSubmit={ (e) => this.onSubmit(e) }>
                         <Col>
@@ -164,6 +165,21 @@ export default class ProfileModal extends React.Component {
                         <Button>Register</Button>
                     </Form>
                 </ModalBody>
+                <ModalFooter style={{display: "flex", justifyContent: "space-between"}}>
+                    <div>
+                        <span>Already have an account? </span>
+                        <span
+                            className={"redirectLink"}
+                            onClick={this.props.toggle}>
+                            Login
+                        </span>
+                    </div>
+                    <div>
+                        <Button style={{marginRight: "7px"}} color="primary">Register</Button>
+                        <Button color="secondary" onClick={this.props.closeModal}>Close</Button>
+                    </div>
+                </ModalFooter>
+                </Form>
             </div>
         );
     }
