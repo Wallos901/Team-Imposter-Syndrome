@@ -71,44 +71,42 @@ export default class ProfileModal extends React.Component {
                     <Alert color="danger" isOpen={ mainAlertVisible } toggle={ () => this.onAlertDismiss() }>
                         { validate.mainState }
                     </Alert>
-                    <Form className="form" onSubmit={ (e) => this.onSubmit(e) }>
-                        <Col>
-                            <FormGroup>
-                                <Label for="username">Username</Label>
-                                <Input
-                                    type="username"
-                                    name="username"
-                                    id="usernameState"
-                                    placeholder="Enter username..."
-                                    value={ username }
-                                    invalid={ !!validate.usernameState }
-                                    onChange={ (e) => this.handleInputChange(e) }
-                                    onClick={ (e) => this.handleClick(e) }
-                                />
-                                <FormFeedback>
-                                    { validate.usernameState }
-                                </FormFeedback>
-                            </FormGroup>
-                        </Col>
-                        <Col>
-                            <FormGroup>
-                                <Label for="password">Password</Label>
-                                <Input
-                                    type="password"
-                                    name="password"
-                                    id="passwordState"
-                                    placeholder="Enter password..."
-                                    value={ password }
-                                    invalid={ !!validate.passwordState }
-                                    onChange={ (e) => this.handleInputChange(e) }
-                                    onClick={ (e) => this.handleClick(e) }
-                                />
-                                <FormFeedback>
-                                    { validate.passwordState }
-                                </FormFeedback>
-                            </FormGroup>
-                        </Col>
-                    </Form>
+                    <Col>
+                        <FormGroup>
+                            <Label for="username">Username</Label>
+                            <Input
+                                type="username"
+                                name="username"
+                                id="usernameState"
+                                placeholder="Enter username..."
+                                value={ username }
+                                invalid={ !!validate.usernameState }
+                                onChange={ (e) => this.handleInputChange(e) }
+                                onClick={ (e) => this.handleClick(e) }
+                            />
+                            <FormFeedback>
+                                { validate.usernameState }
+                            </FormFeedback>
+                        </FormGroup>
+                    </Col>
+                    <Col>
+                        <FormGroup>
+                            <Label for="password">Password</Label>
+                            <Input
+                                type="password"
+                                name="password"
+                                id="passwordState"
+                                placeholder="Enter password..."
+                                value={ password }
+                                invalid={ !!validate.passwordState }
+                                onChange={ (e) => this.handleInputChange(e) }
+                                onClick={ (e) => this.handleClick(e) }
+                            />
+                            <FormFeedback>
+                                { validate.passwordState }
+                            </FormFeedback>
+                        </FormGroup>
+                    </Col>
                 </ModalBody>
                 <ModalFooter style={{display: "flex", justifyContent: "space-between"}}>
                     <div>

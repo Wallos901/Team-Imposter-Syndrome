@@ -6,7 +6,7 @@ const postSchema = new Schema({
     content: { type: String, required: true },
     alt_text: { type: String, required: true },
     user_id: { type: String, required: true },
-    status_id: { type: String, required: true }
+    status: { type: String, default: "APPROVED" }
 }, {
     timestamps: true,
 });
