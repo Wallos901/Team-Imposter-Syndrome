@@ -14,11 +14,11 @@ export default class Responses extends React.Component {
 
     render() {
         return (
-            <ButtonGroup>
-                <Button outline={!this.state.likeFilled} color={"primary"} onClick={() => this.toggleLikeReact()}>&#x1F44D;</Button>
-                <Button outline={!this.state.dislikeFilled} color={"secondary"} onClick={() => this.toggleDislikeReact()}>&#x1F44E;</Button>
-                <Button outline={!this.state.loveFilled} color={"danger"} onClick={() => this.toggleLoveReact()}>&#x2764;</Button>
-                <Button outline={!this.state.fireFilled} color={"warning"} onClick={() => this.toggleFireReact()}>&#x1F525;</Button>
+            <ButtonGroup className="reactions-group">
+                <Button outline={!this.state.likeFilled} color={"primary"} onClick={() => this.toggleLikeReact()}><span role="img" aria-label="like">&#x1F44D;</span></Button>
+                <Button outline={!this.state.dislikeFilled} color={"secondary"} onClick={() => this.toggleDislikeReact()}><span role="img" aria-label="dislike">&#x1F44E;</span></Button>
+                <Button outline={!this.state.loveFilled} color={"danger"} onClick={() => this.toggleLoveReact()}><span role="img" aria-label="love">&#x2764;</span></Button>
+                <Button outline={!this.state.fireFilled} color={"warning"} onClick={() => this.toggleFireReact()}><span role="img" aria-label="fire">&#x1F525;</span></Button>
             </ButtonGroup>
         );
     }
