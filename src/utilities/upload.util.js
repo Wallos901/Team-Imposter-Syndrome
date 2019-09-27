@@ -27,7 +27,7 @@ export default function upload(file, type) {
             const post = {
                 content: data.location,
                 alt_text: "default",
-                user_id: "12345678",
+                user_id: localStorage.user._id,
                 status_id: "APPROVED"
             };
 

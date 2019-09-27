@@ -156,7 +156,6 @@ router.post("/logout", (req, res) => {
 
 router.post("/findUserByName", (req, res) => {
     const { username } = req.body;
-    console.log(req.body);
     const errors = {};
     User.findOne({ username }).then(user => {
         if (user) {
@@ -169,6 +168,21 @@ router.post("/findUserByName", (req, res) => {
         }
     })
     .catch(err => res.status(400).json(err));
+});
+
+router.post("/updateReaction", (req, res) => {
+    const { reaction, username, postID } = req.body;
+    User.findOne({ username }).select('-password').then(user => {
+        reaction
+            ? user.post_reactions.set(postID, reaction)
+            : user.post_reactions.delete(postID);
+        user.save()
+            .then(res.status(200).json(user))
+            .catch(err => res.status(400).json(err));
+    }).catch(err => {
+        console.log(err);
+        res.sendStatus(400);
+    });
 });
 
 module.exports = router;

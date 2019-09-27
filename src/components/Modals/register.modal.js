@@ -42,9 +42,8 @@ export default class ProfileModal extends React.Component {
 
     checkUsername = async () => {
         const { validate, username } = this.state;
-        axios.post("http://localhost:5000/api/users/findUserByName", {
-            username: username
-        }).then(res => {
+        axios.post("http://localhost:5000/api/users/findUserByName", { username: username })
+            .then(res => {
                 if (res.status === 200) {
                     validate.usernameValid = "has-success";
                     validate.usernameState = res.data.username;
@@ -58,6 +57,9 @@ export default class ProfileModal extends React.Component {
                     usernameChecked: true
                 });
             })
+            .catch(err => {
+                console.log(err);
+            });
     }
 
     onSubmit(e) {
@@ -89,81 +91,78 @@ export default class ProfileModal extends React.Component {
                 <ModalHeader>Register Below!</ModalHeader>
                 <Form className="form" onSubmit={ (e) => this.onSubmit(e) }>
                 <ModalBody>
-                    <Form className="form" onSubmit={ (e) => this.onSubmit(e) }>
-                        <Col>
-                            <FormGroup>
-                                <Label for="username">Username</Label>
-                                <Input
-                                    type="username"
-                                    name="username"
-                                    id="usernameState"
-                                    placeholder="Enter username..."
-                                    value={ username }
-                                    valid={ validate.usernameValid === 'has-success' }
-                                    invalid={ validate.usernameValid === 'has-danger' }
-                                    onChange={ (e) => this.handleInputChange(e) }
-                                />
-                                <FormFeedback valid>
-                                    { validate.usernameState }
-                                </FormFeedback>
-                                <FormFeedback>
-                                    { validate.usernameState }
-                                </FormFeedback>
-                            </FormGroup>
-                        </Col>
-                        <Col>
-                            <FormGroup>
-                                <Label for="email">Email</Label>
-                                <Input
-                                    type="email"
-                                    name="email"
-                                    id="emailState"
-                                    placeholder="Enter email..."
-                                    value={ email }
-                                    invalid={ !!validate.emailState }
-                                    onChange={ (e) => this.handleInputChange(e) }
-                                />
-                                <FormFeedback>
-                                    { validate.emailState }
-                                </FormFeedback>
-                            </FormGroup>
-                        </Col>
-                        <Col>
-                            <FormGroup>
-                                <Label for="password">Password</Label>
-                                <Input
-                                    type="password"
-                                    name="password"
-                                    id="passwordState"
-                                    placeholder="Enter password..."
-                                    value={ password }
-                                    invalid={ !!validate.passwordState }
-                                    onChange={ (e) => this.handleInputChange(e) }
-                                />
-                                <FormFeedback>
-                                    { validate.passwordState }
-                                </FormFeedback>
-                            </FormGroup>
-                        </Col>
-                        <Col>
-                            <FormGroup>
-                                <Label for="password2">Confirm Password</Label>
-                                <Input
-                                    type="password"
-                                    name="password2"
-                                    id="password2State"
-                                    placeholder="Confirm password..."
-                                    value={ password2 }
-                                    invalid={ !!validate.password2State }
-                                    onChange={ (e) => this.handleInputChange(e) }
-                                />
-                                <FormFeedback>
-                                    { validate.password2State }
-                                </FormFeedback>
-                            </FormGroup>
-                        </Col>
-                        <Button>Register</Button>
-                    </Form>
+                    <Col>
+                        <FormGroup>
+                            <Label for="username">Username</Label>
+                            <Input
+                                type="username"
+                                name="username"
+                                id="usernameState"
+                                placeholder="Enter username..."
+                                value={ username }
+                                valid={ validate.usernameValid === 'has-success' }
+                                invalid={ validate.usernameValid === 'has-danger' }
+                                onChange={ (e) => this.handleInputChange(e) }
+                            />
+                            <FormFeedback valid>
+                                { validate.usernameState }
+                            </FormFeedback>
+                            <FormFeedback>
+                                { validate.usernameState }
+                            </FormFeedback>
+                        </FormGroup>
+                    </Col>
+                    <Col>
+                        <FormGroup>
+                            <Label for="email">Email</Label>
+                            <Input
+                                type="email"
+                                name="email"
+                                id="emailState"
+                                placeholder="Enter email..."
+                                value={ email }
+                                invalid={ !!validate.emailState }
+                                onChange={ (e) => this.handleInputChange(e) }
+                            />
+                            <FormFeedback>
+                                { validate.emailState }
+                            </FormFeedback>
+                        </FormGroup>
+                    </Col>
+                    <Col>
+                        <FormGroup>
+                            <Label for="password">Password</Label>
+                            <Input
+                                type="password"
+                                name="password"
+                                id="passwordState"
+                                placeholder="Enter password..."
+                                value={ password }
+                                invalid={ !!validate.passwordState }
+                                onChange={ (e) => this.handleInputChange(e) }
+                            />
+                            <FormFeedback>
+                                { validate.passwordState }
+                            </FormFeedback>
+                        </FormGroup>
+                    </Col>
+                    <Col>
+                        <FormGroup>
+                            <Label for="password2">Confirm Password</Label>
+                            <Input
+                                type="password"
+                                name="password2"
+                                id="password2State"
+                                placeholder="Confirm password..."
+                                value={ password2 }
+                                invalid={ !!validate.password2State }
+                                onChange={ (e) => this.handleInputChange(e) }
+                            />
+                            <FormFeedback>
+                                { validate.password2State }
+                            </FormFeedback>
+                        </FormGroup>
+                    </Col>
                 </ModalBody>
                 <ModalFooter style={{display: "flex", justifyContent: "space-between"}}>
                     <div>
