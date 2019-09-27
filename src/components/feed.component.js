@@ -17,7 +17,7 @@ export default class FeedComp extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            loadedPosts: {},
+            loadedPosts: [],
             postGrid: [],
         };
     }
@@ -30,7 +30,7 @@ export default class FeedComp extends React.Component {
         this.state.loadedPosts.forEach((post) => {
             this.setState(prevState => ({
                 postGrid: [...prevState.postGrid,
-                    <CardComp key={post._id} imageUrl={post.content} userId={post.user_id} postId={post._id} createdAt={post.createdAt}/>]
+                    <CardComp imageUrl={post.imageURL} userId={post.userID} postId={post._id} key={post._id} createdAt={post.createdAt}/>]
             }));
 
         });
