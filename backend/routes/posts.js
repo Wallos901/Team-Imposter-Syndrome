@@ -54,4 +54,14 @@ router.route('/:id', auth).delete((req, res) => {
         .catch(err => res.status(400).json('Error: ' + err));
 });
 
+router.get("/replies", (req, res) => {
+    const postID = req.query.postID;
+
+    Post.findOne({ _id: postID }).populate("replies").then(post => {
+        post
+            ? res.json(post.replies)
+            : res.sendStatus(400);
+    }).catch(err => res.status(400).json(err));
+});
+
 module.exports = router;

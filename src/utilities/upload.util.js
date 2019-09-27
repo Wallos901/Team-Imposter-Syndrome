@@ -14,20 +14,18 @@ const config = {
 
 // file : File   : the file that is to be uploaded to the S3 bucket.
 // type : String : the type of image to be uploaded - either "post" or "comment".
-export default function upload(file, type) {
+export default function upload(file) {
     return ReactS3.uploadFile(file, config)
         .then(data => {
             // alt_text is set to "default" as no functionality for alternate text is currently implemented.
             // user_id and status_id are default values as these ID's have not been confirmed yet.
             const post = {
-                content: data.location,
-                alt_text: "default",
-                user_id: "12345678",
-                status_id: "APPROVED"
+                imageURL: data.location,
+                user_id: localStorage.user._id
             };
 
             // localhost:5000 is the local port for the database connection.
-            axios.post("http://localhost:5000/" + type + "s/add/", post)
+            axios.post("http://localhost:5000/posts/add/", post)
                 .then(res => {
                     alert("Post uploaded successfully!");
                 })
