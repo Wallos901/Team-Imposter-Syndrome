@@ -23,12 +23,14 @@ export default class Responses extends React.Component {
     }
 
     componentDidMount() {
-        const { reactionState } = this.state;
-        const user = JSON.parse(localStorage.user);
-        if (this.props.postId in user.post_reactions) {
-            reactionState[user.post_reactions[this.props.postId]] = true;
+        if (localStorage.user) {
+            const { reactionState } = this.state;
+            const user = JSON.parse(localStorage.user);
+            if (this.props.postId in user.post_reactions) {
+                reactionState[user.post_reactions[this.props.postId]] = true;
+            }
+            this.setState({ reactionState });
         }
-        this.setState({ reactionState });
         this.getPostReactions();
     }
 
@@ -87,15 +89,23 @@ export default class Responses extends React.Component {
 
     render() {
         const { reactionState, reactions } = this.state;
+        let reactionCounterStyle = {}
+        if(localStorage.user) {
+            reactionCounterStyle = { float: "right" };
+        } else {
+            reactionCounterStyle = { textAlign: "right" };
+        }
         return (
             <div>
-                <ButtonGroup className="reactions-group">
-                    <Button id="like" outline={!reactionState.like} color={"primary"} onClick={(e) => this.toggleReact(e)}>&#x1F44D;</Button>
-                    <Button id="dislike" outline={!reactionState.dislike} color={"secondary"} onClick={(e) => this.toggleReact(e)}>&#x1F44E;</Button>
-                    <Button id="love" outline={!reactionState.love} color={"danger"} onClick={(e) => this.toggleReact(e)}>&#x2764;</Button>
-                    <Button id="fire" outline={!reactionState.fire} color={"warning"} onClick={(e) => this.toggleReact(e)}>&#x1F525;</Button>
-                </ButtonGroup>
-                <div style={{ float: "right" }}>
+                { localStorage.user && 
+                    <ButtonGroup className="reactions-group">
+                        <Button id="like" outline={!reactionState.like} color={"primary"} onClick={(e) => this.toggleReact(e)}>&#x1F44D;</Button>
+                        <Button id="dislike" outline={!reactionState.dislike} color={"secondary"} onClick={(e) => this.toggleReact(e)}>&#x1F44E;</Button>
+                        <Button id="love" outline={!reactionState.love} color={"danger"} onClick={(e) => this.toggleReact(e)}>&#x2764;</Button>
+                        <Button id="fire" outline={!reactionState.fire} color={"warning"} onClick={(e) => this.toggleReact(e)}>&#x1F525;</Button>
+                    </ButtonGroup>
+                }
+                <div style={reactionCounterStyle}>
                     <h4>
                         <span style={{ marginLeft: "50px" }}>&#x1F44D;: { reactions.like }</span>
                         <span style={{ marginLeft: "50px" }}>&#x1F44E;: { reactions.dislike }</span>
