@@ -13,7 +13,8 @@ const config = {
     secretAccessKey: process.env.REACT_APP_AWS_SECRET_KEY
 };
 
-const user = JSON.parse(localStorage.user);
+let user = {};
+if (localStorage.user) user = JSON.parse(localStorage.user);
 
 // file : File   : the file that is to be uploaded to the S3 bucket.
 // type : String : the type of image to be uploaded - either "post" or "comment".

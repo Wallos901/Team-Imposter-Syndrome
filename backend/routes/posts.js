@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const auth = require("../../src/utilities/auth/authMiddleware");
 
-const ObjectId = require("mongoose").Schema.Types.ObjectId;
+const ObjectId = require("mongoose").Types.ObjectId;
 
 let Post = require('../models/post.model');
 
