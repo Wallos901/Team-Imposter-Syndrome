@@ -5,7 +5,7 @@ import Upload from "../../utilities/upload.util";
 export default class UploadModal extends React.Component {
     handleUploadClick = () => {
         if (document.getElementById("fileUpload").value !== "") {
-            if (Upload(document.getElementById("fileUpload").files[0], "post")){
+            if (Upload(document.getElementById("fileUpload").files[0])){
                 document.getElementById("fileUpload").value = "";
             }
             else {
