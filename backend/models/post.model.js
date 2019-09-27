@@ -10,7 +10,8 @@ const postSchema = new Schema({
     },
     replyTo: {
         type: Schema.Types.ObjectId,
-        ref: "Post"
+        ref: "Post",
+        default: null
     },
     userID: { 
         type: Schema.Types.ObjectId,
