@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const auth = require("../../src/utilities/auth/authMiddleware");
 
-const ObjectId = reqire("mongoose").Schema.Types.ObjectId;
+const ObjectId = require("mongoose").Schema.Types.ObjectId;
 
 let Post = require('../models/post.model');
 
@@ -17,7 +17,7 @@ router.get("/:id", (req, res) => {
         .catch(err => res.status(400).json('Error: ' + err));
 });
 
-router.post("/add", auth, (req, res) => {
+router.post("/add", (req, res) => {
     const newPost = new Post(req.body);
 
     newPost.save()
@@ -28,6 +28,8 @@ router.post("/add", auth, (req, res) => {
 router.post("/update/:id", (req, res) => {
     Post.find({ _id: ObjectId(req.params.id) }).then(post => {
         Object.assign(post, req.body);
+
+        post.increment();
 
         post.save()
             .then(() => res.json('Post updated!'))
