@@ -6,7 +6,7 @@ const ObjectId = require("mongoose").Schema.Types.ObjectId;
 let Post = require('../models/post.model');
 
 router.get("/", (req, res) => {
-    Post.find({ replyTo: null })
+    Post.find()
         .then(posts => res.json(posts))
         .catch(err => res.status(400).json('Error: ' + err));
 });
@@ -50,6 +50,28 @@ router.get("/replies", (req, res) => {
         post
             ? res.json(post.replies)
             : res.sendStatus(400);
+    }).catch(err => res.status(400).json(err));
+});
+
+router.post("/getReactions", (req, res) => {
+    const { postID } = req.body;
+    Post.findOne({ _id: new ObjectId(postID) }).then(post => {
+        res.status(200).json(post.reactions);
+    }).catch(err => res.status(400).json(err));
+});
+
+router.post("/updateReaction", (req, res) => {
+    const { postID, prevReact, currReact } = req.body;
+    Post.findOne({ _id: new ObjectId(postID) }).then(post => {
+        if (prevReact === currReact) post.reactions.set(currReact, post.reactions.get(currReact) - 1);
+        else if (!prevReact) post.reactions.set(currReact, post.reactions.get(currReact) + 1);
+        else {
+            post.reactions.set(prevReact, post.reactions.get(prevReact) - 1);
+            post.reactions.set(currReact, post.reactions.get(currReact) + 1);
+        }
+        post.save()
+            .then(() => res.sendStatus(200))
+            .catch(err => res.status(400).json(err));
     }).catch(err => res.status(400).json(err));
 });
 

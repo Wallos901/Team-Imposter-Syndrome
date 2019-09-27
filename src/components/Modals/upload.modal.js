@@ -32,8 +32,8 @@ export default class UploadModal extends React.Component {
                     </Form>
                 </ModalBody>
                 <ModalFooter>
-                    <Button onClick={this.handleUploadClick}>Upload</Button>
-                    <Button onClick={this.props.closeModal}>Close</Button>
+                    <Button color="primary" onClick={this.handleUploadClick}>Upload</Button>
+                    <Button color="secondary" onClick={this.props.closeModal}>Close</Button>
                 </ModalFooter>
             </div>
         );

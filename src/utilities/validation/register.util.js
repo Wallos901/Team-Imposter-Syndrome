@@ -14,28 +14,27 @@ function validateRegisterInput(data) {
 
     // Name checks
     if (Validator.isEmpty(data.username)) {
-        errors.username = "Name field is required";
+        errors.username = "Required Field - Please enter a username.";
+    } else if (!Validator.isAlphanumeric(data.username)) {
+        errors.username = "Invalid Field - Username should contain only alphanumeric characters."
     }
-    // Email checks
 
+    // Email checks
     if (Validator.isEmpty(data.email)) {
-        errors.email = "Email field is required";
+        errors.email = "Required Field - Please enter an email address.";
     } else if (!Validator.isEmail(data.email)) {
-        errors.email = "Email is invalid";
+        errors.email = "Invalid Field - Please enter a valid email address.";
     }
 
     // Password checks
     if (Validator.isEmpty(data.password)) {
-        errors.password = "Password field is required";
-    }
-    if (Validator.isEmpty(data.password2)) {
-        errors.password2 = "Confirm password field is required";
+        errors.password = "Required Field - Please enter a password.";
     }
     if (!Validator.isLength(data.password, {min: 6, max: 30})) {
-        errors.password = "Password must be at least 6 characters";
+        errors.password = "Invalid Field - Password must be at least 6 characters.";
     }
     if (!Validator.equals(data.password, data.password2)) {
-        errors.password2 = "Passwords must match";
+        errors.password2 = "Invalid Field - Passwords do not match, please try again.";
     }
 
     return {

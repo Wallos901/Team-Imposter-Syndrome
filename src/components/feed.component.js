@@ -4,8 +4,7 @@ import '../styling.css' ;
 import Masonry from 'react-masonry-css';
 
 import CardComp from "./card.component";
-
-const axios = require('axios');
+import { getAll } from "../utilities/download.util";
 
 const dynamicColunmBreakpoints = {
     default: 4,
@@ -20,30 +19,14 @@ export default class FeedComp extends React.Component {
         this.state = {
             loadedPosts: [],
             postGrid: [],
-            test: [],
         };
     }
 
-    async getAllPosts() {
-        await axios.get("http://localhost:5000/api/posts")
-            .then((response) => {
-                this.setState({
-                    loadedPosts: response.data
-                });
-                return response.data;
-            })
-            .catch((error) => {
-                alert(error);
-                return error;
-            })
-            .finally(() => {
-                console.log('Loaded all posts.');
-            });
-    };
-
     async componentDidMount() {
         // Load All Posts
-        await this.getAllPosts();
+        this.setState({
+            loadedPosts: await getAll("posts")
+        });
         this.state.loadedPosts.forEach((post) => {
             this.setState(prevState => ({
                 postGrid: [...prevState.postGrid,

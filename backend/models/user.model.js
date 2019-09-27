@@ -7,10 +7,11 @@ const userSchema = new Schema({
     username: { type: String, required: true },
     password: { type: String, required: true },
     email: { type: String, required: true },
+    post_reactions: { type: Map, of: String, default: {} },
     last_activity: { type: Date, default: Date.now() },
     is_moderator: { type: Boolean, default: false },
     is_admin: { type: Boolean, default: false },
-    user_status_id: { type: String, default: "1" }
+    user_status: { type: String, default: "VERIFIED" }
 }, {
     timestamps: true,
 });
