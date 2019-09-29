@@ -13,6 +13,7 @@ import {
 } from 'reactstrap';
 import ModalComp from "./modal.component";
 import axios from 'axios';
+import ProfileComp from "./profile.component";
 
 export default class NavbarComp extends React.Component {
     constructor(props) {
@@ -64,7 +65,9 @@ export default class NavbarComp extends React.Component {
                                     { this.state.userLogged.username }
                                 </DropdownToggle>
                                 <DropdownMenu right>
-                                    <ModalComp type={'profile'} text={'View Profile'}/>
+                                    <DropdownItem onClick={window.open('www.reddit.com', '_blank')}>
+                                        View Profile
+                                    </DropdownItem>
                                     <ModalComp type={'settings'} text={'Settings'}/>
                                     <DropdownItem divider/>
                                     <DropdownItem onClick={this.logout}>
