@@ -4,6 +4,8 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import '../styling.css' ;
 
 import NavbarComp from "./navbar.component";
+import {ListGroup, ListGroupItem} from "reactstrap";
+import Masonry from "react-masonry-css";
 
 export default class ProfileComp extends React.Component {
     render() {
@@ -13,7 +15,19 @@ export default class ProfileComp extends React.Component {
                     <NavbarComp/>
                 </div>
                 <div className="container">
-                    <p>test text</p>
+                    <ListGroup>
+                        <ListGroupItem>Email goes here</ListGroupItem>
+                        <ListGroupItem>Username goes here</ListGroupItem>
+                        <ListGroupItem>Password goes here</ListGroupItem>
+                    </ListGroup>
+
+                    <Masonry
+                        // breakpointCols={dynamicColunmBreakpoints}
+                        className="post-grid"
+                        columnClassName="post-container"
+                    >
+                        {this.state.postGrid}
+                    </Masonry>
                 </div>
             </Router>
         );

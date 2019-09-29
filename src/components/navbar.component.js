@@ -37,7 +37,7 @@ export default class NavbarComp extends React.Component {
     logout() {
         axios.post("http://localhost:5000/api/users/logout")
             .then(res => {
-                if(res.status === 200) {
+                if (res.status === 200) {
                     localStorage.clear();
                     window.location.reload();
                 }
@@ -51,40 +51,40 @@ export default class NavbarComp extends React.Component {
                 <NavbarToggler onClick={this.toggle}/>
                 <Collapse isOpen={this.state.isOpen} navbar>
                     <Nav className="ml-auto" navbar>
-                        { this.state.userLogged &&
-                            <NavItem>
-                                <ModalComp type={'upload'} text={'Upload'} upload={this.props.upload}/>
-                            </NavItem>
+                        {this.state.userLogged &&
+                        <NavItem>
+                            <ModalComp type={'upload'} text={'Upload'} upload={this.props.upload}/>
+                        </NavItem>
                         }
                         <NavItem>
                             <ModalComp type={'leaderboard'} text={'Leaderboard'}/>
                         </NavItem>
-                        { this.state.userLogged && 
-                            <UncontrolledDropdown nav inNavbar>
-                                <DropdownToggle nav caret>
-                                    { this.state.userLogged.username }
-                                </DropdownToggle>
-                                <DropdownMenu right>
-                                    <DropdownItem onClick={window.open('www.reddit.com', '_blank')}>
-                                        View Profile
-                                    </DropdownItem>
-                                    <ModalComp type={'settings'} text={'Settings'}/>
-                                    <DropdownItem divider/>
-                                    <DropdownItem onClick={this.logout}>
-                                        Logout
-                                    </DropdownItem>
-                                </DropdownMenu>
-                            </UncontrolledDropdown>
+                        {this.state.userLogged &&
+                        <UncontrolledDropdown nav inNavbar>
+                            <DropdownToggle nav caret>
+                                {this.state.userLogged.username}
+                            </DropdownToggle>
+                            <DropdownMenu right>
+                                <DropdownItem onClick={""}>
+                                    View Profile
+                                </DropdownItem>
+                                <ModalComp type={'settings'} text={'Settings'}/>
+                                <DropdownItem divider/>
+                                <DropdownItem onClick={this.logout}>
+                                    Logout
+                                </DropdownItem>
+                            </DropdownMenu>
+                        </UncontrolledDropdown>
                         }
-                        { !this.state.userLogged &&
-                            <NavItem>
-                                <ModalComp type={'register'} text={'Register'}/>
-                            </NavItem>
+                        {!this.state.userLogged &&
+                        <NavItem>
+                            <ModalComp type={'register'} text={'Register'}/>
+                        </NavItem>
                         }
-                        { !this.state.userLogged &&
-                            <NavItem>
-                                <ModalComp type={'login'} text={'Login'}/>
-                            </NavItem>
+                        {!this.state.userLogged &&
+                        <NavItem>
+                            <ModalComp type={'login'} text={'Login'}/>
+                        </NavItem>
                         }
                     </Nav>
                 </Collapse>
