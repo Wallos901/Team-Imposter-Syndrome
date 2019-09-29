@@ -4,6 +4,7 @@ const auth = require("../../src/utilities/auth/authMiddleware");
 const ObjectId = require("mongoose").Types.ObjectId;
 
 let Post = require('../models/post.model');
+let User = require("../models/user.model");
 
 router.get("/", (req, res) => {
     Post.find()
@@ -19,6 +20,12 @@ router.get("/:id", (req, res) => {
 
 router.post("/add", (req, res) => {
     const newPost = new Post(req.body);
+
+    User.findOne({ _id: new ObjectId(req.body.userID) }).then(user => {
+        user.post_count += 1;
+        user.save()
+            .catch(err => res.status(400).json(err));
+    }).catch(err => res.status(400).json(err));
 
     newPost.save()
         .then(() => res.json('Post added!'))
