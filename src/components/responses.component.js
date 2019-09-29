@@ -28,8 +28,6 @@ export default class Responses extends React.Component {
     }
 
     render() {
-        alert(this.props.userId);
-        alert(this.state.loggedIn);
         return (
             <div>
                 <hr/>
