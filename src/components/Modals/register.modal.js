@@ -86,9 +86,11 @@ export default class ProfileModal extends React.Component {
 
     render() {
         const { username, email, password, password2, validate } = this.state;
+        let modalHeading = "";
+        if(this.props.heading) modalHeading = this.props.heading;
         return (
             <div>
-                <ModalHeader>Register Below!</ModalHeader>
+                <ModalHeader>{"Register" + modalHeading}</ModalHeader>
                 <Form className="form" onSubmit={ (e) => this.onSubmit(e) }>
                 <ModalBody>
                     <Col>
@@ -175,7 +177,9 @@ export default class ProfileModal extends React.Component {
                     </div>
                     <div>
                         <Button style={{marginRight: "7px"}} color="primary">Register</Button>
-                        <Button color="secondary" onClick={this.props.closeModal}>Close</Button>
+                        {this.props.closeModal &&
+                            <Button color="secondary" onClick={this.props.closeModal}>Close</Button>
+                        }
                     </div>
                 </ModalFooter>
                 </Form>

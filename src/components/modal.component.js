@@ -61,10 +61,7 @@ export default class ModalComp extends React.Component {
                             case "post":
                                 return <PostModal imageUrl={this.props.imageUrl} userId={this.props.userId} postId={this.props.postId}/>;
                             case "upload":
-                                return <UploadModal
-                                    closeModal={() => this.toggleModal()}
-                                    upload={this.props.upload}
-                                />;
+                                return <UploadModal closeModal={() => this.toggleModal()}/>;
                             case "leaderboard":
                                 return <LeaderboardModal/>;
                             case "profile":

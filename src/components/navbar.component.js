@@ -52,7 +52,7 @@ export default class NavbarComp extends React.Component {
                     <Nav className="ml-auto" navbar>
                         { this.state.userLogged &&
                             <NavItem>
-                                <ModalComp type={'upload'} text={'Upload'} upload={this.props.upload}/>
+                                <ModalComp type={'upload'} text={'Upload'}/>
                             </NavItem>
                         }
                         <NavItem>

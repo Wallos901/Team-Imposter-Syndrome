@@ -3,7 +3,7 @@ import React from 'react';
 import {Button, ButtonGroup} from "reactstrap";
 import axios from "axios";
 
-export default class Responses extends React.Component {
+export default class Reactions extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
