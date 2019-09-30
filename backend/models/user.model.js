@@ -8,6 +8,8 @@ const userSchema = new Schema({
     password: { type: String, required: true },
     email: { type: String, required: true },
     post_reactions: { type: Map, of: String, default: {} },
+    reaction_count: { type: Number, default: 0 },
+    post_count: { type: Number, default: 0 },
     last_activity: { type: Date, default: Date.now() },
     is_moderator: { type: Boolean, default: false },
     is_admin: { type: Boolean, default: false },
