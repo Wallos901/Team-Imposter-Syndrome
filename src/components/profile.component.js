@@ -7,6 +7,7 @@ import NavbarComp from "./navbar.component";
 import {Badge, Button, ListGroup, ListGroupItem, Table} from "reactstrap";
 import Masonry from "react-masonry-css";
 import FeedComp from "./feed.component";
+import AdminComp from "./admin.component";
 
 export default class ProfileComp extends React.Component {
     render() {
@@ -34,8 +35,9 @@ export default class ProfileComp extends React.Component {
 
                     <h3 style={{marginTop: "50px    "}}>Your Posts</h3>
                     <hr/>
+                    <AdminComp/>
                     {/*need to filter by user*/}
-                    {/*<FeedComp/>*/}
+                    <FeedComp/>
                 </div>
             </Router>
         );

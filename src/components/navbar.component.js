@@ -9,7 +9,7 @@ import {
     UncontrolledDropdown,
     DropdownToggle,
     DropdownMenu,
-    DropdownItem
+    DropdownItem, NavLink
 } from 'reactstrap';
 import ModalComp from "./modal.component";
 import axios from 'axios';
@@ -54,7 +54,7 @@ export default class NavbarComp extends React.Component {
                     <Nav className="ml-auto" navbar>
                         {this.state.userLogged &&
                         <NavItem>
-                            <Link to="/">Home</Link>
+                            <NavLink href="/" >Home</NavLink>
                         </NavItem>
                         }
                         {this.state.userLogged &&
@@ -71,8 +71,8 @@ export default class NavbarComp extends React.Component {
                                 {this.state.userLogged.username}
                             </DropdownToggle>
                             <DropdownMenu right>
-                                <DropdownItem>
-                                    <Link to="/profile">View Profile</Link>
+                                <DropdownItem href={"/profile"}>
+                                    View Profile
                                 </DropdownItem>
                                 <ModalComp type={'settings'} text={'Settings'}/>
                                 <DropdownItem divider/>
