@@ -3,8 +3,7 @@ import {BrowserRouter as Router} from 'react-router-dom';
 
 import '../styling.css' ;
 
-import NavbarComp from "./navbar.component";
-import {Button, Input, InputGroup, InputGroupAddon} from "reactstrap";
+import {Button, Input, InputGroup} from "reactstrap";
 
 export default class AdminComp extends React.Component {
     constructor(props) {
@@ -21,18 +20,17 @@ export default class AdminComp extends React.Component {
     render() {
         return (
             <Router>
-                <div>
-                    <NavbarComp/>
-                </div>
                 <div className="container">
-                    <h1>Search</h1>
+                    <h1>Administration</h1>
+                    <hr/>
+                    <h3>Search Posts</h3>
                     <InputGroup>
-                        <InputGroupAddon addonType={"prepend"}>Search</InputGroupAddon>
                         <Input/>
                         <Button color={"primary"} onClick={"toggleResults"}>Search</Button>
                     </InputGroup>
+                    <hr/>
 
-                    <h1>Results</h1>
+                    <h3 style={{paddingTop: "10px"}}>Results</h3>
                     <hr/>
                 </div>
             </Router>

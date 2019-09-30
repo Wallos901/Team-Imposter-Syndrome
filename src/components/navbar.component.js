@@ -13,6 +13,7 @@ import {
 } from 'reactstrap';
 import ModalComp from "./modal.component";
 import axios from 'axios';
+import {Link} from "react-router-dom";
 import ProfileComp from "./profile.component";
 
 export default class NavbarComp extends React.Component {
@@ -53,6 +54,11 @@ export default class NavbarComp extends React.Component {
                     <Nav className="ml-auto" navbar>
                         {this.state.userLogged &&
                         <NavItem>
+                            <Link to="/">Home</Link>
+                        </NavItem>
+                        }
+                        {this.state.userLogged &&
+                        <NavItem>
                             <ModalComp type={'upload'} text={'Upload'} upload={this.props.upload}/>
                         </NavItem>
                         }
@@ -65,8 +71,8 @@ export default class NavbarComp extends React.Component {
                                 {this.state.userLogged.username}
                             </DropdownToggle>
                             <DropdownMenu right>
-                                <DropdownItem onClick={""}>
-                                    View Profile
+                                <DropdownItem>
+                                    <Link to="/profile">View Profile</Link>
                                 </DropdownItem>
                                 <ModalComp type={'settings'} text={'Settings'}/>
                                 <DropdownItem divider/>

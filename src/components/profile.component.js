@@ -4,7 +4,7 @@ import {BrowserRouter as Router} from 'react-router-dom';
 import '../styling.css' ;
 
 import NavbarComp from "./navbar.component";
-import {Button, ListGroup, ListGroupItem} from "reactstrap";
+import {Badge, Button, ListGroup, ListGroupItem, Table} from "reactstrap";
 import Masonry from "react-masonry-css";
 import FeedComp from "./feed.component";
 
@@ -12,23 +12,30 @@ export default class ProfileComp extends React.Component {
     render() {
         return (
             <Router>
-                <div>
-                    <NavbarComp/>
-                </div>
                 <div className="container">
-                    <h1>Your Details</h1>
+                    <h3 style={{paddingTop: "10px"}}>Your Details<Button style={{float: "right"}}>Edit</Button></h3>
                     <hr/>
-                    <ListGroup>
-                        <ListGroupItem>Email goes here</ListGroupItem>
-                        <ListGroupItem>Username goes here</ListGroupItem>
-                        <ListGroupItem>Password goes here</ListGroupItem>
-                    </ListGroup>
-                    <Button color={"secondary"}>Edit Details</Button>
+                    <Table dark>
+                        <tbody>
+                        <tr>
+                            <th width={"10px"} scope="row">Email</th>
+                            <td>Email goes here</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Username</th>
+                            <td>Username goes here</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Password</th>
+                            <td>Password goes here</td>
+                        </tr>
+                        </tbody>
+                    </Table>
 
-                    <h1>Your Posts</h1>
+                    <h3 style={{marginTop: "50px    "}}>Your Posts</h3>
                     <hr/>
-                    /*need to filter by user*/
-                    <FeedComp/>
+                    {/*need to filter by user*/}
+                    {/*<FeedComp/>*/}
                 </div>
             </Router>
         );
