@@ -6,9 +6,9 @@ const ObjectId = require("mongoose").Types.ObjectId;
 let Post = require('../models/post.model');
 
 router.get("/", (req, res) => {
-    Post.find({ replyTo: null })
-        .then(posts => res.json(posts))
-        .catch(err => res.status(400).json('Error: ' + err));
+    Post.find({ replyTo: null }).populate({ path: "user", select: "username -_id" }).then(posts => {
+        res.json(posts);
+    }).catch(err => res.status(400).json('Error: ' + err));
 });
 
 router.get("/:id", (req, res) => {
@@ -46,9 +46,12 @@ router.delete("/:id", auth, (req, res) => {
 router.get("/replies/:postID", (req, res) => {
     const postID = req.params.postID;
 
-    Post.findOne({ _id: postID }).populate("replies").then(post => {
-        post
-            ? res.json(post.replies)
+    Post.find({ replyTo: postID }).populate({ path: "user", select: "username -_id" }).then(replies => {
+        // Object.keys(post.replies).forEach(reply => {
+        //     reply.populate({ path: "user", select: "username -_id" });
+        // });
+        replies
+            ? res.json(replies)
             : res.sendStatus(400);
     }).catch(err => res.status(400).json(err));
 });
