@@ -37,7 +37,7 @@ export default function upload(file, postID = null) {
             axios.post("http://localhost:5000/api/posts/add/", post)
                 .then(res => {
                     if (res.status === 202) console.log(res.data);
-                    alert("Post uploaded successfully!");
+                    alert("Image uploaded successfully!");
                 })
                 .catch(err => console.log(err));
         })

@@ -1,7 +1,8 @@
 /* eslint-disable jsx-a11y/accessible-emoji */
 import React from 'react';
-import {Button, ButtonGroup} from "reactstrap";
+import {Button, ButtonGroup, Form, FormGroup, FormText, Input} from "reactstrap";
 import axios from "axios";
+import Upload from "../utilities/upload.util";
 
 export default class Reactions extends React.Component {
     constructor(props) {
@@ -34,6 +35,19 @@ export default class Reactions extends React.Component {
         }
         this.getPostReactions();
     }
+
+    handleReplyUpload = () => {
+        if (document.getElementById("fileUpload"+this.props.postId).value !== "") {
+            if (Upload(document.getElementById("fileUpload"+this.props.postId).files[0], this.props.postId)){
+                document.getElementById("fileUpload"+this.props.postId).value = "";
+            } else {
+                alert('Error uploading image.');
+            }
+        }
+        else {
+            alert('Please select an image/gif to upload.');
+        }
+    };
 
 
     toggleReact(event) {
@@ -112,9 +126,20 @@ export default class Reactions extends React.Component {
                 </ButtonGroup>
                 {userLogged &&
                     <div style={replyButtonStyle}>
-                        <Button color={"success"}>Reply</Button>
+                        <Form>
+                            <FormGroup style={{display: "inline-block"}}>
+                                <div style={{float: "left"}}>
+                                    <Input id={"fileUpload"+this.props.postId} type="file" accept=".jpg, .png, .gif"/>
+                                    <FormText color="muted">
+                                        Please select a file of type jpg, png, or gif.
+                                    </FormText>
+                                </div>
+                                <Button style={{float: "right"}} color={"success"} onClick={this.handleReplyUpload}>Reply</Button>
+                            </FormGroup>
+                        </Form>
                     </div>
                 }
+                <div style={{padding: "10px"}}> </div>
             </div>
         );
     }
