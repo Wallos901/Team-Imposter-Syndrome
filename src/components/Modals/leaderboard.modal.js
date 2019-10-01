@@ -30,7 +30,7 @@ export default class LeaderboardModal extends React.Component {
                             <td>{ user.reaction_count }</td>
                         </tr>];
                     reactionCounter++;
-                })
+                });
                 this.setState({ reactionsTable });
             });
 
@@ -45,7 +45,7 @@ export default class LeaderboardModal extends React.Component {
                         <td>{ user.post_count }</td>
                     </tr>];
                 postCounter++;
-            })
+            });
             this.setState({ postsTable });
         });    
     }
@@ -60,7 +60,7 @@ export default class LeaderboardModal extends React.Component {
         const { reactionsTable, postsTable } = this.state;
         return (
             <div>
-                <ModalHeader>Leaderboard</ModalHeader>
+                <ModalHeader toggle={this.props.closeModal}>Leaderboard</ModalHeader>
                 <ModalBody>
                     <Nav tabs>
                         <NavItem style={{ cursor: "pointer" }}>

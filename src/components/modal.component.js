@@ -63,9 +63,9 @@ export default class ModalComp extends React.Component {
                             case "upload":
                                 return <UploadModal closeModal={() => this.toggleModal()}/>;
                             case "leaderboard":
-                                return <LeaderboardModal/>;
+                                return <LeaderboardModal closeModal={() => this.toggleModal()}/>;
                             case "settings":
-                                return <SettingsModal/>;
+                                return <SettingsModal closeModal={() => this.toggleModal()}/>;
                             case "login":
                             case "register":
                                 return <SignInModal

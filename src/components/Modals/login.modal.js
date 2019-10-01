@@ -67,7 +67,7 @@ export default class ProfileModal extends React.Component {
         if(this.props.heading) modalHeading = this.props.heading;
         return (
             <div>
-                <ModalHeader>{"Log In" + modalHeading}</ModalHeader>
+                <ModalHeader toggle={this.props.closeModal}>{"Log In" + modalHeading}</ModalHeader>
                 <Form className="form" onSubmit={ (e) => this.onSubmit(e) }>
                 <ModalBody>
                     <Alert color="danger" isOpen={ mainAlertVisible } toggle={ () => this.onAlertDismiss() }>

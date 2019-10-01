@@ -91,7 +91,7 @@ export default class ProfileModal extends React.Component {
         if(this.props.heading) modalHeading = this.props.heading;
         return (
             <div>
-                <ModalHeader>{"Register" + modalHeading}</ModalHeader>
+                <ModalHeader toggle={this.props.closeModal}>{"Register" + modalHeading}</ModalHeader>
                 <Form className="form" onSubmit={ (e) => this.onSubmit(e) }>
                 <ModalBody>
                     <Col>

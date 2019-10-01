@@ -27,7 +27,7 @@ export default class UploadModal extends React.Component {
     render() {
         return (
             <div>
-                <ModalHeader>Upload Image</ModalHeader>
+                <ModalHeader toggle={this.props.closeModal}>Upload Image</ModalHeader>
                 <ModalBody>
                     <Form>
                         <FormGroup>
@@ -37,17 +37,10 @@ export default class UploadModal extends React.Component {
                             </FormText>
                         </FormGroup>
                     </Form>
-                    {!this.props.closeModal &&
-                        <Button color="primary" onClick={this.handleUploadClick}>Reply</Button>
-                    }
                 </ModalBody>
                 <ModalFooter>
-                    {this.props.closeModal &&
-                            <Button color="primary" onClick={this.handleUploadClick}>Upload</Button>
-                    }
-                    {this.props.closeModal &&
-                        <Button color="secondary" onClick={this.props.closeModal}>Close</Button>
-                    }
+                    <Button color="primary" onClick={this.handleUploadClick}>Upload</Button>
+                    <Button color="secondary" onClick={this.props.closeModal}>Close</Button>
                 </ModalFooter>
             </div>
         );
