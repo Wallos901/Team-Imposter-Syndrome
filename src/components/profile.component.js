@@ -14,6 +14,7 @@ export default class ProfileComp extends React.Component {
         return (
             <Router>
                 <div className="container">
+                    {/*TODO: allow user to edit their details*/}
                     <h3 style={{paddingTop: "10px"}}>Your Details<Button style={{float: "right"}}>Edit</Button></h3>
                     <hr/>
                     <Table dark>
@@ -33,10 +34,9 @@ export default class ProfileComp extends React.Component {
                         </tbody>
                     </Table>
 
-                    <h3 style={{marginTop: "50px    "}}>Your Posts</h3>
+                    <h3 style={{marginTop: "50px"}}>Your Posts</h3>
                     <hr/>
-                    <AdminComp/>
-                    {/*need to filter by user*/}
+                    {/*TODO: filter by user*/}
                     <FeedComp/>
                 </div>
             </Router>
