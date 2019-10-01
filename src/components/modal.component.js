@@ -54,12 +54,12 @@ export default class ModalComp extends React.Component {
                 {/* Modal Contents */}
                 <Modal isOpen={this.state.showModal} toggle={this.toggleModal}
                        size={this.props.type === "post" ? "xl" : "m"}>
-                    <ModalHeader toggle={this.toggleModal} size>[username]'s Post</ModalHeader>
                     {(() => {
                         switch (this.props.type) {
                             case "post":
                                 return <PostModal imageUrl={this.props.imageUrl} userId={this.props.userId}
-                                                  postId={this.props.postId}/>;
+                                                  postId={this.props.postId} username={this.props.username}
+                                                  closeModal={() => this.toggleModal()}/>;
                             case "upload":
                                 return <UploadModal closeModal={() => this.toggleModal()}/>;
                             case "leaderboard":

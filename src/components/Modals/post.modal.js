@@ -1,5 +1,5 @@
 import React from 'react';
-import {ModalBody} from 'reactstrap';
+import {ModalBody, ModalHeader} from 'reactstrap';
 import Responses from "../responses.component";
 import Reactions from "../reactions.component";
 import SignInModal from "./signin.modal";
@@ -20,6 +20,7 @@ export default class PostModal extends React.Component {
     render = () => {
         return (
             <div>
+                <ModalHeader toggle={this.props.closeModal} size>{this.props.username}</ModalHeader>
                 <ModalBody className={"modal-body"}>
                     <div>
                         <img style={{maxHeight: this.state.imageMaxHeight, maxWidth: "100%", marginLeft: "auto", marginRight: "auto", display:"block"}} src={this.props.imageUrl}
