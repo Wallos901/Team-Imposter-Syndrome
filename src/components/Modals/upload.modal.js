@@ -7,13 +7,17 @@ export default class UploadModal extends React.Component {
         super(props);
     }
 
+    afterUpload = () => {
+        window.location.reload();
+    };
+
     handleUploadClick = () => {
         if (document.getElementById("fileUpload").value !== "") {
             let parentPostId = null;
             if(this.props.parentId){
                 parentPostId = this.props.parentId;
             }
-            if (Upload(document.getElementById("fileUpload").files[0], parentPostId)){
+            if (Upload(document.getElementById("fileUpload").files[0], parentPostId, this.afterUpload)){
                 document.getElementById("fileUpload").value = "";
             } else {
                 alert('Error uploading image.');
