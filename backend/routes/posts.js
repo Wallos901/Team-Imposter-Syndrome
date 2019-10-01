@@ -6,7 +6,7 @@ const ObjectId = require("mongoose").Types.ObjectId;
 let Post = require('../models/post.model');
 
 router.get("/", (req, res) => {
-    Post.find()
+    Post.find({ replyTo: null })
         .then(posts => res.json(posts))
         .catch(err => res.status(400).json('Error: ' + err));
 });
