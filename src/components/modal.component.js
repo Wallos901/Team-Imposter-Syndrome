@@ -52,9 +52,10 @@ export default class ModalComp extends React.Component {
                     }
                 })()}
 
-                {/* Modal Body */}
+                {/* Modal Contents */}
                 <Modal isOpen={this.state.showModal} toggle={this.toggleModal}
                        size={this.props.type === "post" ? "xl" : "m"}>
+                    {/*<ModalHeader*/}
                     {(() => {
                         switch (this.props.type) {
                             case "post":
