@@ -1,8 +1,7 @@
 import React from 'react';
-import {Button, CardImg, DropdownItem, Modal, ModalFooter, NavLink} from 'reactstrap';
+import {Button, CardImg, DropdownItem, Modal, ModalFooter, ModalHeader, NavLink} from 'reactstrap';
 import PostModal from "./Modals/post.modal";
 import UploadModal from "./Modals/upload.modal";
-import ProfileModal from "./Modals/profile.modal";
 import SettingsModal from "./Modals/settings.modal";
 import LeaderboardModal from "./Modals/leaderboard.modal";
 import SignInModal from "./Modals/signin.modal";
@@ -55,11 +54,12 @@ export default class ModalComp extends React.Component {
                 {/* Modal Contents */}
                 <Modal isOpen={this.state.showModal} toggle={this.toggleModal}
                        size={this.props.type === "post" ? "xl" : "m"}>
-                    {/*<ModalHeader*/}
+                    <ModalHeader toggle={this.toggleModal} size>[username]'s Post</ModalHeader>
                     {(() => {
                         switch (this.props.type) {
                             case "post":
-                                return <PostModal imageUrl={this.props.imageUrl} userId={this.props.userId} postId={this.props.postId}/>;
+                                return <PostModal imageUrl={this.props.imageUrl} userId={this.props.userId}
+                                                  postId={this.props.postId}/>;
                             case "upload":
                                 return <UploadModal
                                     closeModal={() => this.toggleModal()}
