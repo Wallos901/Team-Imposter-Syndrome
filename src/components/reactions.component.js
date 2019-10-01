@@ -18,7 +18,8 @@ export default class Reactions extends React.Component {
                 dislike: 0,
                 love: 0,
                 fire: 0
-            }
+            },
+            userLogged: localStorage.user ? JSON.parse(localStorage.user) : null
         };
     }
 
@@ -95,30 +96,25 @@ export default class Reactions extends React.Component {
     }
 
     render() {
-        const {reactionState, reactions} = this.state;
-        let replyButtonStyle = {};
-        if (localStorage.user) {
-            replyButtonStyle = {float: "right"};
-        } else {
-            replyButtonStyle = {textAlign: "right"};
-        }
+        const {reactionState, reactions, userLogged} = this.state;
+        let replyButtonStyle = {float: "right"};
         return (
             <div>
-                {localStorage.user &&
                 <ButtonGroup className="reactions-group">
-                    <Button id="like" outline={!reactionState.like} color={"primary"}
+                    <Button id="like" outline={!reactionState.like} color={"primary"} disabled={!userLogged}
                             onClick={(e) => this.toggleReact(e)}>&#x1F44D;: {reactions.like}</Button>
-                    <Button id="dislike" outline={!reactionState.dislike} color={"secondary"}
+                    <Button id="dislike" outline={!reactionState.dislike} color={"secondary"} disabled={!userLogged}
                             onClick={(e) => this.toggleReact(e)}>&#x1F44E;: {reactions.dislike}</Button>
-                    <Button id="love" outline={!reactionState.love} color={"danger"}
+                    <Button id="love" outline={!reactionState.love} color={"danger"} disabled={!userLogged}
                             onClick={(e) => this.toggleReact(e)}>&#x2764;: {reactions.love}</Button>
-                    <Button id="fire" outline={!reactionState.fire} color={"warning"}
+                    <Button id="fire" outline={!reactionState.fire} color={"warning"} disabled={!userLogged}
                             onClick={(e) => this.toggleReact(e)}>&#x1F525;: {reactions.fire}</Button>
                 </ButtonGroup>
+                {userLogged &&
+                    <div style={replyButtonStyle}>
+                        <Button color={"success"}>Reply</Button>
+                    </div>
                 }
-                <div style={replyButtonStyle}>
-                    <Button>Reply</Button>
-                </div>
             </div>
         );
     }
