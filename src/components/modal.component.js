@@ -61,7 +61,10 @@ export default class ModalComp extends React.Component {
                                                   postId={this.props.postId} username={this.props.username}
                                                   closeModal={() => this.toggleModal()}/>;
                             case "upload":
-                                return <UploadModal closeModal={() => this.toggleModal()}/>;
+                                return <UploadModal
+                                    closeModal={() => this.toggleModal()}
+                                    afterUpload={this.props.afterUpload}
+                                />;
                             case "leaderboard":
                                 return <LeaderboardModal closeModal={() => this.toggleModal()}/>;
                             case "settings":

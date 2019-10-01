@@ -7,8 +7,9 @@ export default class UploadModal extends React.Component {
         super(props);
     }
 
-    afterUpload = () => {
-        window.location.reload();
+    doBothThings = () => {
+        this.props.closeModal();
+        this.props.afterUpload();
     };
 
     handleUploadClick = () => {
@@ -17,7 +18,7 @@ export default class UploadModal extends React.Component {
             if(this.props.parentId){
                 parentPostId = this.props.parentId;
             }
-            if (Upload(document.getElementById("fileUpload").files[0], parentPostId, this.afterUpload)){
+            if (Upload(document.getElementById("fileUpload").files[0], parentPostId, this.doBothThings)){
                 document.getElementById("fileUpload").value = "";
             } else {
                 alert('Error uploading image.');

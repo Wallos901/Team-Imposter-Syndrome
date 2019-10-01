@@ -22,10 +22,11 @@ export default class FeedComp extends React.Component {
         };
     }
 
-    async componentDidMount() {
+    loadPosts = async () => {
         // Load All Posts
         this.setState({
-            loadedPosts: await getAll("posts")
+            loadedPosts: await getAll("posts"),
+            postGrid: [],
         });
         this.state.loadedPosts.forEach((post) => {
             this.setState(prevState => ({
@@ -33,6 +34,14 @@ export default class FeedComp extends React.Component {
                     <CardComp imageUrl={post.imageURL} userId={post.userID} username={post.user[0].username} postId={post._id} key={post._id} createdAt={post.createdAt}/>]
             }));
         });
+    };
+
+    async componentDidMount() {
+        this.loadPosts();
+    }
+
+    async componentWillReceiveProps(props) {
+        this.loadPosts();
     }
 
     render() {

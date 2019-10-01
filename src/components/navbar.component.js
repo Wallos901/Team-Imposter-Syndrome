@@ -59,7 +59,7 @@ export default class NavbarComp extends React.Component {
                         }
                         {this.state.userLogged &&
                         <NavItem>
-                            <ModalComp type={'upload'} text={'Upload'} upload={this.props.upload}/>
+                            <ModalComp type={'upload'} text={'Upload'} upload={this.props.upload} afterUpload={this.props.afterUpload}/>
                         </NavItem>
                         }
                         <NavItem>
