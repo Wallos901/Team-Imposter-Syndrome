@@ -96,11 +96,11 @@ export default class Reactions extends React.Component {
 
     render() {
         const {reactionState, reactions} = this.state;
-        let reactionCounterStyle = {}
+        let replyButtonStyle = {};
         if (localStorage.user) {
-            reactionCounterStyle = {float: "right"};
+            replyButtonStyle = {float: "right"};
         } else {
-            reactionCounterStyle = {textAlign: "right"};
+            replyButtonStyle = {textAlign: "right"};
         }
         return (
             <div>
@@ -116,7 +116,7 @@ export default class Reactions extends React.Component {
                             onClick={(e) => this.toggleReact(e)}>&#x1F525;: {reactions.fire}</Button>
                 </ButtonGroup>
                 }
-                <div style={reactionCounterStyle}>
+                <div style={replyButtonStyle}>
                     <Button>Reply</Button>
                 </div>
             </div>
