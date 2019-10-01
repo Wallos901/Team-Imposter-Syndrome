@@ -34,7 +34,6 @@ export default class ModalComp extends React.Component {
                         case "login":
                         case "register":
                             return <NavLink onClick={this.toggleModal}>{this.props.text}</NavLink>;
-                        case "profile":
                         case "settings":
                             return <DropdownItem onClick={this.toggleModal}>{this.props.text}</DropdownItem>;
                         case "post":
@@ -67,8 +66,6 @@ export default class ModalComp extends React.Component {
                                 />;
                             case "leaderboard":
                                 return <LeaderboardModal/>;
-                            case "profile":
-                                return <ProfileModal/>;
                             case "settings":
                                 return <SettingsModal/>;
                             case "login":

@@ -6,7 +6,7 @@ import Masonry from 'react-masonry-css';
 import CardComp from "./card.component";
 import { getAll } from "../utilities/download.util";
 
-const dynamicColunmBreakpoints = {
+const dynamicColumnBreakpoints = {
     default: 4,
     1100: 3,
     700: 2,
@@ -39,7 +39,7 @@ export default class FeedComp extends React.Component {
     render() {
         return (
             <Masonry
-                breakpointCols={dynamicColunmBreakpoints}
+                breakpointCols={dynamicColumnBreakpoints}
                 className="post-grid"
                 columnClassName="post-container"
             >
