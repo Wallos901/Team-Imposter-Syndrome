@@ -67,7 +67,8 @@ export default class ProfileModal extends React.Component {
         axios.post("http://localhost:5000/api/users/register", this.state)
             .then(res => {
                 if (res.status === 200) {
-                    this.props.closeModal();
+                    localStorage.user = JSON.stringify(res.data);
+                    this.props.reloadPage();
                 }
                 else if (res.status === 202) {
                     const { validate } = this.state;
