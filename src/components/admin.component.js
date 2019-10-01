@@ -4,6 +4,7 @@ import {BrowserRouter as Router} from 'react-router-dom';
 import '../styling.css' ;
 
 import {Button, Input, InputGroup} from "reactstrap";
+import FeedComp from "./feed.component";
 
 export default class AdminComp extends React.Component {
     constructor(props) {
@@ -32,6 +33,7 @@ export default class AdminComp extends React.Component {
 
                     <h3 style={{paddingTop: "10px"}}>Results</h3>
                     <hr/>
+                    <FeedComp/>
                 </div>
             </Router>
         );
