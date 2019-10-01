@@ -43,8 +43,8 @@ router.delete("/:id", auth, (req, res) => {
         .catch(err => res.status(400).json('Error: ' + err));
 });
 
-router.get("/replies", (req, res) => {
-    const postID = req.query.postID;
+router.get("/replies/:postID", (req, res) => {
+    const postID = req.params.postID;
 
     Post.findOne({ _id: postID }).populate("replies").then(post => {
         post
