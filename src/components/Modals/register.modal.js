@@ -60,7 +60,7 @@ export default class ProfileModal extends React.Component {
             .catch(err => {
                 console.log(err);
             });
-    }
+    };
 
     onSubmit(e) {
         e.preventDefault();

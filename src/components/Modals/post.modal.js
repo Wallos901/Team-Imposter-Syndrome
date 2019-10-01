@@ -10,12 +10,19 @@ export default class PostModal extends React.Component {
         super(props);
         this.state = {
             imageMaxHeight: this.setMaxHeight(),
+            update: true,
         };
     }
 
     setMaxHeight(){
         return window.innerHeight * 0.7;
     }
+
+    reloadResponses = () => {
+        this.setState({
+            update: !this.state.update,
+        });
+    };
 
     render = () => {
         return (
@@ -27,13 +34,13 @@ export default class PostModal extends React.Component {
                              alt={"some alt text"}/>
                     </div>
                     <hr/>
-                    <Reactions userId={this.props.userId} postId={this.props.postId}/>
+                    <Reactions reRenderParent={this.reloadResponses} update={this.state.update} userId={this.props.userId} postId={this.props.postId}/>
                     {!localStorage.user &&
                     <div>
                         <SignInModal type={"login"} heading=" to Respond" closeModal={null}/>
                     </div>
                     }
-                    <Responses userId={this.props.userId} postId={this.props.postId}/>
+                    <Responses update={this.state.update} userId={this.props.userId} postId={this.props.postId}/>
                 </ModalBody>
             </div>
         );

@@ -38,7 +38,7 @@ export default class Reactions extends React.Component {
 
     handleReplyUpload = () => {
         if (document.getElementById("fileUpload"+this.props.postId).value !== "") {
-            if (Upload(document.getElementById("fileUpload"+this.props.postId).files[0], this.props.postId)){
+            if (Upload(document.getElementById("fileUpload"+this.props.postId).files[0], this.props.postId, this.props.reRenderParent)){
                 document.getElementById("fileUpload"+this.props.postId).value = "";
             } else {
                 alert('Error uploading image.');
@@ -48,7 +48,6 @@ export default class Reactions extends React.Component {
             alert('Please select an image/gif to upload.');
         }
     };
-
 
     toggleReact(event) {
         let {id} = event.target;
@@ -128,13 +127,13 @@ export default class Reactions extends React.Component {
                     <div style={replyButtonStyle}>
                         <Form>
                             <FormGroup style={{display: "inline-block"}}>
-                                <div style={{float: "left"}}>
-                                    <Input id={"fileUpload"+this.props.postId} type="file" accept=".jpg, .png, .gif"/>
+                                <h5 style={{float: "left", paddingRight: "5px"}}>Reply:</h5>
+                                <div style={{float: "right"}}>
+                                    <Input id={"fileUpload"+this.props.postId} type="file" accept=".jpg, .png, .gif" onChange={this.handleReplyUpload}/>
                                     <FormText color="muted">
-                                        Please select a file of type jpg, png, or gif.
+                                        Please select a file of type jpg, png, or gif to reply.
                                     </FormText>
                                 </div>
-                                <Button style={{float: "right"}} color={"success"} onClick={this.handleReplyUpload}>Reply</Button>
                             </FormGroup>
                         </Form>
                     </div>

@@ -1,5 +1,4 @@
 import React from 'react';
-import SignInModal from "./Modals/signin.modal";
 import {getAll} from "../utilities/download.util";
 import Reactions from "./reactions.component";
 
@@ -13,10 +12,11 @@ export default class Responses extends React.Component {
         };
     }
 
-    async componentDidMount() {
+    loadComments = async () => {
         // Load All Comments
         this.setState({
-            loadedComments: await getAll("posts/replies/", this.props.postId)
+            commentThread: [],
+            loadedComments: await getAll("posts/replies/", this.props.postId),
         });
         this.state.loadedComments.forEach((comment) => {
             this.setState(prevState => ({
@@ -27,12 +27,20 @@ export default class Responses extends React.Component {
                              src={comment.imageURL}
                              style={{maxWidth: "30%"}}
                         />
-                        <Reactions userId={this.props.userId} postId={comment._id}/>
+                        <Reactions reRenderParent={this.loadComments} userId={this.props.userId} postId={comment._id}/>
                         <hr/>
                     </li>
                 ]
             }));
         });
+    };
+
+    async componentDidMount() {
+        this.loadComments();
+    }
+
+    async componentWillReceiveProps(props) {
+        this.loadComments();
     }
 
     render() {

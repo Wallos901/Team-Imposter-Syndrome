@@ -18,7 +18,7 @@ if (localStorage.user) user = JSON.parse(localStorage.user);
 
 // file : File   : the file that is to be uploaded to the S3 bucket.
 // type : String : the type of image to be uploaded - either "post" or "comment".
-export default function upload(file, postID = null) {
+export default function upload(file, postID = null, callback=null) {
     Object.defineProperty(file, "name", {
         writable: true,
         value: bcrypt.hashSync(file.name, bcrypt.genSaltSync(5))
@@ -38,6 +38,9 @@ export default function upload(file, postID = null) {
                 .then(res => {
                     if (res.status === 202) console.log(res.data);
                     alert("Image uploaded successfully!");
+                    if (callback){
+                        callback();
+                    }
                 })
                 .catch(err => console.log(err));
         })
