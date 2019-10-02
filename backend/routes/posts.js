@@ -7,9 +7,25 @@ let Post = require('../models/post.model');
 let User = require("../models/user.model");
 
 router.get("/", (req, res) => {
-    Post.find()
-        .then(posts => res.json(posts))
-        .catch(err => res.status(400).json('Error: ' + err));
+    Post.find({ replyTo: null }).then(posts => {
+        res.json(posts);
+    }).catch(err => res.status(400).json('Error: ' + err));
+});
+
+router.get("/sort/:filter", (req, res) => {
+    const { filter } = req.params;
+    if (filter === "Most Popular") {
+        Post.find({ replyTo: null }).then(posts => {
+            posts.sort((a, b) => {
+                return Object.values(b.reactions.toJSON()).reduce((c, d) => c + d) - Object.values(a.reactions.toJSON()).reduce((c, d) => c + d)
+            });
+            res.json(posts);
+        }).catch(err => res.status(400).json('Error: ' + err));
+    } else {
+        Post.find({ replyTo: null, category: filter }).then(posts => {
+            res.json(posts);
+        }).catch(err => res.status(400).json(err));
+    }
 });
 
 router.get("/:id", (req, res) => {

@@ -4,7 +4,7 @@ const router = require('express').Router();
 const jwt = require("jsonwebtoken");
 
 // Middleware imports
-const auth = require("../../src/utilities/auth/authMiddleware");
+//const auth = require("../../src/utilities/auth/authMiddleware");
 
 // Load input validation
 const validateRegisterInput = require("../../src/utilities/validation/register.util");

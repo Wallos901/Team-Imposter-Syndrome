@@ -18,7 +18,7 @@ if (localStorage.user) user = JSON.parse(localStorage.user);
 
 // file : File   : the file that is to be uploaded to the S3 bucket.
 // type : String : the type of image to be uploaded - either "post" or "comment".
-export default function upload(file, postID = null) {
+export default function upload(file, postID = null, category = null) {
     Object.defineProperty(file, "name", {
         writable: true,
         value: bcrypt.hashSync(file.name, bcrypt.genSaltSync(5))
@@ -30,7 +30,8 @@ export default function upload(file, postID = null) {
             const post = {
                 imageURL: data.location,
                 replyTo: postID,
-                userID: user._id
+                userID: user._id,
+                category: category
             };
 
             // localhost:5000 is the local port for the database connection.

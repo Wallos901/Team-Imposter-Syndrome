@@ -10,7 +10,6 @@
     display: flex;
     margin-left: -10px; /* gutter size offset */
     width: auto;
-    padding-top: 15px;
 }
 
 .post-container { /* post container */
