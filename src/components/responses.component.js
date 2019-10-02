@@ -49,20 +49,16 @@ export default class Responses extends React.Component {
     render() {
         return (
             <div>
-                {this.state.userLogged &&
+                {(this.state.commentThread).length > 0 &&
                 <div>
-                    {(this.state.commentThread).length > 0 &&
+                    <hr/>
+                    <h3>Responses</h3>
+                    <hr/>
                     <div>
-                        <hr/>
-                        <h3>Responses</h3>
-                        <hr/>
-                        <div>
-                            <ul className={"comment-list-parent"}>
-                                {this.state.commentThread}
-                            </ul>
-                        </div>
+                        <ul className={"comment-list-parent"}>
+                            {this.state.commentThread}
+                        </ul>
                     </div>
-                    }
                 </div>
                 }
             </div>
