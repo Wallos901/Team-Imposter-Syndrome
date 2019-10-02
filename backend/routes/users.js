@@ -4,11 +4,11 @@ const router = require('express').Router();
 const jwt = require("jsonwebtoken");
 
 // Middleware imports
-//const auth = require("../../src/utilities/auth/authMiddleware");
+//const auth = require("../../utilities/auth/authMiddleware");
 
 // Load input validation
-const validateRegisterInput = require("../../src/utilities/validation/register.util");
-const validateLoginInput = require("../../src/utilities/validation/login.util");
+const validateRegisterInput = require("../../utilities/validation/register.util");
+const validateLoginInput = require("../../utilities/validation/login.util");
 
 // Load ObjectId type
 const ObjectId = require("mongoose").Types.ObjectId;

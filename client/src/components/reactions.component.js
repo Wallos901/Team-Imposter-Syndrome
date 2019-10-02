@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/accessible-emoji */
 import React from 'react';
-import {Button, ButtonGroup} from "reactstrap";
+import { Button, ButtonGroup } from "reactstrap";
 import axios from "axios";
 
 export default class Responses extends React.Component {
@@ -63,20 +63,20 @@ export default class Responses extends React.Component {
 
         if (nullFlag) id = null;
 
-        axios.post("http://localhost:5000/api/users/updateReaction", { reaction: id, username: JSON.parse(localStorage.user).username, postID: this.props.postId })
+        axios.post("/api/users/updateReaction", { reaction: id, username: JSON.parse(localStorage.user).username, postID: this.props.postId })
             .then(res => {
                 localStorage.user = JSON.stringify(res.data);
             })
             .catch(err => console.log(err));
 
-        axios.post("http://localhost:5000/api/posts/updateReaction", { postID: this.props.postId, prevReact: prevReact, currReact: currReact })
+        axios.post("/api/posts/updateReaction", { postID: this.props.postId, prevReact: prevReact, currReact: currReact })
             .then(() => this.getPostReactions())
             .catch(err => console.log(err));
     }
 
     getPostReactions() {
         let { reactions } = this.state;
-        axios.post("http://localhost:5000/api/posts/getReactions", { postID: this.props.postId })
+        axios.post("/api/posts/getReactions", { postID: this.props.postId })
             .then(res => {
                 reactions.like = res.data.like;
                 reactions.dislike = res.data.dislike;

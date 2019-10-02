@@ -1,5 +1,6 @@
 import React from 'react';
-import {ModalBody} from 'reactstrap';
+import { ModalBody } from 'reactstrap';
+
 import Comments from "../responses.component";
 import Reactions from "../reactions.component";
 import '../../styling.css'

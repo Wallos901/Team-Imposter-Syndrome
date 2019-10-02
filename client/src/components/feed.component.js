@@ -1,11 +1,11 @@
 import React from "react";
-
-import '../styling.css' ;
 import Masonry from 'react-masonry-css';
 import { Form, FormGroup, CustomInput, Col, Row } from "reactstrap";
 
 import CardComp from "./card.component";
 import { getAll } from "../utilities/download.util";
+
+import '../styling.css' ;
 
 const dynamicColumnBreakpoints = {
     default: 4,

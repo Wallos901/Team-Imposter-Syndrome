@@ -20,7 +20,7 @@ export default class LeaderboardModal extends React.Component {
     populateLeaderboard() {
         let { reactionsTable, postsTable } = this.state;
         let reactionCounter = 1;
-        axios.get("http://localhost:5000/api/users/findUsersByReactionCount")
+        axios.get("/api/users/findUsersByReactionCount")
             .then(res => {
                 res.data.forEach(user => {
                     reactionsTable = [...reactionsTable, 
@@ -35,7 +35,7 @@ export default class LeaderboardModal extends React.Component {
             });
 
         let postCounter = 1;
-        axios.get("http://localhost:5000/api/users/findUsersByPostCount")
+        axios.get("/api/users/findUsersByPostCount")
         .then(res => {
             res.data.forEach(user => {
                 postsTable = [...postsTable, 
