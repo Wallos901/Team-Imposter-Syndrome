@@ -1,10 +1,11 @@
 import React from 'react';
-import {Button, CardImg, DropdownItem, Modal, ModalFooter, NavLink} from 'reactstrap';
+import { Button, CardImg, DropdownItem, Modal, ModalFooter, ModalHeader, NavLink } from 'reactstrap';
+
 import PostModal from "./Modals/post.modal";
 import UploadModal from "./Modals/upload.modal";
-import ProfileModal from "./Modals/profile.modal";
 import SettingsModal from "./Modals/settings.modal";
 import LeaderboardModal from "./Modals/leaderboard.modal";
+import SignInModal from "./Modals/signin.modal";
 
 export default class ModalComp extends React.Component {
     constructor(props) {
@@ -24,14 +25,15 @@ export default class ModalComp extends React.Component {
 
     render() {
         return (
-            <div>
+            <div className={"modalCompClickable"} tabIndex={"0"}>
                 {/* Modal Button */}
                 {(() => {
                     switch (this.props.type) {
                         case "upload":
                         case "leaderboard":
+                        case "login":
+                        case "register":
                             return <NavLink onClick={this.toggleModal}>{this.props.text}</NavLink>;
-                        case "profile":
                         case "settings":
                             return <DropdownItem onClick={this.toggleModal}>{this.props.text}</DropdownItem>;
                         case "post":
@@ -50,29 +52,37 @@ export default class ModalComp extends React.Component {
                     }
                 })()}
 
-                {/* Modal Body */}
-                <Modal isOpen={this.state.showModal} toggle={this.toggleModal} size={this.props.type==="post" ? "xl" : "m"}>
+                {/* Modal Contents */}
+                <Modal isOpen={this.state.showModal} toggle={this.toggleModal}
+                       size={this.props.type === "post" ? "xl" : "m"}>
                     {(() => {
-                        switch (this.props.type){
+                        switch (this.props.type) {
                             case "post":
-                                return <PostModal imageUrl={this.props.imageUrl}/>;
+                                return <PostModal imageUrl={this.props.imageUrl} userId={this.props.userId}
+                                                  postId={this.props.postId}/>;
                             case "upload":
-                                return <UploadModal closeModal={() => this.toggleModal()} upload={this.props.upload}/>;
+                                return <UploadModal
+                                    closeModal={() => this.toggleModal()}
+                                    upload={this.props.upload}
+                                />;
                             case "leaderboard":
                                 return <LeaderboardModal/>;
-                            case "profile":
-                                return <ProfileModal/>;
                             case "settings":
                                 return <SettingsModal/>;
+                            case "login":
+                            case "register":
+                                return <SignInModal
+                                    type={this.props.type}
+                                    closeModal={() => this.toggleModal()}
+                                />;
                             default:
                                 return;
                         }
                     })()}
-                    {this.props.type !== 'upload' &&
-                        <ModalFooter>
-
-                            <Button color="secondary" onClick={this.toggleModal}>Cancel</Button>
-                        </ModalFooter>
+                    {this.props.type !== 'upload' && this.props.type !== 'login' && this.props.type !== 'register' &&
+                    <ModalFooter>
+                        <Button color="secondary" onClick={this.toggleModal}>Cancel</Button>
+                    </ModalFooter>
                     }
                 </Modal>
 

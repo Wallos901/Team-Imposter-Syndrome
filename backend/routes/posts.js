@@ -1,55 +1,101 @@
 const router = require('express').Router();
-let Post = require('../models/post.model');
+const auth = require("../../utilities/auth/authMiddleware");
 
-router.route('/').get((req, res) => {
-    Post.find()
-        .then(posts => res.json(posts))
-        .catch(err => res.status(400).json('Error: ' + err));
+const ObjectId = require("mongoose").Types.ObjectId;
+
+let Post = require('../models/post.model');
+let User = require("../models/user.model");
+
+router.get("/", (req, res) => {
+    Post.find({ replyTo: null }).then(posts => {
+        res.json(posts);
+    }).catch(err => res.status(400).json('Error: ' + err));
 });
 
-router.route('/:id').get((req, res) => {
-    Post.findById(req.params.id)
+router.get("/sort/:filter", (req, res) => {
+    const { filter } = req.params;
+    if (filter === "Most Popular") {
+        Post.find({ replyTo: null }).then(posts => {
+            posts.sort((a, b) => {
+                return Object.values(b.reactions.toJSON()).reduce((c, d) => c + d) - Object.values(a.reactions.toJSON()).reduce((c, d) => c + d)
+            });
+            res.json(posts);
+        }).catch(err => res.status(400).json('Error: ' + err));
+    } else {
+        Post.find({ replyTo: null, category: filter }).then(posts => {
+            res.json(posts);
+        }).catch(err => res.status(400).json(err));
+    }
+});
+
+router.get("/:id", (req, res) => {
+    Post.find({ _id: ObjectId(req.params.id) })
         .then(post => res.json(post))
         .catch(err => res.status(400).json('Error: ' + err));
 });
 
-router.route('/add').post((req, res) => {
-    const content = req.body.content;
-    const alt_text = req.body.alt_text;
-    const user_id = req.body.user_id;
-    const status_id = req.body.status_id;
+router.post("/add", (req, res) => {
+    const newPost = new Post(req.body);
 
-    const newPost =new Post({
-        content,
-        alt_text,
-        user_id,
-        status_id
-    });
+    User.findOne({ _id: new ObjectId(req.body.userID) }).then(user => {
+        user.post_count += 1;
+        user.save()
+            .catch(err => res.status(400).json(err));
+    }).catch(err => res.status(400).json(err));
 
     newPost.save()
         .then(() => res.json('Post added!'))
         .catch(err => res.status(400).json('Error: ' + err));
 });
 
-router.route('/update/:id').post((req, res) => {
-    Post.findById(req.params.id)
-        .then(post => {
-            post.content = req.body.content;
-            post.alt_text = req.body.alt_text;
-            post.user_id = req.body.user_id;
-            post.status_id = req.body.status_id;
+router.post("/update/:id", (req, res) => {
+    Post.find({ _id: ObjectId(req.params.id) }).then(post => {
+        Object.assign(post, req.body);
 
-            post.save()
-                .then(() => res.json('Post updated!'))
-                .catch(err => res.status(400).json('Error: ' + err));
-        })
-        .catch(err => res.status(400).json('Error: ' + err));
+        post.increment();
+
+        post.save()
+            .then(() => res.json('Post updated!'))
+            .catch(err => res.status(400).json('Error: ' + err));
+    }).catch(err => res.status(400).json('Error: ' + err));
 });
 
-router.route('/:id').delete((req, res) => {
+router.delete("/:id", auth, (req, res) => {
     Post.findByIdAndDelete(req.params.id)
         .then(() => res.json('Post deleted.'))
         .catch(err => res.status(400).json('Error: ' + err));
+});
+
+router.get("/replies", (req, res) => {
+    const postID = req.query.postID;
+
+    Post.findOne({ _id: postID }).populate("replies").then(post => {
+        post
+            ? res.json(post.replies)
+            : res.sendStatus(400);
+    }).catch(err => res.status(400).json(err));
+});
+
+router.post("/getReactions", (req, res) => {
+    const { postID } = req.body;
+    Post.findOne({ _id: new ObjectId(postID) }).then(post => {
+        res.status(200).json(post.reactions);
+    }).catch(err => res.status(400).json(err));
+});
+
+router.post("/updateReaction", (req, res) => {
+    const { postID, prevReact, currReact } = req.body;
+    Post.findOne({ _id: new ObjectId(postID) }).then(post => {
+        if (prevReact === currReact) post.reactions.set(currReact, post.reactions.get(currReact) - 1);
+        else if (!prevReact) post.reactions.set(currReact, post.reactions.get(currReact) + 1);
+        else {
+            post.reactions.set(prevReact, post.reactions.get(prevReact) - 1);
+            post.reactions.set(currReact, post.reactions.get(currReact) + 1);
+        }
+        post.save()
+            .then(() => res.sendStatus(200))
+            .catch(err => res.status(400).json(err));
+    }).catch(err => res.status(400).json(err));
 });
 
 module.exports = router;
