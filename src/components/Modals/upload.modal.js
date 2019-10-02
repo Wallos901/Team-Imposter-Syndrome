@@ -14,7 +14,7 @@ export default class UploadModal extends React.Component {
         let file = document.getElementById("fileUpload");
         let category = document.getElementById("category");
         if (file.value !== "" && category.value !== "") {
-            if (Upload(document.getElementById("fileUpload").files[0], null, category)){
+            if (Upload(document.getElementById("fileUpload").files[0], null, category.value)){
                 document.getElementById("fileUpload").value = "";
             } else {
                 alert('Error uploading image.');
