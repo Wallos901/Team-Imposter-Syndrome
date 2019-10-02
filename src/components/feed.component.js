@@ -83,7 +83,7 @@ export default class FeedComp extends React.Component {
                     </Form>
                 </div>
                 <Masonry
-                    breakpointCols={ dynamicColunmBreakpoints }
+                    breakpointCols={ dynamicColumnBreakpoints }
                     className="post-grid"
                     columnClassName="post-container"
                 >
