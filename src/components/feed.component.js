@@ -28,20 +28,24 @@ export default class FeedComp extends React.Component {
             loadedPosts: await getAll("posts"),
             postGrid: [],
         });
-        this.state.loadedPosts.forEach((post) => {
+        if(this.state.loadedPosts.length > 0){
+            this.state.loadedPosts.forEach((post) => {
             this.setState(prevState => ({
                 postGrid: [...prevState.postGrid,
                     <CardComp imageUrl={post.imageURL} userId={post.userID} username={post.user[0].username} postId={post._id} key={post._id} createdAt={post.createdAt}/>]
-            }));
-        });
+                }));
+            });
+        }
     };
 
     async componentDidMount() {
         this.loadPosts();
     }
 
-    async componentWillReceiveProps(props) {
-        this.loadPosts();
+    async shouldComponentUpdate(prevProps, nextProps) {
+        if(prevProps.update !== this.props.update){
+            this.loadPosts();
+        }
     }
 
     render() {

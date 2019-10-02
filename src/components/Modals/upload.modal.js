@@ -3,11 +3,7 @@ import {ModalBody, ModalHeader, Form, FormGroup, Input, FormText, Button, ModalF
 import Upload from "../../utilities/upload.util";
 
 export default class UploadModal extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
-    doBothThings = () => {
+    handlePostUpload = () => {
         this.props.closeModal();
         this.props.afterUpload();
     };
@@ -18,7 +14,7 @@ export default class UploadModal extends React.Component {
             if(this.props.parentId){
                 parentPostId = this.props.parentId;
             }
-            if (Upload(document.getElementById("fileUpload").files[0], parentPostId, this.doBothThings)){
+            if (Upload(document.getElementById("fileUpload").files[0], parentPostId, this.handlePostUpload)){
                 document.getElementById("fileUpload").value = "";
             } else {
                 alert('Error uploading image.');

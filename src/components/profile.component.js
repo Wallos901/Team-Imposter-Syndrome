@@ -3,11 +3,8 @@ import {BrowserRouter as Router} from 'react-router-dom';
 
 import '../styling.css' ;
 
-import NavbarComp from "./navbar.component";
-import {Badge, Button, ListGroup, ListGroupItem, Table} from "reactstrap";
-import Masonry from "react-masonry-css";
+import {Button, Table} from "reactstrap";
 import FeedComp from "./feed.component";
-import AdminComp from "./admin.component";
 
 export default class ProfileComp extends React.Component {
     render() {

@@ -13,8 +13,6 @@ import {
 } from 'reactstrap';
 import ModalComp from "./modal.component";
 import axios from 'axios';
-import {Link} from "react-router-dom";
-import ProfileComp from "./profile.component";
 
 export default class NavbarComp extends React.Component {
     constructor(props) {

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, CardImg, DropdownItem, Modal, ModalFooter, ModalHeader, NavLink} from 'reactstrap';
+import {Button, CardImg, DropdownItem, Modal, ModalFooter, NavLink} from 'reactstrap';
 import PostModal from "./Modals/post.modal";
 import UploadModal from "./Modals/upload.modal";
 import SettingsModal from "./Modals/settings.modal";

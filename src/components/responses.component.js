@@ -17,11 +17,12 @@ export default class Responses extends React.Component {
         this.setState({
             commentThread: [],
             loadedComments: await getAll("posts/replies/", this.props.postId),
+            update: false,
         });
         this.state.loadedComments.forEach((comment) => {
             this.setState(prevState => ({
                 commentThread: [...prevState.commentThread,
-                    <li>
+                    <li key={comment._id}>
                         <img className={"comment-post"}
                              alt=""
                              src={comment.imageURL}
@@ -39,8 +40,10 @@ export default class Responses extends React.Component {
         this.loadComments();
     }
 
-    async componentWillReceiveProps(props) {
-        this.loadComments();
+    async shouldComponentUpdate(prevProps, nextProps) {
+        if(prevProps.update !== this.props.update){
+            this.loadComments();
+        }
     }
 
     render() {

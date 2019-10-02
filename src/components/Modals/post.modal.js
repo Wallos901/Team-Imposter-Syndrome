@@ -19,6 +19,7 @@ export default class PostModal extends React.Component {
     }
 
     reloadResponses = () => {
+        console.log("state updated");
         this.setState({
             update: !this.state.update,
         });
@@ -27,7 +28,7 @@ export default class PostModal extends React.Component {
     render = () => {
         return (
             <div>
-                <ModalHeader toggle={this.props.closeModal} size>{this.props.username}</ModalHeader>
+                <ModalHeader toggle={this.props.closeModal}>{this.props.username}</ModalHeader>
                 <ModalBody className={"modal-body"}>
                     <div>
                         <img style={{maxHeight: this.state.imageMaxHeight, maxWidth: "100%", marginLeft: "auto", marginRight: "auto", display:"block"}} src={this.props.imageUrl}
