@@ -44,6 +44,7 @@ export default class FeedComp extends React.Component {
 
     async shouldComponentUpdate(prevProps, nextProps) {
         if(prevProps.update !== this.props.update){
+            console.log("prev: " + prevProps.update + " | current: " + this.props.update);
             this.loadPosts();
         }
     }

@@ -29,7 +29,7 @@ export default class HomepageComp extends React.Component {
                     <NavbarComp afterUpload={this.updateFeed}/>
                 </div>
                 <div className="container">
-                    <Route path="/" exact component={FeedComp} update={this.state.update}/>
+                    <Route render={(props) => <FeedComp {...props} update={this.state.update} /> } />
                     <Route path="/profile" exact component={ProfileComp} />
                     <Route path="/admin" exact component={AdminComp} />
                 </div>
