@@ -42,7 +42,7 @@ export default class ProfileModal extends React.Component {
 
     checkUsername = async () => {
         const { validate, username } = this.state;
-        axios.post("http://localhost:5000/api/users/findUserByName", { username: username })
+        axios.post("/api/users/findUserByName", { username: username })
             .then(res => {
                 if (res.status === 200) {
                     validate.usernameValid = "has-success";
@@ -64,7 +64,7 @@ export default class ProfileModal extends React.Component {
 
     onSubmit(e) {
         e.preventDefault();
-        axios.post("http://localhost:5000/api/users/register", this.state)
+        axios.post("/api/users/register", this.state)
             .then(res => {
                 if (res.status === 200) {
                     localStorage.user = JSON.stringify(res.data);

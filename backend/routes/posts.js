@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const auth = require("../../src/utilities/auth/authMiddleware");
+const auth = require("../../utilities/auth/authMiddleware");
 
 const ObjectId = require("mongoose").Types.ObjectId;
 

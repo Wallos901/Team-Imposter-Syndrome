@@ -1,11 +1,11 @@
 import React from 'react';
-import {BrowserRouter as Router} from 'react-router-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
+import { Badge, Button, ListGroup, ListGroupItem, Table } from "reactstrap";
+import Masonry from "react-masonry-css";
 
 import '../styling.css' ;
 
 import NavbarComp from "./navbar.component";
-import {Badge, Button, ListGroup, ListGroupItem, Table} from "reactstrap";
-import Masonry from "react-masonry-css";
 import FeedComp from "./feed.component";
 import AdminComp from "./admin.component";
 

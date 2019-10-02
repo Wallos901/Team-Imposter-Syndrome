@@ -1,19 +1,9 @@
 import React from 'react';
-import {
-    Collapse,
-    Navbar,
-    NavbarToggler,
-    NavbarBrand,
-    Nav,
-    NavItem,
-    UncontrolledDropdown,
-    DropdownToggle,
-    DropdownMenu,
-    DropdownItem, NavLink
-} from 'reactstrap';
-import ModalComp from "./modal.component";
+import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem, NavLink } from 'reactstrap';
+import { Link } from "react-router-dom";
 import axios from 'axios';
-import {Link} from "react-router-dom";
+
+import ModalComp from "./modal.component";
 import ProfileComp from "./profile.component";
 
 export default class NavbarComp extends React.Component {
@@ -36,7 +26,7 @@ export default class NavbarComp extends React.Component {
     }
 
     logout() {
-        axios.post("http://localhost:5000/api/users/logout")
+        axios.post("/api/users/logout")
             .then(res => {
                 if (res.status === 200) {
                     localStorage.clear();
