@@ -36,6 +36,7 @@ export default class SignInModal extends React.Component {
                         />;
                     case "register":
                         return <RegisterModal
+                            reloadPage={() => window.location.reload()}
                             closeModal={this.props.closeModal}
                             toggle={() => this.toggleModalType()}
                         />;

@@ -108,9 +108,11 @@ router.post('/register', (req, res) => {
     newUser.password = newUser.generateHash(newUser.password);
 
     // Save the user to the database
-    newUser.save()
-        .then(res.sendStatus(200))
-        .catch(err => res.status(400).json(err));
+    newUser.save().then(() => {        
+        User.findOne({ username }).select("-password").then(user => {
+            res.status(200).json(user);
+        }).catch(err => res.status(400).json(err));
+    });
 });
 
 router.post('/login', (req, res) => {

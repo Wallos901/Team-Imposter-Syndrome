@@ -7,7 +7,7 @@ import { Form, FormGroup, CustomInput, Col, Row } from "reactstrap";
 import CardComp from "./card.component";
 import { getAll } from "../utilities/download.util";
 
-const dynamicColunmBreakpoints = {
+const dynamicColumnBreakpoints = {
     default: 4,
     1100: 3,
     700: 2,
