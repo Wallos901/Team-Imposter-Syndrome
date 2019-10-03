@@ -40,7 +40,7 @@ export default class NavbarComp extends React.Component {
             .then(res => {
                 if (res.status === 200) {
                     localStorage.clear();
-                    window.history.push("/");
+                    window.history.pushState({ url: "/" }, "home", "/");
                     window.location.reload();
                 }
             });

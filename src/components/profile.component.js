@@ -6,6 +6,17 @@ import { Button, ButtonGroup, Col, Container, Row, Input, UncontrolledAlert } fr
 //import Masonry from "react-masonry-css";
 import FeedComp from "./feed.component";
 import axios from 'axios';
+import Masonry from 'react-masonry-css';
+
+import CardComp from "./card.component";
+import { getAll } from "../utilities/download.util";
+
+const dynamicColumnBreakpoints = {
+    default: 4,
+    1100: 3,
+    700: 2,
+    500: 1
+};
 
 export default class ProfileComp extends React.Component {
     constructor(props) {
@@ -19,9 +30,25 @@ export default class ProfileComp extends React.Component {
                 password: "",
                 password2: ""
             },
-            updateErrors: []
+            updateErrors: [],
+            loadedPosts: [],
+            postGrid: []
         };
     };
+
+    async componentDidMount() {
+        const { userLogged } = this.state;
+        this.setState({
+            loadedPosts: await getAll("posts/byUser/" + userLogged._id)
+        });
+        this.state.loadedPosts.forEach((post) => {
+            this.setState(prevState => ({
+                postGrid: [...prevState.postGrid,
+                    <CardComp imageUrl={post.imageURL} userId={post.userID} postId={post._id} key={post._id} createdAt={post.createdAt}/>]
+            }));
+
+        });
+    }
 
     toggleEditUserInfo() {
         this.setState(prevState => ({
@@ -65,7 +92,7 @@ export default class ProfileComp extends React.Component {
     }
 
     render() {
-        const { userLogged, toggleEditUserInfoFlag, updateErrors } = this.state;
+        const { userLogged, toggleEditUserInfoFlag, updateErrors, postGrid } = this.state;
         return (
             <div className="container">
                 <h3 className="mt-2 mb-2">Your Details
@@ -125,12 +152,15 @@ export default class ProfileComp extends React.Component {
                     }
                 </Container>
 
-                
-
                 <h3>Your Posts</h3>
                 <hr/>
-                {/*TODO: filter by user*/}
-                <FeedComp/>
+                <Masonry
+                    breakpointCols={dynamicColumnBreakpoints}
+                    className="post-grid"
+                    columnClassName="post-container"
+                >
+                    {postGrid}
+                </Masonry>
             </div>
         );
     }

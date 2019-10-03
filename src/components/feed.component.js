@@ -30,7 +30,7 @@ export default class FeedComp extends React.Component {
         this.state.loadedPosts.forEach((post) => {
             this.setState(prevState => ({
                 postGrid: [...prevState.postGrid,
-                    <CardComp imageUrl={post.imageURL} userId={post.userID} postId={post._id} key={post._id} createdAt={post.createdAt}/>]
+                    <CardComp imageUrl={post.imageURL} userId={post.userID} postId={post._id} key={post._id} postDeleted={post.deleted} createdAt={post.createdAt}/>]
             }));
 
         });

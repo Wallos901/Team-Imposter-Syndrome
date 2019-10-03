@@ -22,6 +22,10 @@ const postSchema = new Schema({
         type: Map,
         of: Number,
         default: { "like": 0, "dislike": 0, "love": 0, "fire": 0 }
+    },
+    deleted: {
+        type: Boolean,
+        default: false
     }
 }, {
     timestamps: true,

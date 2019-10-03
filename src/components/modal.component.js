@@ -58,7 +58,7 @@ export default class ModalComp extends React.Component {
                     {(() => {
                         switch (this.props.type) {
                             case "post":
-                                return <PostModal imageUrl={this.props.imageUrl} userId={this.props.userId} postId={this.props.postId}/>;
+                                return <PostModal imageUrl={this.props.imageUrl} userId={this.props.userId} postId={this.props.postId} postDeleted={this.props.postDeleted}/>;
                             case "upload":
                                 return <UploadModal
                                     closeModal={() => this.toggleModal()}
