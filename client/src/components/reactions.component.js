@@ -1,9 +1,10 @@
 /* eslint-disable jsx-a11y/accessible-emoji */
 import React from 'react';
-import { Button, ButtonGroup } from "reactstrap";
+import {Button, ButtonGroup, Form, FormGroup, FormText, Input} from "reactstrap";
 import axios from "axios";
+import Upload from "../utilities/upload.util";
 
-export default class Responses extends React.Component {
+export default class Reactions extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -18,27 +19,39 @@ export default class Responses extends React.Component {
                 dislike: 0,
                 love: 0,
                 fire: 0
-            }
+            },
+            userLogged: localStorage.user ? JSON.parse(localStorage.user) : null
         };
     }
 
     componentDidMount() {
         if (localStorage.user) {
-            const { reactionState } = this.state;
+            const {reactionState} = this.state;
             const user = JSON.parse(localStorage.user);
             if (this.props.postId in user.post_reactions) {
                 reactionState[user.post_reactions[this.props.postId]] = true;
             }
-            this.setState({ reactionState });
+            this.setState({reactionState});
         }
         this.getPostReactions();
     }
 
-    
+    handleReplyUpload = () => {
+        if (document.getElementById("fileUpload"+this.props.postId).value !== "") {
+            if (Upload(document.getElementById("fileUpload"+this.props.postId).files[0], this.props.postId, this.props.reRenderParent)){
+                document.getElementById("fileUpload"+this.props.postId).value = "";
+            } else {
+                alert('Error uploading image.');
+            }
+        }
+        else {
+            alert('Please select an image/gif to upload.');
+        }
+    };
 
     toggleReact(event) {
-        let { id } = event.target;
-        let { reactionState } = this.state;
+        let {id} = event.target;
+        let {reactionState} = this.state;
         let nullFlag = false;
         let prevReact = null, currReact = null;
 
@@ -57,19 +70,27 @@ export default class Responses extends React.Component {
             } else {
                 reactionState[reaction] = reaction === id;
             }
-        });        
+        });
 
-        this.setState({ reactionState });
+        this.setState({reactionState});
 
         if (nullFlag) id = null;
 
-        axios.post("/api/users/updateReaction", { reaction: id, username: JSON.parse(localStorage.user).username, postID: this.props.postId })
+        axios.post("http://localhost:5000/api/users/updateReaction", {
+            reaction: id,
+            username: JSON.parse(localStorage.user).username,
+            postID: this.props.postId
+        })
             .then(res => {
                 localStorage.user = JSON.stringify(res.data);
             })
             .catch(err => console.log(err));
 
-        axios.post("/api/posts/updateReaction", { postID: this.props.postId, prevReact: prevReact, currReact: currReact })
+        axios.post("http://localhost:5000/api/posts/updateReaction", {
+            postID: this.props.postId,
+            prevReact: prevReact,
+            currReact: currReact
+        })
             .then(() => this.getPostReactions())
             .catch(err => console.log(err));
     }
@@ -82,37 +103,42 @@ export default class Responses extends React.Component {
                 reactions.dislike = res.data.dislike;
                 reactions.love = res.data.love;
                 reactions.fire = res.data.fire;
-                this.setState({ reactions });
+                this.setState({reactions});
             })
             .catch(err => console.log(err));
     }
 
     render() {
-        const { reactionState, reactions } = this.state;
-        let reactionCounterStyle = {}
-        if(localStorage.user) {
-            reactionCounterStyle = { float: "right" };
-        } else {
-            reactionCounterStyle = { textAlign: "right" };
-        }
+        const {reactionState, reactions, userLogged} = this.state;
+        let replyButtonStyle = {float: "right"};
         return (
             <div>
-                { localStorage.user && 
-                    <ButtonGroup className="reactions-group">
-                        <Button id="like" outline={!reactionState.like} color={"primary"} onClick={(e) => this.toggleReact(e)}>&#x1F44D;</Button>
-                        <Button id="dislike" outline={!reactionState.dislike} color={"secondary"} onClick={(e) => this.toggleReact(e)}>&#x1F44E;</Button>
-                        <Button id="love" outline={!reactionState.love} color={"danger"} onClick={(e) => this.toggleReact(e)}>&#x2764;</Button>
-                        <Button id="fire" outline={!reactionState.fire} color={"warning"} onClick={(e) => this.toggleReact(e)}>&#x1F525;</Button>
-                    </ButtonGroup>
+                <ButtonGroup className="reactions-group">
+                    <Button id="like" outline={!reactionState.like} color={"primary"} disabled={!userLogged}
+                            onClick={(e) => this.toggleReact(e)}>&#x1F44D;: {reactions.like}</Button>
+                    <Button id="dislike" outline={!reactionState.dislike} color={"secondary"} disabled={!userLogged}
+                            onClick={(e) => this.toggleReact(e)}>&#x1F44E;: {reactions.dislike}</Button>
+                    <Button id="love" outline={!reactionState.love} color={"danger"} disabled={!userLogged}
+                            onClick={(e) => this.toggleReact(e)}>&#x2764;: {reactions.love}</Button>
+                    <Button id="fire" outline={!reactionState.fire} color={"warning"} disabled={!userLogged}
+                            onClick={(e) => this.toggleReact(e)}>&#x1F525;: {reactions.fire}</Button>
+                </ButtonGroup>
+                {userLogged &&
+                    <div style={replyButtonStyle}>
+                        <Form>
+                            <FormGroup style={{display: "inline-block"}}>
+                                <h5 style={{float: "left", paddingRight: "5px"}}>Reply:</h5>
+                                <div style={{float: "right"}}>
+                                    <Input id={"fileUpload"+this.props.postId} type="file" accept=".jpg, .png, .gif" onChange={this.handleReplyUpload}/>
+                                    <FormText color="muted">
+                                        Please select a file of type jpg, png, or gif to reply.
+                                    </FormText>
+                                </div>
+                            </FormGroup>
+                        </Form>
+                    </div>
                 }
-                <div style={reactionCounterStyle}>
-                    <h4>
-                        <span style={{ marginLeft: "50px" }}>&#x1F44D;: { reactions.like }</span>
-                        <span style={{ marginLeft: "50px" }}>&#x1F44E;: { reactions.dislike }</span>
-                        <span style={{ marginLeft: "50px" }}>&#x2764;: { reactions.love }</span>
-                        <span style={{ marginLeft: "50px" }}>&#x1F525;: { reactions.fire }</span>
-                    </h4>
-                </div>
+                <div style={{padding: "10px"}}> </div>
             </div>
         );
     }

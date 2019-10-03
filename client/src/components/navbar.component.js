@@ -1,10 +1,8 @@
 import React from 'react';
 import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem, NavLink } from 'reactstrap';
-import { Link } from "react-router-dom";
 import axios from 'axios';
 
 import ModalComp from "./modal.component";
-import ProfileComp from "./profile.component";
 
 export default class NavbarComp extends React.Component {
     constructor(props) {
@@ -49,7 +47,7 @@ export default class NavbarComp extends React.Component {
                         }
                         {this.state.userLogged &&
                         <NavItem>
-                            <ModalComp type={'upload'} text={'Upload'} upload={this.props.upload}/>
+                            <ModalComp type={'upload'} text={'Upload'} upload={this.props.upload} afterUpload={this.props.afterUpload}/>
                         </NavItem>
                         }
                         <NavItem>

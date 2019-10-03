@@ -5,7 +5,7 @@ export default class SettingsModal extends React.Component {
     render() {
         return (
             <div>
-                <ModalHeader>Settings</ModalHeader>
+                <ModalHeader toggle={this.props.closeModal}>Settings</ModalHeader>
                 <ModalBody>
                     No changes allowed >:)
                 </ModalBody>

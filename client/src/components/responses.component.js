@@ -1,45 +1,66 @@
 import React from 'react';
+import {getAll} from "../utilities/download.util";
+import Reactions from "./reactions.component";
 
 export default class Responses extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            loadedComments: {},
+            commentThread: [],
+            userLogged: localStorage.user ? JSON.parse(localStorage.user) : false
+        };
+    }
+
+    loadComments = async () => {
+        // Load All Comments
+        this.setState({
+            commentThread: [],
+            loadedComments: await getAll("posts/replies/", this.props.postId),
+            update: false,
+        });
+        this.state.loadedComments.forEach((comment) => {
+            this.setState(prevState => ({
+                commentThread: [...prevState.commentThread,
+                    <li key={comment._id}>
+                        <img className={"comment-post"}
+                             alt=""
+                             src={comment.imageURL}
+                             style={{maxWidth: "30%"}}
+                        />
+                        <Reactions reRenderParent={this.loadComments} userId={this.props.userId} postId={comment._id}/>
+                        <hr/>
+                    </li>
+                ]
+            }));
+        });
+    };
+
+    async componentDidMount() {
+        this.loadComments();
+    }
+
+    async shouldComponentUpdate(prevProps, nextProps) {
+        if(prevProps.update !== this.props.update){
+            this.loadComments();
+        }
+    }
+
     render() {
         return (
             <div>
-                <hr/>
-                <h3>Responses</h3>
-                <hr/>
-
-                <ul className={"comment-list-parent"}>
-                    <li><img className={"comment-post"}
-                            alt=""
-                            src={"https://www.abc.net.au/radionational/image/6289622-4x3-340x255.png"}/>
-                        <ul className={"comment-list"}>
-                            <li><img className={"comment-post"}
-                                    alt=""
-                                    src={"http://www.cairowestmag.com/wp-content/uploads/2018/09/Orange.jpg"}/>
-                                <ul className={"comment-list"}>
-                                    <li><img className={"comment-post"}
-                                            alt=""
-                                            src={"https://colourlex.com/wp-content/uploads/2014/12/bleizinngelb-farbbuch-opt.jpg"}/>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li><img className={"comment-post"}
-                                    alt=""
-                                    src={"https://cdn.shopify.com/s/files/1/0882/1686/products/1_f87fbb63-1587-40ad-b2df-57e94acfa608.jpg?v=1493726820"}/>
-                            </li>
-                        </ul>
-                    </li>
+                {(this.state.commentThread).length > 0 &&
+                <div>
                     <hr/>
-                    <li><img className={"comment-post"}
-                            alt=""
-                            src={"https://i.guim.co.uk/img/static/sys-images/Guardian/Pix/pictures/2013/8/1/1375354802439/Blue---the-colour-008.jpg?width=300&quality=85&auto=format&fit=max&s=2a7663fea4602034647ecb92ae228d96"}/>
-                        <ul className={"comment-list"}>
-                            <li><img className={"comment-post"}
-                                    alt=""
-                                    src={"https://miro.medium.com/max/400/1*bNfxs62uJzISTfuPlOzOWQ.png"}/></li>
+                    <h3>Responses</h3>
+                    <hr/>
+                    <div>
+                        <ul className={"comment-list-parent"}>
+                            {this.state.commentThread}
                         </ul>
-                    </li>
-                </ul>
+                    </div>
+                </div>
+                }
             </div>
         );
     }

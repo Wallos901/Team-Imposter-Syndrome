@@ -2,9 +2,9 @@
 
 import axios from "axios";
 
-export async function getAll(type) {
+export async function getAll(type, query="") {
     return new Promise((resolve) => {
-        axios.get("http://localhost:5000/api/" + type)
+        axios.get("http://localhost:5000/api/" + type + query)
             .then((response) => {
                 resolve(response.data);
             })
