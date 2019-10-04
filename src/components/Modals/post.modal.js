@@ -1,8 +1,10 @@
 import React from 'react';
-import {ModalBody, Button, ButtonGroup, Alert} from 'reactstrap';
+import { Modal, ModalHeader, ModalBody, ModalFooter, Button, ButtonGroup, Alert, Form, FormGroup, Input, FormText} from 'reactstrap';
 import Comments from "../responses.component";
 import Reactions from "../reactions.component";
 import axios from 'axios';
+import uploadFile from "../../utilities/upload.util";
+import deleteFile from "../../utilities/delete.util";
 
 export default class PostModal extends React.Component {
     constructor(props) {
@@ -12,15 +14,23 @@ export default class PostModal extends React.Component {
             userLogged: localStorage.user ? JSON.parse(localStorage.user) : null,
             error: "",
             errorVisible: false,
-            uploadModalVisable: false
+            editModalVisable: false
         };
+
+        this.toggleEditModal = this.toggleEditModal.bind(this);
     }
 
-    editPost() {
-        axios.post("http://localhost:5000/api/posts/edit/" + this.props.postId)
+    toggleEditModal() {
+        this.setState(prevState => ({
+            editModalVisable: !prevState.editModalVisable
+        }));
+    }
+
+    editPostCheck() {
+        axios.post("http://localhost:5000/api/posts/editCheck/" + this.props.postId)
             .then(res => {
                 if (res.status === 200) {
-                    console.log("yey");
+                    this.toggleEditModal();
                 }
                 else if (res.status === 202) {
                     this.setState({
@@ -30,6 +40,16 @@ export default class PostModal extends React.Component {
                 }
             })  
             .catch(err => console.log(err));
+    }
+
+    editPost() {
+        if (document.getElementById("fileUpload").value !== "") {
+            if (deleteFile(this.props.postId)) {
+                if (uploadFile(document.getElementById("fileUpload").files[0])) {
+                    window.location.reload();
+                }
+            }
+        }
     }
 
     deletePost() {
@@ -55,9 +75,28 @@ export default class PostModal extends React.Component {
     };
 
     render() {
-        const { userLogged, errorVisible, error } = this.state;
+        const { userLogged, errorVisible, error, editModalVisable } = this.state;
         return (
             <div>
+                <div>
+                    <Modal isOpen={ editModalVisable } toggle={ this.toggleEditModal } centered>
+                        <ModalHeader>Upload Replacement Image</ModalHeader>
+                        <ModalBody>
+                            <Form>
+                                <FormGroup>
+                                    <Input id="fileUpload" type="file" accept=".jpg, .png, .gif"/>
+                                    <FormText color="muted">
+                                        Please select a file of type jpg, png, or gif.
+                                    </FormText>
+                                </FormGroup>
+                            </Form>
+                        </ModalBody>
+                        <ModalFooter>
+                            <Button color="primary" onClick={() => this.editPost()}>Continue</Button>
+                            <Button color="secondary" onClick={() => this.toggleEditModal()}>Cancel</Button>
+                        </ModalFooter>
+                    </Modal>
+                </div>
                 <ModalBody className={"modal-body"}>
                     <Alert color="danger" isOpen={ errorVisible } toggle={ () => this.onErrorDismiss() }>
                         { error }
@@ -65,7 +104,7 @@ export default class PostModal extends React.Component {
                     <div style={{ position: "relative" }}>
                         { userLogged && userLogged._id === this.props.userId && !this.props.postDeleted &&
                             <ButtonGroup style={{ position: "absolute", zIndex: "100", right: "0", padding: "10px" }}>
-                                <Button onClick={() => this.editPost()}>Edit</Button>
+                                <Button onClick={() => this.editPostCheck()}>Edit</Button>
                                 <Button onClick={() => this.deletePost()}>Delete</Button>
                             </ButtonGroup>
                         }

@@ -51,7 +51,7 @@ router.delete("/:id", (req, res) => {
                     .catch(err => res.status(400).json(err));
             } else {
                 post.remove()
-                    .then(() => res.sendStatus(200))
+                    .then(post => res.status(200).json(post))
                     .catch(err => res.status(400).json('Error: ' + err));
             }
         }).catch(err => res.status(400).json(err));
@@ -59,7 +59,7 @@ router.delete("/:id", (req, res) => {
     
 });
 
-router.post("/edit/:id", (req, res) => {
+router.post("/editCheck/:id", (req, res) => {
     const postID = req.params.id;
     let errors = {};
     Post.findById(postID).then(post => {
