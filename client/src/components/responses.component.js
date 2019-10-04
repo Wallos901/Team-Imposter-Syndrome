@@ -19,21 +19,23 @@ export default class Responses extends React.Component {
             loadedComments: await getAll("posts/replies/", this.props.postId),
             update: false,
         });
-        this.state.loadedComments.forEach((comment) => {
-            this.setState(prevState => ({
-                commentThread: [...prevState.commentThread,
-                    <li key={comment._id}>
-                        <img className={"comment-post"}
-                             alt=""
-                             src={comment.imageURL}
-                             style={{maxWidth: "30%"}}
-                        />
-                        <Reactions reRenderParent={this.loadComments} userId={this.props.userId} postId={comment._id}/>
-                        <hr/>
-                    </li>
-                ]
-            }));
-        });
+        if(this.state.loadedComments.length > 0){
+            this.state.loadedComments.forEach((comment) => {
+                this.setState(prevState => ({
+                    commentThread: [...prevState.commentThread,
+                        <li key={comment._id}>
+                            <img className={"comment-post"}
+                                 alt=""
+                                 src={comment.imageURL}
+                                 style={{maxWidth: "30%"}}
+                            />
+                            <Reactions reRenderParent={this.loadComments} userId={this.props.userId} postId={comment._id}/>
+                            <hr/>
+                        </li>
+                    ]
+                }));
+            });
+        }
     };
 
     async componentDidMount() {

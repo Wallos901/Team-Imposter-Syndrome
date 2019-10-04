@@ -1,11 +1,10 @@
 import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { Button, Table } from "reactstrap";
+import FeedComp from "./feed.component";
 
 import '../styling.css' ;
 
-import {Button, Table} from "reactstrap";
-import FeedComp from "./feed.component";
 
 export default class ProfileComp extends React.Component {
     render() {

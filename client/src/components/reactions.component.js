@@ -2,7 +2,7 @@
 import React from 'react';
 import {Button, ButtonGroup, Form, FormGroup, FormText, Input} from "reactstrap";
 import axios from "axios";
-import Upload from "../utilities/upload.util";
+import upload from "../utilities/upload.util";
 
 export default class Reactions extends React.Component {
     constructor(props) {
@@ -38,7 +38,7 @@ export default class Reactions extends React.Component {
 
     handleReplyUpload = () => {
         if (document.getElementById("fileUpload"+this.props.postId).value !== "") {
-            if (Upload(document.getElementById("fileUpload"+this.props.postId).files[0], this.props.postId, this.props.reRenderParent)){
+            if (upload(document.getElementById("fileUpload"+this.props.postId).files[0], this.props.postId, this.props.reRenderParent)){
                 document.getElementById("fileUpload"+this.props.postId).value = "";
             } else {
                 alert('Error uploading image.');

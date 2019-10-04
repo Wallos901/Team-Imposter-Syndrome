@@ -29,8 +29,13 @@ export default class FeedComp extends React.Component {
             loadedPosts: await getAll("posts/sort/Most Popular"),
             postGrid:[]
         });
-        
         this.updateFeed();
+    }
+
+    async shouldComponentUpdate(prevProps, nextProps) {
+        if(prevProps.update !== this.props.update){
+            this.updateFeed();
+        }
     }
 
     async handleFilterChange(event) {
@@ -43,12 +48,14 @@ export default class FeedComp extends React.Component {
     }
 
     updateFeed() {
-        this.state.loadedPosts.forEach((post) => {
-            this.setState(prevState => ({
-                postGrid: [...prevState.postGrid,
-                    <CardComp imageUrl={post.imageURL} userId={post.userID} postId={post._id} key={post._id} createdAt={post.createdAt}/>]
-            }));
-        });
+        if(this.state.loadedPosts.length > 0){
+            this.state.loadedPosts.forEach((post) => {
+                this.setState(prevState => ({
+                    postGrid: [...prevState.postGrid,
+                        <CardComp imageUrl={post.imageURL} userId={post.userID} postId={post._id} key={post._id} createdAt={post.createdAt}/>]
+                    }));
+            });
+        }
     }
 
     render() {

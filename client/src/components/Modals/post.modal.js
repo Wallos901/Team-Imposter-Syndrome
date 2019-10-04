@@ -19,7 +19,6 @@ export default class PostModal extends React.Component {
     }
 
     reloadResponses = () => {
-        console.log("state updated");
         this.setState({
             update: !this.state.update,
         });

@@ -1,7 +1,7 @@
 import React from 'react';
 import { ModalBody, ModalHeader, Alert, Form, FormGroup, Input, CustomInput, FormText, Button, ModalFooter } from "reactstrap";
 
-import Upload from "../../utilities/upload.util";
+import upload from "../../utilities/upload.util";
 
 export default class UploadModal extends React.Component {
     constructor(props) {
@@ -11,11 +11,17 @@ export default class UploadModal extends React.Component {
             error_msg: ""
         }
     }
+
+    handlePostUpload = () => {
+        this.props.closeModal();
+        this.props.afterUpload();
+    };
+
     handleUploadClick = () => {
         let file = document.getElementById("fileUpload");
         let category = document.getElementById("category");
         if (file.value !== "" && category.value !== "") {
-            if (Upload(document.getElementById("fileUpload").files[0], null, category.value)){
+            if (upload(document.getElementById("fileUpload").files[0], null, category.value, this.handlePostUpload)){
                 document.getElementById("fileUpload").value = "";
             } else {
                 alert('Error uploading image.');
