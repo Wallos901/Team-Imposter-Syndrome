@@ -25,8 +25,6 @@ export default function upload(file, postID = null, category = null, callback = 
     });
     return ReactS3.uploadFile(file, config)
         .then(data => {
-            // alt_text is set to "default" as no functionality for alternate text is currently implemented.
-            // user_id and status_id are default values as these ID's have not been confirmed yet.
             const post = {
                 imageURL: data.location,
                 replyTo: postID,

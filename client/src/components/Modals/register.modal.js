@@ -52,7 +52,7 @@ export default class ProfileModal extends React.Component {
                     validate.usernameValid = "has-danger";
                     validate.usernameState = res.data.username;
                 }
-                this.setState({ 
+                this.setState({
                     validate,
                     usernameChecked: true
                 });

@@ -23,7 +23,7 @@ export default class LeaderboardModal extends React.Component {
         axios.get("/api/users/findUsersByReactionCount")
             .then(res => {
                 res.data.forEach(user => {
-                    reactionsTable = [...reactionsTable, 
+                    reactionsTable = [...reactionsTable,
                         <tr key={ user._id }>
                             <th scope="row">{ reactionCounter }</th>
                             <td>{ user.username }</td>
@@ -38,7 +38,7 @@ export default class LeaderboardModal extends React.Component {
         axios.get("/api/users/findUsersByPostCount")
         .then(res => {
             res.data.forEach(user => {
-                postsTable = [...postsTable, 
+                postsTable = [...postsTable,
                     <tr key={ user._id }>
                         <th scope="row">{ postCounter }</th>
                         <td>{ user.username }</td>
@@ -47,7 +47,7 @@ export default class LeaderboardModal extends React.Component {
                 postCounter++;
             });
             this.setState({ postsTable });
-        });    
+        });
     }
 
     toggleTab(tab) {

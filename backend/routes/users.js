@@ -27,7 +27,7 @@ router.get('/', (req, res) => {
 
 router.post('/add', (req, res) => {
     const { username, password, email, last_activity, is_moderator, is_admin, status, user_status_id }  = req.body;
-    
+
     const newUser = new User({
         username,
         password,
@@ -70,12 +70,12 @@ router.delete('/:id', (req, res) => {
 });
 
 router.post('/register', (req, res) => {
-    // Create variables from request fields 
+    // Create variables from request fields
     const { username, email, password } = req.body;
 
     // Form validation
     const { errors, isValid } = validateRegisterInput(req.body);
-    
+
     // Check validation
     if (!isValid) {
         return res.status(202).json(errors);
@@ -108,7 +108,7 @@ router.post('/register', (req, res) => {
     newUser.password = newUser.generateHash(newUser.password);
 
     // Save the user to the database
-    newUser.save().then(() => {        
+    newUser.save().then(() => {
         User.findOne({ username }).select("-password").then(user => {
             res.status(200).json(user);
         }).catch(err => res.status(400).json(err));
@@ -116,12 +116,12 @@ router.post('/register', (req, res) => {
 });
 
 router.post('/login', (req, res) => {
-    // Create variables from request fields 
+    // Create variables from request fields
     const { username, password } = req.body;
 
     // Form validation
     const { errors, isValid } = validateLoginInput(req.body);
-    
+
     // Check validation
     if (!isValid) {
         return res.status(202).json(errors);

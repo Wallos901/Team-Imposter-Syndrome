@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const postSchema = new Schema({
-    imageURL: { 
+    imageURL: {
         type: String,
         required: true,
         unique: true
@@ -13,7 +13,7 @@ const postSchema = new Schema({
         ref: "Post",
         default: null
     },
-    userID: { 
+    userID: {
         type: Schema.Types.ObjectId,
         ref: "User",
         required: true
