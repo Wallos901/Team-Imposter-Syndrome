@@ -71,9 +71,14 @@ router.delete("/:id", auth, (req, res) => {
 });
 
 router.get("/replies/:postID", (req, res) => {
+    const skip = (req.query && req.query.skip) ? parseInt(req.query.skip) : 0;
+    const limit = (req.query && req.query.limit) ? parseInt(req.query.limit) : 5;
     const postID = req.params.postID;
 
-    Post.find({ replyTo: postID }).populate({ path: "user", select: "username -_id" }).then(replies => {
+    Post.find({ replyTo: postID })
+    .populate({ path: "user", select: "username -_id" })
+    .limit(limit).skip(skip)
+    .then(replies => {
         // Object.keys(post.replies).forEach(reply => {
         //     reply.populate({ path: "user", select: "username -_id" });
         // });

@@ -33,7 +33,7 @@ export default class FeedComp extends React.Component {
     async componentDidMount() {
         this.setState({
             loadedPosts: await getAll(`posts/sort/${this.state.category}?limit=${this.state.limit}`),
-            postGrid:[]
+            postGrid: []
         });
         this.updateFeed();
     }
@@ -66,12 +66,12 @@ export default class FeedComp extends React.Component {
     }
 
     updateFeed() {
+        if(this.state.loadedPosts.length < parseInt(localStorage.pageSize)) {
+            this.setState({
+                loadedAllPosts: true,
+            });
+        }
         if(this.state.loadedPosts.length > 0) {
-            if(this.state.loadedPosts.length < parseInt(localStorage.pageSize)) {
-                this.setState({
-                    loadedAllPosts: true,
-                });
-            }
             this.state.loadedPosts.forEach((post) => {
                 this.setState(prevState => ({
                     postGrid: [...prevState.postGrid,
@@ -79,16 +79,14 @@ export default class FeedComp extends React.Component {
                     }));
             });
         }
-        this.setState(prevState => ({
+        this.setState({
             loading: false,
             itemsOnPage: this.state.postGrid.length,
-        }));
+        });
     }
 
     loadMorePosts = async () => {
-        this.setState(prevState => ({
-            loading: true,
-        }));
+        this.setState({loading: true});
         this.setState({
             loadedPosts: await getAll(`posts/sort/${this.state.category}?skip=${this.state.itemsOnPage}&limit=${this.state.limit}`)
         });
