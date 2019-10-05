@@ -40,7 +40,7 @@ export default class PostModal extends React.Component {
                         <SignInModal type={"login"} heading=" to Respond" closeModal={null}/>
                     </div>
                     }
-                    <Responses update={this.state.update} userId={this.props.userId} postId={this.props.postId}/>
+                    <Responses update={this.state.update} userId={this.props.userId} postId={this.props.postId} layer={1} maxLayers={1}/>
                 </ModalBody>
             </div>
         );
