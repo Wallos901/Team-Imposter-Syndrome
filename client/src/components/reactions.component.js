@@ -12,12 +12,14 @@ export default class Reactions extends React.Component {
                 like: false,
                 dislike: false,
                 love: false,
+                laugh: false,
                 fire: false
             },
             reactions: {
                 like: 0,
                 dislike: 0,
                 love: 0,
+                laugh: 0,
                 fire: 0
             },
             userLogged: localStorage.user ? JSON.parse(localStorage.user) : null
@@ -102,6 +104,7 @@ export default class Reactions extends React.Component {
                 reactions.like = res.data.like;
                 reactions.dislike = res.data.dislike;
                 reactions.love = res.data.love;
+                reactions.laugh = res.data.laugh;
                 reactions.fire = res.data.fire;
                 this.setState({reactions});
             })
@@ -120,6 +123,8 @@ export default class Reactions extends React.Component {
                             onClick={(e) => this.toggleReact(e)}>&#x1F44E;: {reactions.dislike}</Button>
                     <Button id="love" outline={!reactionState.love} color={"danger"} disabled={!userLogged}
                             onClick={(e) => this.toggleReact(e)}>&#x2764;: {reactions.love}</Button>
+                    <Button id="laugh" outline={!reactionState.laugh} color={"info"} disabled={!userLogged}
+                            onClick={(e) => this.toggleReact(e)}>&#x1F602;: {reactions.laugh}</Button>
                     <Button id="fire" outline={!reactionState.fire} color={"warning"} disabled={!userLogged}
                             onClick={(e) => this.toggleReact(e)}>&#x1F525;: {reactions.fire}</Button>
                 </ButtonGroup>
