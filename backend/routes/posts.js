@@ -13,16 +13,20 @@ router.get("/", (req, res) => {
 });
 
 router.get("/sort/:filter", (req, res) => {
+    const limit = (req.query && req.query.limit) ? parseInt(req.query.limit) : 10;
+    const skip = (req.query && req.query.skip) ? parseInt(req.query.skip) : 0;
     const { filter } = req.params;
     if (filter === "Most Popular") {
-        Post.find({ replyTo: null }).then(posts => {
+        Post.find({ replyTo: null }).limit(limit).skip(skip)
+        .then(posts => {
             posts.sort((a, b) => {
                 return Object.values(b.reactions.toJSON()).reduce((c, d) => c + d) - Object.values(a.reactions.toJSON()).reduce((c, d) => c + d)
             });
             res.json(posts);
         }).catch(err => res.status(400).json('Error: ' + err));
     } else {
-        Post.find({ replyTo: null, category: filter }).then(posts => {
+        Post.find({ replyTo: null, category: filter }).limit(limit).skip(skip)
+        .then(posts => {
             res.json(posts);
         }).catch(err => res.status(400).json(err));
     }
