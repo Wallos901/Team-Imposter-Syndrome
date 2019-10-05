@@ -3,6 +3,7 @@ import Masonry from 'react-masonry-css';
 import { Form, FormGroup, CustomInput, Col, Row, Button } from "reactstrap";
 
 import CardComp from "./card.component";
+import LoadingComp from "./loading.component";
 import { getAll } from "../utilities/download.util";
 
 import '../styling.css' ;
@@ -137,8 +138,8 @@ export default class FeedComp extends React.Component {
                             </Row>
                         </Form>
                     </div>
-                    {this.state.postGrid.length>0 &&
                     <div>
+                        {this.state.postGrid.length>0 &&
                         <Masonry
                             breakpointCols={ dynamicColumnBreakpoints }
                             className="post-grid"
@@ -146,14 +147,14 @@ export default class FeedComp extends React.Component {
                         >
                         { postGrid }
                         </Masonry>
+                        }
                         {this.state.loading && 
-                            <div>Loading...</div>
+                            <LoadingComp/>
                         } 
-                        {!this.state.loadedAllPosts && 
-                        <Button style={{width:"100%"}} color="secondary" onClick={this.loadMorePosts}>See more</Button>
+                        {(!this.state.loadedAllPosts && this.state.postGrid.length>0) && 
+                        <Button style={{width:"100%"}} color="secondary" disabled={this.state.loading} onClick={this.loadMorePosts}>See more</Button>
                         }
                     </div>
-                    }
                     {!this.state.loading && this.state.postGrid.length===0 &&
                     <div>No posts available :(</div>
                     }

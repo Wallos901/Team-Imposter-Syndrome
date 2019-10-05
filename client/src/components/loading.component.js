@@ -9,8 +9,6 @@ export default class LoadingComp extends React.Component {
     render() {
         return (
             <div>
-                <NavbarComp/>
-
                 <div className="loading-spinner-container">
                     <Spinner color={"dark"}/>
                 </div>
