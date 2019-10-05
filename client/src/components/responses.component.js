@@ -1,6 +1,7 @@
 import React from 'react';
 import {getAll} from "../utilities/download.util";
 import Reactions from "./reactions.component";
+import {Button} from "reactstrap";
 
 export default class Responses extends React.Component {
     constructor(props) {
@@ -19,7 +20,7 @@ export default class Responses extends React.Component {
             loadedComments: await getAll("posts/replies/", this.props.postId),
             update: false,
         });
-        if(this.state.loadedComments.length > 0){
+        if (this.state.loadedComments.length > 0) {
             this.state.loadedComments.forEach((comment) => {
                 this.setState(prevState => ({
                     commentThread: [...prevState.commentThread,
@@ -29,7 +30,11 @@ export default class Responses extends React.Component {
                                  src={comment.imageURL}
                                  style={{maxWidth: "30%"}}
                             />
-                            <Reactions reRenderParent={this.loadComments} userId={this.props.userId} postId={comment._id}/>
+                            <div>
+                                <Reactions reRenderParent={this.loadComments} userId={this.props.userId}
+                                           postId={comment._id}/>
+                                <Button color={"danger"} size={"sm"} outline>Report</Button>
+                            </div>
                             <hr/>
                         </li>
                     ]
@@ -43,7 +48,7 @@ export default class Responses extends React.Component {
     }
 
     async shouldComponentUpdate(prevProps, nextProps) {
-        if(prevProps.update !== this.props.update){
+        if (prevProps.update !== this.props.update) {
             this.loadComments();
         }
     }
