@@ -1,5 +1,16 @@
 import React from 'react';
-import {Nav, NavItem, NavLink, TabContent, TabPane, ModalHeader, ModalBody, Table} from 'reactstrap';
+import {
+    Nav,
+    NavItem,
+    NavLink,
+    TabContent,
+    TabPane,
+    ModalHeader,
+    ModalBody,
+    Table,
+    Button,
+    ModalFooter
+} from 'reactstrap';
 import axios from "axios";
 
 export default class LeaderboardModal extends React.Component {
@@ -65,6 +76,7 @@ export default class LeaderboardModal extends React.Component {
                     <Nav tabs>
                         <NavItem style={{ cursor: "pointer" }}>
                             <NavLink
+                                active={this.state.activeTab === "1"}
                                 onClick={() => this.toggleTab("1")}
                             >
                                 Total Reactions
@@ -72,6 +84,7 @@ export default class LeaderboardModal extends React.Component {
                         </NavItem>
                         <NavItem style={{ cursor: "pointer" }}>
                             <NavLink
+                                active={this.state.activeTab === "2"}
                                 onClick={() => this.toggleTab("2")}
                             >
                                 Total Posts
@@ -109,6 +122,9 @@ export default class LeaderboardModal extends React.Component {
                         </TabPane>
                     </TabContent>
                 </ModalBody>
+                <ModalFooter>
+                    <Button color="secondary" onClick={this.props.closeModal}>Close</Button>
+                </ModalFooter>
             </div>
         );
     }
