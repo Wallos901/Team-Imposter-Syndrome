@@ -1,14 +1,35 @@
 const router = require('express').Router();
-const auth = require("../../src/utilities/auth/authMiddleware");
+const auth = require("../../utilities/auth/authMiddleware");
 
 const ObjectId = require("mongoose").Types.ObjectId;
 
 let Post = require('../models/post.model');
+let User = require("../models/user.model");
 
 router.get("/", (req, res) => {
-    Post.find()
-        .then(posts => res.json(posts))
-        .catch(err => res.status(400).json('Error: ' + err));
+    Post.find({ replyTo: null }).then(posts => {
+        res.json(posts);
+    }).catch(err => res.status(400).json('Error: ' + err));
+});
+
+router.get("/sort/:filter", (req, res) => {
+    const limit = (req.query && req.query.limit) ? parseInt(req.query.limit) : 10;
+    const skip = (req.query && req.query.skip) ? parseInt(req.query.skip) : 0;
+    const { filter } = req.params;
+    if (filter === "Most Popular") {
+        Post.find({ replyTo: null }).limit(limit).skip(skip)
+        .then(posts => {
+            posts.sort((a, b) => {
+                return Object.values(b.reactions.toJSON()).reduce((c, d) => c + d) - Object.values(a.reactions.toJSON()).reduce((c, d) => c + d)
+            });
+            res.json(posts);
+        }).catch(err => res.status(400).json('Error: ' + err));
+    } else {
+        Post.find({ replyTo: null, category: filter }).limit(limit).skip(skip)
+        .then(posts => {
+            res.json(posts);
+        }).catch(err => res.status(400).json(err));
+    }
 });
 
 router.get("/:id", (req, res) => {
@@ -19,6 +40,12 @@ router.get("/:id", (req, res) => {
 
 router.post("/add", (req, res) => {
     const newPost = new Post(req.body);
+
+    User.findOne({ _id: new ObjectId(req.body.userID) }).then(user => {
+        user.post_count += 1;
+        user.save()
+            .catch(err => res.status(400).json(err));
+    }).catch(err => res.status(400).json(err));
 
     newPost.save()
         .then(() => res.json('Post added!'))
@@ -74,12 +101,15 @@ router.post("/editCheck/:id", (req, res) => {
     }).catch(err => res.status(400).json(err));
 });
 
-router.get("/replies", (req, res) => {
-    const postID = req.query.postID;
+router.get("/replies/:postID", (req, res) => {
+    const postID = req.params.postID;
 
-    Post.findOne({ _id: postID }).populate("replies").then(post => {
-        post
-            ? res.json(post.replies)
+    Post.find({ replyTo: postID }).populate({ path: "user", select: "username -_id" }).then(replies => {
+        // Object.keys(post.replies).forEach(reply => {
+        //     reply.populate({ path: "user", select: "username -_id" });
+        // });
+        replies
+            ? res.json(replies)
             : res.sendStatus(400);
     }).catch(err => res.status(400).json(err));
 });

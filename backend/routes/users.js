@@ -4,15 +4,21 @@ const router = require('express').Router();
 const jwt = require("jsonwebtoken");
 
 // Middleware imports
-const auth = require("../../src/utilities/auth/authMiddleware");
+//const auth = require("../../utilities/auth/authMiddleware");
 
 // Load input validation
-const validateRegisterInput = require("../../src/utilities/validation/register.util");
-const validateLoginInput = require("../../src/utilities/validation/login.util");
+const validateRegisterInput = require("../../utilities/validation/register.util");
+const validateLoginInput = require("../../utilities/validation/login.util");
 const validateUpdateInput = require("../../src/utilities/validation/update.util");
+
+// Load ObjectId type
+const ObjectId = require("mongoose").Types.ObjectId;
 
 // Load user model
 const User = require('../models/user.model');
+
+// Load post model
+const Post = require("../models/post.model");
 
 router.get('/', (req, res) => {
     User.find()
@@ -22,7 +28,7 @@ router.get('/', (req, res) => {
 
 router.post('/add', (req, res) => {
     const { username, password, email, last_activity, is_moderator, is_admin, status, user_status_id }  = req.body;
-    
+
     const newUser = new User({
         username,
         password,
@@ -83,12 +89,12 @@ router.delete('/:id', (req, res) => {
 });
 
 router.post('/register', (req, res) => {
-    // Create variables from request fields 
+    // Create variables from request fields
     const { username, email, password } = req.body;
 
     // Form validation
     const { errors, isValid } = validateRegisterInput(req.body);
-    
+
     // Check validation
     if (!isValid) {
         return res.status(202).json(errors);
@@ -121,18 +127,20 @@ router.post('/register', (req, res) => {
     newUser.password = newUser.generateHash(newUser.password);
 
     // Save the user to the database
-    newUser.save()
-        .then(res.sendStatus(200))
-        .catch(err => res.status(400).json(err));
+    newUser.save().then(() => {
+        User.findOne({ username }).select("-password").then(user => {
+            res.status(200).json(user);
+        }).catch(err => res.status(400).json(err));
+    });
 });
 
 router.post('/login', (req, res) => {
-    // Create variables from request fields 
+    // Create variables from request fields
     const { username, password } = req.body;
 
     // Form validation
     const { errors, isValid } = validateLoginInput(req.body);
-    
+
     // Check validation
     if (!isValid) {
         return res.status(202).json(errors);
@@ -192,16 +200,37 @@ router.post("/findUserByName", (req, res) => {
 router.post("/updateReaction", (req, res) => {
     const { reaction, username, postID } = req.body;
     User.findOne({ username }).select('-password').then(user => {
-        reaction
-            ? user.post_reactions.set(postID, reaction)
-            : user.post_reactions.delete(postID);
-        user.save()
-            .then(res.status(200).json(user))
-            .catch(err => res.status(400).json(err));
-    }).catch(err => {
-        console.log(err);
-        res.sendStatus(400);
-    });
+        Post.findOne({ _id: new ObjectId(postID) }).then(post => {
+            User.findOne({ _id: new ObjectId(post.userID) }).then(user2 => {
+                if (reaction) {
+                    if (!user.post_reactions.get(postID)) user2.reaction_count += 1;
+                    user.post_reactions.set(postID, reaction);
+                } else {
+                    user.post_reactions.delete(postID);
+                    user2.reaction_count -= 1;
+                }
+
+                user.save()
+                    .catch(err => res.status(400).json(err));
+
+                user2.save()
+                    .then(res.status(200).json(user))
+                    .catch(err => res.status(400).json(err));
+            }).catch(err => res.status(400).json(err));
+        }).catch(err => res.status(400).json(err));
+    }).catch(err => res.status(400).json(err));
+});
+
+router.get("/findUsersByReactionCount", (req, res) => {
+    User.find().select("username reaction_count").sort({ reaction_count: -1 }).limit(10).then(users => {
+        res.status(200).json(users);
+    }).catch(err => res.status(400).json(err));
+});
+
+router.get("/findUsersByPostCount", (req, res) => {
+    User.find().select("username post_count").sort({ post_count: -1 }).limit(10).then(users => {
+        res.status(200).json(users);
+    }).catch(err => res.status(400).json(err));
 });
 
 module.exports = router;

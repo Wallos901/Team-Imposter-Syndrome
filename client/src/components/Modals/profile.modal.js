@@ -1,5 +1,5 @@
 import React from 'react';
-import {ModalHeader, ModalBody} from 'reactstrap';
+import { ModalHeader, ModalBody } from 'reactstrap';
 
 export default class ProfileModal extends React.Component {
     render() {

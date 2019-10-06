@@ -1,5 +1,5 @@
 import React from "react";
-import {Card} from "reactstrap";
+import { Card } from "reactstrap";
 
 import ModalComp from "./modal.component";
 
@@ -13,7 +13,7 @@ export default class CardComp extends React.Component {
         return (
             <Card style={{alignItems: 'center'}}>
                 <ModalComp
-                    imageUrl={this.props.imageUrl} type="post" title="Image Here" userId={this.props.userId} postDeleted={this.props.postDeleted} postId={this.props.postId}
+                    imageUrl={this.props.imageUrl} type="post" title="Image Here" userId={this.props.userId} postDeleted={this.props.postDeleted} username={this.props.username} postId={this.props.postId}
                 />
             </Card>
         );

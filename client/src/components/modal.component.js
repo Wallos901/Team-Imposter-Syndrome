@@ -2,7 +2,6 @@ import React from 'react';
 import {Button, CardImg, DropdownItem, Modal, ModalFooter, NavLink} from 'reactstrap';
 import PostModal from "./Modals/post.modal";
 import UploadModal from "./Modals/upload.modal";
-import ProfileModal from "./Modals/profile.modal";
 import SettingsModal from "./Modals/settings.modal";
 import LeaderboardModal from "./Modals/leaderboard.modal";
 import SignInModal from "./Modals/signin.modal";
@@ -52,22 +51,24 @@ export default class ModalComp extends React.Component {
                     }
                 })()}
 
-                {/* Modal Body */}
+                {/* Modal Contents */}
                 <Modal isOpen={this.state.showModal} toggle={this.toggleModal}
                        size={this.props.type === "post" ? "xl" : "m"}>
                     {(() => {
                         switch (this.props.type) {
                             case "post":
-                                return <PostModal imageUrl={this.props.imageUrl} userId={this.props.userId} postId={this.props.postId} postDeleted={this.props.postDeleted}/>;
+                                return <PostModal imageUrl={this.props.imageUrl} userId={this.props.userId}
+                                                  postId={this.props.postId} username={this.props.username}
+                                                  postDeleted={this.props.postDeleted} closeModal={() => this.toggleModal()}/>;
                             case "upload":
                                 return <UploadModal
                                     closeModal={() => this.toggleModal()}
-                                    upload={this.props.upload}
+                                    afterUpload={this.props.afterUpload}
                                 />;
                             case "leaderboard":
-                                return <LeaderboardModal/>;
+                                return <LeaderboardModal closeModal={() => this.toggleModal()}/>;
                             case "settings":
-                                return <SettingsModal/>;
+                                return <SettingsModal closeModal={() => this.toggleModal()}/>;
                             case "login":
                             case "register":
                                 return <SignInModal
@@ -78,7 +79,7 @@ export default class ModalComp extends React.Component {
                                 return;
                         }
                     })()}
-                    {this.props.type !== 'upload' && this.props.type !== 'login' && this.props.type !== 'register' &&
+                    {this.props.type !== 'upload' && this.props.type !== 'login' && this.props.type !== 'register' && this.props.type !== 'leaderboard' &&
                     <ModalFooter>
                         <Button color="secondary" onClick={this.toggleModal}>Cancel</Button>
                     </ModalFooter>

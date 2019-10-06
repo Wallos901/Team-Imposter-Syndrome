@@ -1,23 +1,27 @@
 .modal-body {
     align-self: center;
 }
+
 .container {
     width: 100%;
 }
+
 .post-grid {
     display: flex;
     margin-left: -10px; /* gutter size offset */
     width: auto;
-    padding-top: 15px;
 }
+
 .post-container { /* post container */
     padding-left: 10px; /* gutter size */
     background-clip: padding-box;
 }
+
 .post-container > div { /* post container card */
-   background: white;
-   margin-bottom: 10px;
+    background: white;
+    margin-bottom: 10px;
 }
+
 .modalCompClickable {
     cursor: pointer;
 }
@@ -30,13 +34,25 @@
 .redirectLink:hover {
     color: #3080EF;
 }
+
 .comment-list {
     list-style: none;
     margin-left: 40px;
 }
+
 .comment-list-parent {
     list-style: none;
 }
+
 .comment-post {
     padding: 10px;
+}
+
+.loading-spinner-container {
+    width: 100px;
+    height: 100px;
+    margin: auto;
+    align-items: center;
+    justify-content: center;
+    display: flex;
 }

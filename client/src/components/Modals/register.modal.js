@@ -42,7 +42,7 @@ export default class ProfileModal extends React.Component {
 
     checkUsername = async () => {
         const { validate, username } = this.state;
-        axios.post("http://localhost:5000/api/users/findUserByName", { username: username })
+        axios.post("/api/users/findUserByName", { username: username })
             .then(res => {
                 if (res.status === 200) {
                     validate.usernameValid = "has-success";
@@ -52,7 +52,7 @@ export default class ProfileModal extends React.Component {
                     validate.usernameValid = "has-danger";
                     validate.usernameState = res.data.username;
                 }
-                this.setState({ 
+                this.setState({
                     validate,
                     usernameChecked: true
                 });
@@ -60,14 +60,15 @@ export default class ProfileModal extends React.Component {
             .catch(err => {
                 console.log(err);
             });
-    }
+    };
 
     onSubmit(e) {
         e.preventDefault();
-        axios.post("http://localhost:5000/api/users/register", this.state)
+        axios.post("/api/users/register", this.state)
             .then(res => {
                 if (res.status === 200) {
-                    this.props.closeModal();
+                    localStorage.user = JSON.stringify(res.data);
+                    this.props.reloadPage();
                 }
                 else if (res.status === 202) {
                     const { validate } = this.state;
@@ -86,9 +87,11 @@ export default class ProfileModal extends React.Component {
 
     render() {
         const { username, email, password, password2, validate } = this.state;
+        let modalHeading = "";
+        if(this.props.heading) modalHeading = this.props.heading;
         return (
             <div>
-                <ModalHeader>Register Below!</ModalHeader>
+                <ModalHeader toggle={this.props.closeModal}>{"Register" + modalHeading}</ModalHeader>
                 <Form className="form" onSubmit={ (e) => this.onSubmit(e) }>
                 <ModalBody>
                     <Col>
@@ -175,7 +178,9 @@ export default class ProfileModal extends React.Component {
                     </div>
                     <div>
                         <Button style={{marginRight: "7px"}} color="primary">Register</Button>
-                        <Button color="secondary" onClick={this.props.closeModal}>Close</Button>
+                        {this.props.closeModal &&
+                            <Button color="secondary" onClick={this.props.closeModal}>Close</Button>
+                        }
                     </div>
                 </ModalFooter>
                 </Form>

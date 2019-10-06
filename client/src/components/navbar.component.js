@@ -1,20 +1,8 @@
 import React from 'react';
-import {
-    Collapse,
-    Navbar,
-    NavbarToggler,
-    NavbarBrand,
-    Nav,
-    NavItem,
-    UncontrolledDropdown,
-    DropdownToggle,
-    DropdownMenu,
-    DropdownItem, NavLink
-} from 'reactstrap';
-import ModalComp from "./modal.component";
+import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem, NavLink } from 'reactstrap';
 import axios from 'axios';
-import {Link} from "react-router-dom";
-import ProfileComp from "./profile.component";
+
+import ModalComp from "./modal.component";
 
 export default class NavbarComp extends React.Component {
     constructor(props) {
@@ -36,7 +24,7 @@ export default class NavbarComp extends React.Component {
     }
 
     logout() {
-        axios.post("http://localhost:5000/api/users/logout")
+        axios.post("/api/users/logout")
             .then(res => {
                 if (res.status === 200) {
                     localStorage.clear();
@@ -60,7 +48,7 @@ export default class NavbarComp extends React.Component {
                         }
                         {this.state.userLogged &&
                         <NavItem>
-                            <ModalComp type={'upload'} text={'Upload'} upload={this.props.upload}/>
+                            <ModalComp type={'upload'} text={'Upload'} upload={this.props.upload} afterUpload={this.props.afterUpload}/>
                         </NavItem>
                         }
                         <NavItem>
