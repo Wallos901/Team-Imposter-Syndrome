@@ -1,10 +1,9 @@
 import React from 'react';
-import {getAll} from "../utilities/download.util";
-import Reactions from "./reactions.component";
+import { getAll } from "../utilities/download.util";
 import { Button } from "reactstrap";
 
 import LoadingComp from "./loading.component";
-import { set } from 'mongoose';
+import Response from './response.component';
 
 export default class Responses extends React.Component {
     constructor(props) {
@@ -29,17 +28,6 @@ export default class Responses extends React.Component {
         this.updateThread();
     }
 
-    loadReplies = async () => {
-        this.setState((prevState) => ({
-            maxLayers: prevState.maxLayers+1,
-        }));
-        this.setState({
-            loadedComments: await getAll(`posts/replies/${this.props.postId}?skip=0&limit=${this.state.limit}`),
-            commentThread: [],
-        });
-        this.updateThread();
-    }
-
     updateThread() {
         if(this.state.loadedComments.length < this.state.limit) {
             this.setState({
@@ -50,22 +38,16 @@ export default class Responses extends React.Component {
             this.state.loadedComments.forEach((comment) => {
                 this.setState(prevState => ({
                     commentThread: [...prevState.commentThread,
-                        <li key={comment._id}>
-                            <img className={"comment-post"}
-                                 alt=""
-                                 src={comment.imageURL}
-                                 style={{maxWidth: "30%"}}
-                            />
-                            {this.props.layer >= this.state.maxLayers && 
-                                <Button style={{width:"30%", float: "right"}} color="secondary" onClick={() => this.loadReplies(comment._id)}>See replies</Button>
-                            }
-                            <Reactions reRenderParent={this.loadComments} userId={this.props.userId} postId={comment._id}/>
-                            {this.props.layer < this.state.maxLayers &&
-                                <Responses update={this.state.update} userId={this.props.userId} postId={comment._id} layer={this.props.layer+1} maxLayers={this.state.maxLayers}/>
-                            }
-                            <hr/>
-                        </li>
-                    ]
+                        <Response 
+                        key={comment._id}
+                        postId={comment._id} 
+                        imageURL={comment.imageURL}
+                        userId={this.props.userId} 
+                        loadComments={this.loadComments}
+                        update={this.props.update}
+                        layer={this.props.layer} 
+                        maxLayers={this.props.maxLayers}/>
+                    ],
                 }));
             });
         }
@@ -104,10 +86,10 @@ export default class Responses extends React.Component {
                         <ul className={"comment-list-parent"}>
                             {this.state.commentThread}
                             {this.state.loading && 
-                                <LoadingComp/>
+                                <LoadingComp key={"loadingBoi"}/>
                             }
                             {(!this.state.loadedAllComments && this.state.commentThread.length>0) && 
-                                <Button style={{width:"100%"}} color="secondary" disabled={this.state.loading} onClick={this.loadComments}>See more</Button>
+                                <Button key={"SeeMore"} style={{width:"100%"}} color="secondary" disabled={this.state.loading} onClick={this.loadComments}>See more</Button>
                             }
                         </ul>
                     </div>
