@@ -9,7 +9,7 @@ const jwt = require("jsonwebtoken");
 // Load input validation
 const validateRegisterInput = require("../../utilities/validation/register.util");
 const validateLoginInput = require("../../utilities/validation/login.util");
-const validateUpdateInput = require("../../src/utilities/validation/update.util");
+const validateUpdateInput = require("../../utilities/validation/update.util");
 
 // Load ObjectId type
 const ObjectId = require("mongoose").Types.ObjectId;
