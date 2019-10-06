@@ -9,7 +9,7 @@ import deleteFile from "../../utilities/delete.util";
 import '../../styling.css'
 
 export default class PostModal extends React.Component {
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {
             userLogged: localStorage.user ? JSON.parse(localStorage.user) : null,
@@ -21,7 +21,7 @@ export default class PostModal extends React.Component {
         };
     }
 
-    setMaxHeight(){
+    setMaxHeight() {
         return window.innerHeight * 0.7;
     }
 
@@ -123,7 +123,11 @@ export default class PostModal extends React.Component {
                              alt={"some alt text"}/>
                     </div>
                     <hr/>
-                    <Reactions reRenderParent={this.reloadResponses} update={this.state.update} userId={this.props.userId} postId={this.props.postId}/>
+                    <div>
+                        <Reactions reRenderParent={this.reloadResponses} update={this.state.update}
+                                   userId={this.props.userId} postId={this.props.postId}/>
+                        <Button color={"danger"} size={"sm"} outline>Report</Button>
+                    </div>
                     {!localStorage.user &&
                     <div>
                         <SignInModal type={"login"} heading=" to Respond" closeModal={null}/>
