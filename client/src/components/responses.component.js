@@ -20,6 +20,12 @@ export default class Responses extends React.Component {
         };
     }
 
+    checkIfLoadMore() {
+        if (this.state.loadedAllComments || this.state.commentThread.length===0) {
+            this.loadComments();
+        }
+    }
+
     loadComments = async () => {
         this.setState({loading: true});
         this.setState({
@@ -43,7 +49,7 @@ export default class Responses extends React.Component {
                         postId={comment._id} 
                         imageURL={comment.imageURL}
                         userId={this.props.userId} 
-                        loadComments={this.loadComments}
+                        loadComments={() => this.loadComments()}
                         update={this.props.update}
                         layer={this.props.layer} 
                         maxLayers={this.props.maxLayers}/>
@@ -67,7 +73,7 @@ export default class Responses extends React.Component {
 
     async shouldComponentUpdate(prevProps, nextProps) {
         if(prevProps.update !== this.props.update){
-            this.updateThread();
+            this.checkIfLoadMore();
         }
     }
 

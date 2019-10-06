@@ -12,7 +12,9 @@ export default class Response extends React.Component {
         this.state = {
             loadedReplies: false,
             loadingReplies: false,
+            newReply: false,
             replies: [],
+            update: true,
         };
     }
 
@@ -28,6 +30,17 @@ export default class Response extends React.Component {
             loadingReplies: false,
         });
     }
+
+    reloadResponses = () => {
+        this.setState({
+            update: !this.state.update,
+        });
+        if(!this.state.loadedReplies){
+            this.setState({
+                loadedReplies: true,
+            });
+        }
+    };
 
     loadReplies() {
         if(this.state.replies.length > 0){
@@ -53,12 +66,13 @@ export default class Response extends React.Component {
                         <LoadingComp/>
                     </div>
                 }
-                <Reactions reRenderParent={this.props.loadComments} userId={this.props.userId} postId={this.props.postId}/>
+                <Reactions reRenderParent={this.reloadResponses} userId={this.props.userId} postId={this.props.postId} layer={this.props.layer}/>
                 {(this.props.layer < this.props.maxLayers || this.state.loadedReplies) &&
                     <Responses
                     postId={this.props.postId} 
                     userId={this.props.userId} 
-                    update={this.props.update}
+                    update={this.state.update}
+                    loadComments={this.reloadResponses}
                     layer={this.props.layer+1} 
                     maxLayers={this.props.maxLayers}/>
                 }

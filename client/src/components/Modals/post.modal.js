@@ -34,7 +34,7 @@ export default class PostModal extends React.Component {
                              alt={"some alt text"}/>
                     </div>
                     <hr/>
-                    <Reactions reRenderParent={this.reloadResponses} update={this.state.update} userId={this.props.userId} postId={this.props.postId}/>
+                    <Reactions reRenderParent={this.reloadResponses} userId={this.props.userId} postId={this.props.postId} layer={1}/>
                     {!localStorage.user &&
                     <div>
                         <SignInModal type={"login"} heading=" to Respond" closeModal={null}/>
