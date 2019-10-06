@@ -5,6 +5,7 @@ import axios from "axios";
 import upload from "../utilities/upload.util";
 
 export default class Reactions extends React.Component {
+
     constructor(props) {
         super(props);
         this.state = {
@@ -39,14 +40,13 @@ export default class Reactions extends React.Component {
     }
 
     handleReplyUpload = () => {
-        if (document.getElementById("fileUpload"+this.props.postId).value !== "") {
-            if (upload(document.getElementById("fileUpload"+this.props.postId).files[0], this.props.postId, this.props.reRenderParent)){
-                document.getElementById("fileUpload"+this.props.postId).value = "";
+        if (document.getElementById("fileUpload" + this.props.postId).value !== "") {
+            if (upload(document.getElementById("fileUpload" + this.props.postId).files[0], this.props.postId, this.props.reRenderParent)) {
+                document.getElementById("fileUpload" + this.props.postId).value = "";
             } else {
                 alert('Error uploading image.');
             }
-        }
-        else {
+        } else {
             alert('Please select an image/gif to upload.');
         }
     };
@@ -98,8 +98,8 @@ export default class Reactions extends React.Component {
     }
 
     getPostReactions() {
-        let { reactions } = this.state;
-        axios.post("/api/posts/getReactions", { postID: this.props.postId })
+        let {reactions} = this.state;
+        axios.post("/api/posts/getReactions", {postID: this.props.postId})
             .then(res => {
                 reactions.like = res.data.like;
                 reactions.dislike = res.data.dislike;
@@ -111,39 +111,44 @@ export default class Reactions extends React.Component {
             .catch(err => console.log(err));
     }
 
+    makeReactionsLocal() {
+
+    }
+
     render() {
         const {reactionState, reactions, userLogged} = this.state;
         let replyButtonStyle = {float: "right"};
         return (
             <div>
                 <ButtonGroup className="reactions-group">
-                    <Button id="like" outline={!reactionState.like} color={"primary"} disabled={!userLogged}
-                            onClick={(e) => this.toggleReact(e)}>&#x1F44D;: {reactions.like}</Button>
-                    <Button id="dislike" outline={!reactionState.dislike} color={"secondary"} disabled={!userLogged}
-                            onClick={(e) => this.toggleReact(e)}>&#x1F44E;: {reactions.dislike}</Button>
-                    <Button id="love" outline={!reactionState.love} color={"danger"} disabled={!userLogged}
-                            onClick={(e) => this.toggleReact(e)}>&#x2764;: {reactions.love}</Button>
-                    <Button id="laugh" outline={!reactionState.laugh} color={"info"} disabled={!userLogged}
-                            onClick={(e) => this.toggleReact(e)}>&#x1F602;: {reactions.laugh}</Button>
-                    <Button id="fire" outline={!reactionState.fire} color={"warning"} disabled={!userLogged}
-                            onClick={(e) => this.toggleReact(e)}>&#x1F525;: {reactions.fire}</Button>
+                    <Button id="like" outline={!reactionState.like} disabled={!userLogged}
+                            onClick={(e) => this.toggleReact(e)}>&#x1F44D; {reactions.like}</Button>
+                    <Button id="dislike" outline={!reactionState.dislike} disabled={!userLogged}
+                            onClick={(e) => this.toggleReact(e)}>&#x1F44E; {reactions.dislike}</Button>
+                    <Button id="love" outline={!reactionState.love} disabled={!userLogged}
+                            onClick={(e) => this.toggleReact(e)}>&#x2764; {reactions.love}</Button>
+                    <Button id="laugh" outline={!reactionState.laugh} disabled={!userLogged}
+                            onClick={(e) => this.toggleReact(e)}>&#x1F602; {reactions.laugh}</Button>
+                    <Button id="fire" outline={!reactionState.fire} disabled={!userLogged}
+                            onClick={(e) => this.toggleReact(e)}>&#x1F525; {reactions.fire}</Button>
                 </ButtonGroup>
                 {userLogged &&
-                    <div style={replyButtonStyle}>
-                        <Form>
-                            <FormGroup style={{display: "inline-block"}}>
-                                <h5 style={{float: "left", paddingRight: "5px"}}>Reply:</h5>
-                                <div style={{float: "right"}}>
-                                    <Input id={"fileUpload"+this.props.postId} type="file" accept=".jpg, .png, .gif" onChange={this.handleReplyUpload}/>
-                                    <FormText color="muted">
-                                        Please select a file of type jpg, png, or gif to reply.
-                                    </FormText>
-                                </div>
-                            </FormGroup>
-                        </Form>
-                    </div>
+                <div style={replyButtonStyle}>
+                    <Form>
+                        <FormGroup style={{display: "inline-block"}}>
+                            <h5 style={{float: "left", paddingRight: "5px"}}>Reply:</h5>
+                            <div style={{float: "right"}}>
+                                <Input id={"fileUpload" + this.props.postId} type="file" accept=".jpg, .png, .gif"
+                                       onChange={this.handleReplyUpload}/>
+                                <FormText color="muted">
+                                    Please select a file of type jpg, png, or gif to reply.
+                                </FormText>
+                            </div>
+                        </FormGroup>
+                    </Form>
+                </div>
                 }
-                <div style={{padding: "10px"}}> </div>
+                <div style={{padding: "10px"}}></div>
             </div>
         );
     }
