@@ -24,6 +24,11 @@ router.get("/sort/:filter", (req, res) => {
             });
             res.json(posts);
         }).catch(err => res.status(400).json('Error: ' + err));
+    } else if (filter === "Latest") {
+        Post.find({ replyTo: null }).sort({ createdAt: -1 }).limit(limit).skip(skip)
+            .then(posts => {
+                res.json(posts);
+            }).catch(err => res.status(400).json(err));
     } else {
         Post.find({ replyTo: null, category: filter }).limit(limit).skip(skip)
         .then(posts => {

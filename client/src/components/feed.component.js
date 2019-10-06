@@ -122,6 +122,7 @@ export default class FeedComp extends React.Component {
                                     <FormGroup>
                                         <CustomInput type="select" name="select" id="filter" onChange={(category) => this.handleFilterChange(category)}>
                                             <option>Most Popular</option>
+                                            <option>Latest</option>
                                             <option>Animal</option>
                                             <option>Fashion</option>
                                             <option>Food</option>
