@@ -150,11 +150,11 @@ export default class PostModal extends React.Component {
                     </div>
                     { userLogged && !userLogged.is_admin &&
                         <div>
-                            <hr/>
-                            <div>
+                            <div style={{paddingTop: "10px"}}>
                                 <Reactions reRenderParent={this.reloadResponses} userId={this.props.userId} postId={this.props.postId} layer={1}/>
                                 <Button color={"danger"} size={"sm"} outline>Report</Button>
                             </div>
+                            <hr/>
                         </div>
                     }
                     { !userLogged &&

@@ -119,7 +119,7 @@ export default class FeedComp extends React.Component {
                         <Form className="mt-3 mb-3">
                             <Row form>
                                 <Col md={6}>
-                                    <h3>Welcome{ username }!</h3>
+                                    <h3>Welcome,{ username }!</h3>
                                 </Col>
                                 <Col md={2}>
                                     Page Size: 

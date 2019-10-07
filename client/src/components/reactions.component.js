@@ -1,12 +1,14 @@
 /* eslint-disable jsx-a11y/accessible-emoji */
 import React from 'react';
-import {Button, ButtonGroup, Form, FormGroup, FormText, Input} from "reactstrap";
+import {Button, ButtonGroup, Form, FormGroup, FormText, Input, Popover, PopoverBody} from "reactstrap";
 import axios from "axios";
 import upload from "../utilities/upload.util";
 
 export default class Reactions extends React.Component {
     constructor(props) {
         super(props);
+        this.togglePopover = this.togglePopover.bind(this);
+
         this.state = {
             reactionState: {
                 like: false,
@@ -22,7 +24,9 @@ export default class Reactions extends React.Component {
                 laugh: 0,
                 fire: 0
             },
-            userLogged: localStorage.user ? JSON.parse(localStorage.user) : null
+            userLogged: localStorage.user ? JSON.parse(localStorage.user) : null,
+
+            popoverOpen: false
         };
     }
 
@@ -39,14 +43,13 @@ export default class Reactions extends React.Component {
     }
 
     handleReplyUpload = () => {
-        if (document.getElementById("fileUpload"+this.props.postId).value !== "") {
-            if (upload(document.getElementById("fileUpload"+this.props.postId).files[0], this.props.postId, null, this.props.reRenderParent)){
-                document.getElementById("fileUpload"+this.props.postId).value = "";
+        if (document.getElementById("fileUpload" + this.props.postId).value !== "") {
+            if (upload(document.getElementById("fileUpload" + this.props.postId).files[0], this.props.postId, null, this.props.reRenderParent)) {
+                document.getElementById("fileUpload" + this.props.postId).value = "";
             } else {
                 alert('Error uploading image.');
             }
-        }
-        else {
+        } else {
             alert('Please select an image/gif to upload.');
         }
     };
@@ -98,8 +101,8 @@ export default class Reactions extends React.Component {
     }
 
     getPostReactions() {
-        let { reactions } = this.state;
-        axios.post("/api/posts/getReactions", { postID: this.props.postId })
+        let {reactions} = this.state;
+        axios.post("/api/posts/getReactions", {postID: this.props.postId})
             .then(res => {
                 reactions.like = res.data.like;
                 reactions.dislike = res.data.dislike;
@@ -115,6 +118,12 @@ export default class Reactions extends React.Component {
 
     }
 
+    togglePopover() {
+        this.setState({
+            popoverOpen: !this.state.popoverOpen
+        });
+    }
+
     render() {
         const {reactionState, reactions, userLogged} = this.state;
         let replyButtonStyle = {float: "right"};
@@ -122,32 +131,35 @@ export default class Reactions extends React.Component {
             <div>
                 <ButtonGroup className="reactions-group">
                     <Button id="like" outline={!reactionState.like} disabled={!userLogged}
-                        onClick={(e) => this.toggleReact(e)}>&#x1F44D; {reactions.like}</Button>
+                            onClick={(e) => this.toggleReact(e)}>&#x1F44D; {reactions.like}</Button>
                     <Button id="dislike" outline={!reactionState.dislike} disabled={!userLogged}
-                        onClick={(e) => this.toggleReact(e)}>&#x1F44E; {reactions.dislike}</Button>
+                            onClick={(e) => this.toggleReact(e)}>&#x1F44E; {reactions.dislike}</Button>
                     <Button id="love" outline={!reactionState.love} disabled={!userLogged}
-                        onClick={(e) => this.toggleReact(e)}>&#x2764; {reactions.love}</Button>
+                            onClick={(e) => this.toggleReact(e)}>&#x2764; {reactions.love}</Button>
                     <Button id="laugh" outline={!reactionState.laugh} disabled={!userLogged}
-                        onClick={(e) => this.toggleReact(e)}>&#x1F602; {reactions.laugh}</Button>
+                            onClick={(e) => this.toggleReact(e)}>&#x1F602; {reactions.laugh}</Button>
                     <Button id="fire" outline={!reactionState.fire} disabled={!userLogged}
-                        onClick={(e) => this.toggleReact(e)}>&#x1F525; {reactions.fire}</Button>
+                            onClick={(e) => this.toggleReact(e)}>&#x1F525; {reactions.fire}</Button>
                 </ButtonGroup>
                 {userLogged && (this.props.layer < 5) &&
-                    <div style={replyButtonStyle}>
-                        <Form>
-                            <FormGroup style={{display: "inline-block"}}>
-                                <h5>Reply:</h5>
-                                <div style={{float: "right"}}>
-                                    <FormText color="muted">
-                                        Please select a file of type jpg, png, or gif to reply.
-                                    </FormText>
-                                    <Input id={"fileUpload"+this.props.postId} type="file" accept=".jpg, .png, .gif" onChange={this.handleReplyUpload}/>
-                                </div>
-                            </FormGroup>
-                        </Form>
+                <div style={replyButtonStyle}>
+                    <Button id={"replyButton"}>Reply</Button>
+                    <Popover placement="bottom" isOpen={this.state.popoverOpen} target="replyButton"
+                             toggle={this.togglePopover} trigger={"hover"}>
+                        <PopoverBody>
+                            <FormText color="muted">
+                                Please select a file of type jpg, png, or gif to reply.
+                            </FormText>
+                            <Input id={"fileUpload" + this.props.postId} type="file" accept=".jpg, .png, .gif"
+                                   onChange={this.handleReplyUpload}/>
+                        </PopoverBody>
+                    </Popover>
+                    <div style={{float: "right"}}>
+
                     </div>
+                </div>
                 }
-                <div style={{padding: "10px"}} />
+                <div style={{padding: "10px"}}/>
             </div>
         );
     }
