@@ -140,7 +140,7 @@ export default class PostModal extends React.Component {
                             </ButtonGroup>
                         }
                         { ((userLogged && userLogged._id !== this.props.userId && !userLogged.is_admin) || !userLogged) && !this.props.postDeleted &&
-                            <Button style={{ position: "absolute", zIndex: "100", right: "0", padding: "10px" }} color={"danger"} onClick={() => this.reportPost()} disabled={reportDisabled}>Report</Button>
+                            <Button style={{ position: "absolute", zIndex: "100", right: "0", padding: "10px" }} color={"danger"} onClick={() => this.reportPost()} disabled={reportDisabled}>&#x26a0; Report</Button>
                         }
                         { userLogged && userLogged.is_admin &&
                             <Button style={{ position: "absolute", zIndex: "100", right: "0", padding: "10px" }} color={"danger"} onClick={() => this.deletePost()}>Delete</Button>
@@ -152,7 +152,6 @@ export default class PostModal extends React.Component {
                         <div>
                             <div style={{paddingTop: "10px"}}>
                                 <Reactions reRenderParent={this.reloadResponses} userId={this.props.userId} postId={this.props.postId} layer={1}/>
-                                <Button color={"danger"} size={"sm"} outline>Report</Button>
                             </div>
                             <hr/>
                         </div>
