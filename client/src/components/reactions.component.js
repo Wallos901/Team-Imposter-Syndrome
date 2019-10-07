@@ -143,9 +143,9 @@ export default class Reactions extends React.Component {
                 </ButtonGroup>
                 {userLogged && (this.props.layer < 5) &&
                 <div style={replyButtonStyle} onClick={this.triggerUpload}>
-                    <Button id={"replyButton"}>Reply</Button>
-                    <Input id={"fileUpload" + this.props.postId} 
-                            style={{display:"none", visibility:"hidden"}} 
+                    <Button id={"replyButton"} color={"success"}>Reply</Button>
+                    <Input id={"fileUpload" + this.props.postId}
+                            style={{display:"none", visibility:"hidden"}}
                             type="file" accept=".jpg, .png, .gif"
                             onChange={this.handleReplyUpload}/>
                     <div style={{float: "right"}}>
