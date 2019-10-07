@@ -39,7 +39,7 @@ export default class NavbarComp extends React.Component {
         return (
             <Navbar color="dark" dark expand="md">
                 { (!userLogged || (userLogged && !userLogged.is_admin)) &&
-                    <NavbarBrand href="/">PictureThis</NavbarBrand>
+                    <NavbarBrand href="/">&#x1F5BC;&#x21A9; PictureThis</NavbarBrand>
                 }
                 { userLogged && userLogged.is_admin &&
                     <NavbarBrand href="/admin">PictureThis</NavbarBrand>

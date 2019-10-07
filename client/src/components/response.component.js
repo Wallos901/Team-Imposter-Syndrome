@@ -35,7 +35,7 @@ export default class Response extends React.Component {
         this.setState({
             update: !this.state.update,
         });
-        if(!this.state.loadedReplies){
+        if (!this.state.loadedReplies) {
             this.setState({
                 loadedReplies: true,
             });
@@ -43,7 +43,7 @@ export default class Response extends React.Component {
     };
 
     loadReplies() {
-        if(this.state.replies.length > 0){
+        if (this.state.replies.length > 0) {
             // If there are replies, load them.
             this.setState({
                 loadedReplies: true,
@@ -55,26 +55,28 @@ export default class Response extends React.Component {
         return (
             <li key={this.props.postId}>
                 <img className={"comment-post"}
-                        alt=""
-                        src={this.props.imageURL}
-                        style={{maxWidth: "30%"}}
+                     alt=""
+                     src={this.props.imageURL}
+                     style={{maxWidth: "30%"}}
                 />
-                {(this.props.layer >= this.props.maxLayers && !this.state.loadedReplies && this.state.replies.length>0) && 
-                    <Button style={{width:"30%", float: "right"}} color="secondary" onClick={() => this.loadReplies()}>See replies</Button>
-                } {this.state.loadingReplies && 
-                    <div style={{width:"30%", float: "right"}}>
-                        <LoadingComp/>
-                    </div>
-                }
-                <Reactions reRenderParent={this.reloadResponses} userId={this.props.userId} postId={this.props.postId} layer={this.props.layer}/>
+                {(this.props.layer >= this.props.maxLayers && !this.state.loadedReplies && this.state.replies.length > 0) &&
+                <Button style={{width: "30%", float: "right"}} color="secondary" onClick={() => this.loadReplies()}>See
+                    replies</Button>
+                } {this.state.loadingReplies &&
+            <div style={{width: "30%", float: "right"}}>
+                <LoadingComp/>
+            </div>
+            }
+                <Reactions reRenderParent={this.reloadResponses} userId={this.props.userId} postId={this.props.postId}
+                           layer={this.props.layer}/>
                 <Button color={"danger"} size={"sm"} outline>Report</Button>
                 {(this.props.layer < this.props.maxLayers || this.state.loadedReplies) &&
-                    <Responses
-                    postId={this.props.postId} 
-                    userId={this.props.userId} 
+                <Responses
+                    postId={this.props.postId}
+                    userId={this.props.userId}
                     update={this.state.update}
                     loadComments={this.reloadResponses}
-                    layer={this.props.layer+1} 
+                    layer={this.props.layer + 1}
                     maxLayers={this.props.maxLayers}/>
                 }
                 <hr/>
