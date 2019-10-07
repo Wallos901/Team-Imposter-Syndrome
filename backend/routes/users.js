@@ -2,6 +2,7 @@
 // Package imports
 const router = require('express').Router();
 const jwt = require("jsonwebtoken");
+const requestIP = require("request-ip");
 
 // Middleware imports
 //const auth = require("../../utilities/auth/authMiddleware");
@@ -120,7 +121,8 @@ router.post('/register', (req, res) => {
     const newUser = new User({
         username: username,
         email: email,
-        password: password
+        password: password,
+        last_IP: req.connection.remoteAddress
     });
 
     // Hash password before saving into the database
@@ -169,9 +171,14 @@ router.post('/login', (req, res) => {
             }
         );
 
-        User.findOne({ username }).select('-password').then(user => {
-            res.status(200).json(user);
-        }).catch(err => res.status(400).json(err));
+        user.last_IP = req.connection.remoteAddress;
+
+        user.save()
+            .then(() => {
+                User.findOne({ username }).select('-password').then(user => {
+                    res.status(200).json(user);
+                }).catch(err => res.status(400).json(err));
+            }).catch(err => req.status(400).json(err));      
     })
     .catch(err => res.status(202).json(err));
 });
@@ -231,6 +238,29 @@ router.get("/findUsersByPostCount", (req, res) => {
     User.find().select("username post_count").sort({ post_count: -1 }).limit(10).then(users => {
         res.status(200).json(users);
     }).catch(err => res.status(400).json(err));
+});
+
+router.get("/findSockPuppets", (req, res) => {
+    User.aggregate([{ $match: { is_admin: false, last_IP: { $ne: null } } }])
+        .group({
+            "_id": "$last_IP",
+            "userList": {
+                "$addToSet": {
+                    "username": "$username",
+                    "email": "$email"
+                }
+            }
+        })
+        .project({
+            "_id": 0,
+            "last_IP": "$_id",
+            "userList": 1
+        })
+        .then(userLists => {
+            const listFiltered = userLists.filter(userList => userList.userList.length >= 3);
+            res.status(200).json(listFiltered);
+        })
+        .catch(err => res.status(400).json(err));
 });
 
 module.exports = router;
