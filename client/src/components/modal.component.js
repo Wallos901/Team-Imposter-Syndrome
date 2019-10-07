@@ -79,10 +79,10 @@ export default class ModalComp extends React.Component {
                                 return;
                         }
                     })()}
-                    {this.props.type !== 'upload' && this.props.type !== 'login' && this.props.type !== 'register' && this.props.type !== 'leaderboard' &&
-                    <ModalFooter>
-                        <Button color="secondary" onClick={this.toggleModal}>Cancel</Button>
-                    </ModalFooter>
+                    {this.props.type !== 'login' && this.props.type !== 'register' && this.props.type !== 'upload' &&
+                        <ModalFooter>
+                            <Button color="secondary" onClick={this.toggleModal}>Close</Button>
+                        </ModalFooter>
                     }
                 </Modal>
 

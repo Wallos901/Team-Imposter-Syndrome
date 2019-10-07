@@ -122,9 +122,6 @@ export default class LeaderboardModal extends React.Component {
                         </TabPane>
                     </TabContent>
                 </ModalBody>
-                <ModalFooter>
-                    <Button color="secondary" onClick={this.props.closeModal}>Close</Button>
-                </ModalFooter>
             </div>
         );
     }
