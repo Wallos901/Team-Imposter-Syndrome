@@ -91,7 +91,7 @@ export default class FeedComp extends React.Component {
             this.state.loadedPosts.forEach((post) => {
                 this.setState(prevState => ({
                     postGrid: [...prevState.postGrid,
-                        <CardComp imageUrl={post.imageURL} userId={post.userID} postId={post._id} key={post._id} createdAt={post.createdAt}/>]
+                        <CardComp imageUrl={post.imageURL} userId={post.userID} postId={post._id} key={post._id} postDeleted={post.deleted} createdAt={post.createdAt}/>]
                     }));
             });
         }
@@ -136,6 +136,7 @@ export default class FeedComp extends React.Component {
                                     <FormGroup>
                                         <CustomInput type="select" name="select" id="filter" disabled={this.state.loading} onChange={(category) => this.handleFilterChange(category)}>
                                             <option>Most Popular</option>
+                                            <option>Latest</option>
                                             <option>Animal</option>
                                             <option>Fashion</option>
                                             <option>Food</option>
