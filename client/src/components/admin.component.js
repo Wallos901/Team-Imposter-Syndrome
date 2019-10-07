@@ -5,12 +5,23 @@ import '../styling.css' ;
 
 import {Button, Table} from "reactstrap";
 import axios from 'axios';
+import Masonry from 'react-masonry-css';
+
+import CardComp from "./card.component";
+
+const dynamicColumnBreakpoints = {
+    default: 4,
+    1100: 3,
+    700: 2,
+    500: 1
+};
 
 export default class AdminComp extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            sockPuppets: []
+            sockPuppets: [],
+            postGrid: []
         }
     }
 
@@ -43,10 +54,22 @@ export default class AdminComp extends React.Component {
                 });;
             })
             .catch(err => console.log(err));
+
+        axios.get("http://localhost:5000/api/posts/reportedPosts")
+            .then(res => {
+                res.data.forEach(post => {
+                    this.setState(prevState => ({
+                        postGrid: [...prevState.postGrid,
+                            <CardComp imageUrl={post.imageURL} userId={post.userID} postId={post._id} key={post._id} postDeleted={post.deleted} createdAt={post.createdAt}/>
+                        ]
+                    }));
+                });
+            })
+            .catch(err => console.log(err));
     }
 
     render() {
-        const { sockPuppets } = this.state;
+        const { sockPuppets, postGrid } = this.state;
         return (
             <Router>
                 <div className="container">
@@ -71,6 +94,13 @@ export default class AdminComp extends React.Component {
                     </div>
                     <h3 className="mt-2 mb-2">Reported Posts</h3>
                     <hr/>
+                    <Masonry
+                        breakpointCols={dynamicColumnBreakpoints}
+                        className="post-grid"
+                        columnClassName="post-container"
+                    >
+                        {postGrid}
+                    </Masonry>
                 </div>
             </Router>
         );
