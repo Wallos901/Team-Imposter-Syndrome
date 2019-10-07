@@ -33,14 +33,30 @@ export default class FeedComp extends React.Component {
     async componentDidMount() {
         this.setState({
             loadedPosts: await getAll(`posts/sort/${this.state.category}?limit=${this.state.limit}`),
-            postGrid:[]
+            postGrid: []
         });
         this.updateFeed();
     }
 
     async shouldComponentUpdate(prevProps, nextProps) {
         if(prevProps.update !== this.props.update){
-            this.updateFeed();
+            // If there are more images to load and page thinks its loaded all the images, add see more button
+            // And only update the page if it has loaded all the images. 
+            let nextPost = await getAll(`posts/sort/${this.state.category}?skip=${this.state.itemsOnPage}&limit=${this.state.limit}`);
+            if (nextPost.length > 0 && this.state.loadedAllPosts) {
+                // If there are already a number of items on page divisible by the page size limit
+                if (!(this.state.itemsOnPage%this.state.limit===0)) {
+                    this.setState({
+                        loadedPosts: await getAll(`posts/sort/${this.state.category}?limit=${this.state.limit}`),
+                        postGrid: []
+                    });
+                    this.updateFeed();
+                } else {
+                    this.setState({
+                        loadedAllPosts: false,
+                    });
+                }
+            }
         }
     }
 
@@ -66,12 +82,12 @@ export default class FeedComp extends React.Component {
     }
 
     updateFeed() {
+        if(this.state.loadedPosts.length < parseInt(localStorage.pageSize)) {
+            this.setState({
+                loadedAllPosts: true,
+            });
+        }
         if(this.state.loadedPosts.length > 0) {
-            if(this.state.loadedPosts.length < parseInt(localStorage.pageSize)) {
-                this.setState({
-                    loadedAllPosts: true,
-                });
-            }
             this.state.loadedPosts.forEach((post) => {
                 this.setState(prevState => ({
                     postGrid: [...prevState.postGrid,
@@ -79,16 +95,14 @@ export default class FeedComp extends React.Component {
                     }));
             });
         }
-        this.setState(prevState => ({
+        this.setState({
             loading: false,
             itemsOnPage: this.state.postGrid.length,
-        }));
+        });
     }
 
     loadMorePosts = async () => {
-        this.setState(prevState => ({
-            loading: true,
-        }));
+        this.setState({loading: true});
         this.setState({
             loadedPosts: await getAll(`posts/sort/${this.state.category}?skip=${this.state.itemsOnPage}&limit=${this.state.limit}`)
         });
@@ -110,7 +124,7 @@ export default class FeedComp extends React.Component {
                                 <Col md={2}>
                                     Page Size: 
                                     <FormGroup>
-                                        <CustomInput type="select" name="select" id="size"  defaultValue={this.state.limit} onChange={(size) => this.handleSizeChange(size)}>
+                                        <CustomInput type="select" name="select" id="size" disabled={this.state.loading} defaultValue={this.state.limit} onChange={(size) => this.handleSizeChange(size)}>
                                             <option>10</option>
                                             <option>25</option>
                                             <option>50</option>
@@ -120,7 +134,7 @@ export default class FeedComp extends React.Component {
                                 <Col md={4}>
                                     Filter: 
                                     <FormGroup>
-                                        <CustomInput type="select" name="select" id="filter" onChange={(category) => this.handleFilterChange(category)}>
+                                        <CustomInput type="select" name="select" id="filter" disabled={this.state.loading} onChange={(category) => this.handleFilterChange(category)}>
                                             <option>Most Popular</option>
                                             <option>Latest</option>
                                             <option>Animal</option>

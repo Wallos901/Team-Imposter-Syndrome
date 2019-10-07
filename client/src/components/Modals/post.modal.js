@@ -58,7 +58,7 @@ export default class PostModal extends React.Component {
                         errorVisible: true
                     });
                 }
-            })  
+            })
             .catch(err => console.log(err));
     }
 
@@ -150,8 +150,7 @@ export default class PostModal extends React.Component {
                         <div>
                             <hr/>
                             <div>
-                                <Reactions reRenderParent={this.reloadResponses} update={this.state.update}
-                                        userId={this.props.userId} postId={this.props.postId}/>
+                                <Reactions reRenderParent={this.reloadResponses} userId={this.props.userId} postId={this.props.postId} layer={1}/>
                             </div>
                         </div>
                     }
@@ -161,7 +160,7 @@ export default class PostModal extends React.Component {
                         </div>
                     }
                     { !(userLogged && userLogged.is_admin) &&
-                        <Responses update={this.state.update} userId={this.props.userId} postId={this.props.postId}/>
+                        <Responses update={this.state.update} userId={this.props.userId} postId={this.props.postId} layer={1} maxLayers={1}/>
                     }
                 </ModalBody>
             </div>
