@@ -9,7 +9,14 @@ export default class Reactions extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            reactionState: {
+            reactionStateOnClose: {
+                like: false,
+                dislike: false,
+                love: false,
+                laugh: false,
+                fire: false
+            },
+            reactionStateOnOpen: {
                 like: false,
                 dislike: false,
                 love: false,
@@ -29,14 +36,55 @@ export default class Reactions extends React.Component {
 
     componentDidMount() {
         if (localStorage.user) {
-            const {reactionState} = this.state;
+            const { reactionStateOnOpen } = this.state;
+            const { reactionStateOnClose } = this.state;
             const user = JSON.parse(localStorage.user);
             if (this.props.postId in user.post_reactions) {
-                reactionState[user.post_reactions[this.props.postId]] = true;
+                reactionStateOnOpen[user.post_reactions[this.props.postId]] = true;
+                reactionStateOnClose[user.post_reactions[this.props.postId]] = true;
             }
-            this.setState({reactionState});
+            this.setState({reactionStateOnOpen});
         }
         this.getPostReactions();
+    }
+
+    componentWillUnmount() {
+        let { reactionStateOnOpen, reactionStateOnClose } = this.state;
+        // If null, deletes from post reactions
+        let deselectedReact = null, selectedReact = null;
+
+        // Compare reactions on open and close
+        Object.keys(reactionStateOnOpen).forEach(reaction => {
+            if(reactionStateOnOpen[reaction] !== reactionStateOnClose[reaction]){
+                // Else it was previously off, set it to on
+                // If it was previously on, set it to off
+                if(reactionStateOnClose[reaction]) {
+                    selectedReact = reaction;
+                } else {
+                    deselectedReact = reaction;
+                }
+            }
+        });
+
+        // Update user reactions 
+        axios.post("http://localhost:5000/api/users/updateReaction", {
+            reaction: selectedReact,
+            username: JSON.parse(localStorage.user).username,
+            postID: this.props.postId
+        })
+            .then(res => {
+                localStorage.user = JSON.stringify(res.data);
+            })
+            .catch(err => console.log(err));
+
+        // Update post reactions
+        axios.post("http://localhost:5000/api/posts/updateReaction", {
+            postID: this.props.postId,
+            prevReact: deselectedReact,
+            currReact: selectedReact
+        })
+            .then(() => this.getPostReactions())
+            .catch(err => console.log(err));
     }
 
     handleReplyUpload = () => {
@@ -52,49 +100,20 @@ export default class Reactions extends React.Component {
     };
 
     toggleReact(event) {
-        let {id} = event.target;
-        let {reactionState} = this.state;
-        let nullFlag = false;
-        let prevReact = null, currReact = null;
+        let { id } = event.target;
+        let { reactionStateOnClose } = this.state;
 
-        Object.keys(reactionState).forEach(reaction => {
-            if (reactionState[reaction]) {
-                prevReact = reaction;
-            }
-
-            if (reaction === id) {
-                currReact = reaction;
-            }
-
-            if (reaction === id && reactionState[reaction]) {
-                reactionState[reaction] = false;
-                nullFlag = true;
+        Object.keys(reactionStateOnClose).forEach(reaction => {
+            // If the reaction was on and selected, turn it off
+            // Else set the reaction based on whether it was selected
+            if (reaction === id && reactionStateOnClose[reaction]) {
+                reactionStateOnClose[reaction] = false;
             } else {
-                reactionState[reaction] = reaction === id;
+                reactionStateOnClose[reaction] = reaction === id;
             }
         });
 
-        this.setState({reactionState});
-
-        if (nullFlag) id = null;
-
-        axios.post("http://localhost:5000/api/users/updateReaction", {
-            reaction: id,
-            username: JSON.parse(localStorage.user).username,
-            postID: this.props.postId
-        })
-            .then(res => {
-                localStorage.user = JSON.stringify(res.data);
-            })
-            .catch(err => console.log(err));
-
-        axios.post("http://localhost:5000/api/posts/updateReaction", {
-            postID: this.props.postId,
-            prevReact: prevReact,
-            currReact: currReact
-        })
-            .then(() => this.getPostReactions())
-            .catch(err => console.log(err));
+        this.setState({reactionStateOnClose});
     }
 
     getPostReactions() {
@@ -111,25 +130,21 @@ export default class Reactions extends React.Component {
             .catch(err => console.log(err));
     }
 
-    makeReactionsLocal() {
-
-    }
-
     render() {
-        const {reactionState, reactions, userLogged} = this.state;
+        const {reactionStateOnClose, reactions, userLogged} = this.state;
         let replyButtonStyle = {float: "right"};
         return (
             <div>
                 <ButtonGroup className="reactions-group">
-                    <Button id="like" outline={!reactionState.like} disabled={!userLogged}
+                    <Button id="like" outline={!reactionStateOnClose.like} disabled={!userLogged}
                             onClick={(e) => this.toggleReact(e)}>&#x1F44D; {reactions.like}</Button>
-                    <Button id="dislike" outline={!reactionState.dislike} disabled={!userLogged}
+                    <Button id="dislike" outline={!reactionStateOnClose.dislike} disabled={!userLogged}
                             onClick={(e) => this.toggleReact(e)}>&#x1F44E; {reactions.dislike}</Button>
-                    <Button id="love" outline={!reactionState.love} disabled={!userLogged}
+                    <Button id="love" outline={!reactionStateOnClose.love} disabled={!userLogged}
                             onClick={(e) => this.toggleReact(e)}>&#x2764; {reactions.love}</Button>
-                    <Button id="laugh" outline={!reactionState.laugh} disabled={!userLogged}
+                    <Button id="laugh" outline={!reactionStateOnClose.laugh} disabled={!userLogged}
                             onClick={(e) => this.toggleReact(e)}>&#x1F602; {reactions.laugh}</Button>
-                    <Button id="fire" outline={!reactionState.fire} disabled={!userLogged}
+                    <Button id="fire" outline={!reactionStateOnClose.fire} disabled={!userLogged}
                             onClick={(e) => this.toggleReact(e)}>&#x1F525; {reactions.fire}</Button>
                 </ButtonGroup>
                 {userLogged && (this.props.layer < 5) &&
