@@ -145,7 +145,7 @@ export default class Reactions extends React.Component {
                 <div style={replyButtonStyle}>
                     <Button id={"replyButton"}>Reply</Button>
                     <Popover placement="bottom" isOpen={this.state.popoverOpen} target="replyButton"
-                             toggle={this.togglePopover} trigger={"hover"}>
+                             toggle={this.togglePopover}>
                         <PopoverBody>
                             <FormText color="muted">
                                 Please select a file of type jpg, png, or gif to reply.
