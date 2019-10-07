@@ -31,6 +31,9 @@ export default class FeedComp extends React.Component {
     }
 
     async componentDidMount() {
+        if(!localStorage.pageSize) {
+            localStorage.pageSize = 10;
+        }
         this.setState({
             loadedPosts: await getAll(`posts/sort/${this.state.category}?limit=${this.state.limit}`),
             postGrid:[]
@@ -119,7 +122,12 @@ export default class FeedComp extends React.Component {
                         <Form className="mt-3 mb-3">
                             <Row form>
                                 <Col md={6}>
-                                    <h3>Welcome,{ username }!</h3>
+                                    {localStorage.user &&
+                                    <h3>Welcome, { username }!</h3>
+                                    }
+                                    {!localStorage.user && 
+                                    <h3>Welcome!</h3>
+                                    }
                                 </Col>
                                 <Col md={2}>
                                     Page Size: 

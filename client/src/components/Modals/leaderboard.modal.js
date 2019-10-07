@@ -7,9 +7,7 @@ import {
     TabPane,
     ModalHeader,
     ModalBody,
-    Table,
-    Button,
-    ModalFooter
+    Table
 } from 'reactstrap';
 import axios from "axios";
 
