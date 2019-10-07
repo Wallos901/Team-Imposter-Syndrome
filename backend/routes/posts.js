@@ -143,13 +143,13 @@ router.post("/getReactions", (req, res) => {
 });
 
 router.post("/updateReaction", (req, res) => {
-    const { postID, deselectedReact, selectedReact } = req.body;
+    const { postID, prevReact, currReact } = req.body;
     Post.findOne({ _id: new ObjectId(postID) }).then(post => {
-        if (deselectedReact) {
-            post.reactions.set(deselectedReact, post.reactions.get(deselectedReact) - 1);
+        if (prevReact) {
+            post.reactions.set(prevReact, post.reactions.get(prevReact) - 1);
         }
-        if (selectedReact) {
-            post.reactions.set(selectedReact, post.reactions.get(selectedReact) + 1);
+        if (currReact) {
+            post.reactions.set(currReact, post.reactions.get(currReact) + 1);
         }
         post.save()
             .then(() => res.sendStatus(200))
