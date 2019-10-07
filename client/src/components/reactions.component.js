@@ -40,9 +40,9 @@ export default class Reactions extends React.Component {
     }
 
     handleReplyUpload = () => {
-        if (document.getElementById("fileUpload" + this.props.postId).value !== "") {
-            if (upload(document.getElementById("fileUpload" + this.props.postId).files[0], this.props.postId, this.props.reRenderParent)) {
-                document.getElementById("fileUpload" + this.props.postId).value = "";
+        if (document.getElementById("fileUpload"+this.props.postId).value !== "") {
+            if (upload(document.getElementById("fileUpload"+this.props.postId).files[0], this.props.postId, null, this.props.reRenderParent)){
+                document.getElementById("fileUpload"+this.props.postId).value = "";
             } else {
                 alert('Error uploading image.');
             }
@@ -132,23 +132,22 @@ export default class Reactions extends React.Component {
                     <Button id="fire" outline={!reactionState.fire} disabled={!userLogged}
                             onClick={(e) => this.toggleReact(e)}>&#x1F525; {reactions.fire}</Button>
                 </ButtonGroup>
-                {userLogged &&
-                <div style={replyButtonStyle}>
-                    <Form>
-                        <FormGroup style={{display: "inline-block"}}>
-                            <h5 style={{float: "left", paddingRight: "5px"}}>Reply:</h5>
-                            <div style={{float: "right"}}>
-                                <Input id={"fileUpload" + this.props.postId} type="file" accept=".jpg, .png, .gif"
-                                       onChange={this.handleReplyUpload}/>
-                                <FormText color="muted">
-                                    Please select a file of type jpg, png, or gif to reply.
-                                </FormText>
-                            </div>
-                        </FormGroup>
-                    </Form>
-                </div>
+                {userLogged && (this.props.layer < 5) &&
+                    <div style={replyButtonStyle}>
+                        <Form>
+                            <FormGroup style={{display: "inline-block"}}>
+                                <h5 style={{float: "left", paddingRight: "5px"}}>Reply:</h5>
+                                <div style={{float: "right"}}>
+                                    <Input id={"fileUpload"+this.props.postId} type="file" accept=".jpg, .png, .gif" onChange={this.handleReplyUpload}/>
+                                    <FormText color="muted">
+                                        Please select a file of type jpg, png, or gif to reply.
+                                    </FormText>
+                                </div>
+                            </FormGroup>
+                        </Form>
+                    </div>
                 }
-                <div style={{padding: "10px"}}></div>
+                <div style={{padding: "30px"}}></div>
             </div>
         );
     }

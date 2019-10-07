@@ -47,3 +47,12 @@
 .comment-post {
     padding: 10px;
 }
+
+.loading-spinner-container {
+    width: 100px;
+    height: 100px;
+    margin: auto;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
