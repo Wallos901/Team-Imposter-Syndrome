@@ -119,6 +119,9 @@ export default class PostModal extends React.Component {
                                 <Button onClick={() => this.deletePost()}>Delete</Button>
                             </ButtonGroup>
                         }
+                        { ((userLogged && userLogged._id !== this.props.userId) || !userLogged) && !this.props.postDeleted &&
+                            <Button style={{ position: "absolute", zIndex: "100", right: "0", padding: "10px" }} color={"danger"}>Report</Button>
+                        }
                         <img style={{maxHeight: this.state.imageMaxHeight, maxWidth: "100%", marginLeft: "auto", marginRight: "auto", display:"block"}} src={this.props.imageUrl}
                              alt={"some alt text"}/>
                     </div>
@@ -126,7 +129,6 @@ export default class PostModal extends React.Component {
                     <div>
                         <Reactions reRenderParent={this.reloadResponses} update={this.state.update}
                                    userId={this.props.userId} postId={this.props.postId}/>
-                        <Button color={"danger"} size={"sm"} outline>Report</Button>
                     </div>
                     {!localStorage.user &&
                     <div>
