@@ -147,7 +147,7 @@ export default class Reactions extends React.Component {
                         </Form>
                     </div>
                 }
-                <div style={{padding: "30px"}}></div>
+                <div style={{padding: "10px"}}/>
             </div>
         );
     }
