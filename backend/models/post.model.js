@@ -20,7 +20,7 @@ const postSchema = new Schema({
     reactions: {
         type: Map,
         of: Number,
-        default: { "like": 0, "dislike": 0, "love": 0, "fire": 0 }
+        default: { "like": 0, "dislike": 0, "love": 0, "laugh": 0, "fire": 0 }
     },
     deleted: {
         type: Boolean,
