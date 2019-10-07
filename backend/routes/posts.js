@@ -38,10 +38,13 @@ router.get("/sort/:filter", (req, res) => {
 });
 
 router.get("/reportedPosts", (req, res) => {
-    Post.find().then(posts => {
-        const postList = posts.filter(post => post.reports.length >= 5);
-        res.json(postList);
-    }).catch(err => res.status(400).json(err));
+    Post.find({ "reports.4": { $exists: true } }).then(posts => {
+        console.log(posts);
+        res.json(posts);
+    }).catch(err => {
+        console.log(err);
+        res.status(400).json(err);
+    });
 });
 
 router.get("/:id", (req, res) => {
