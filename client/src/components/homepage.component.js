@@ -30,7 +30,7 @@ export default class HomepageComp extends React.Component {
                 <div>
                     <NavbarComp afterUpload={this.updateFeed}/>
                 </div>
-                <div className="container">
+                <div className="pl-5 pr-5">
                     { !(userLogged && userLogged.is_admin) &&
                         <div>
                             <Route path="/" exact render={(props) => <FeedComp {...props} update={this.state.update} /> } />

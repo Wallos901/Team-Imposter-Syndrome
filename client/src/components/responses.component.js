@@ -49,7 +49,7 @@ export default class Responses extends React.Component {
                             key={comment._id}
                             postId={comment._id} 
                             imageURL={comment.imageURL}
-                            userId={this.props.userId} 
+                            userId={comment.userID} 
                             loadComments={() => this.loadComments()}
                             update={this.props.update}
                             layer={this.props.layer} 
