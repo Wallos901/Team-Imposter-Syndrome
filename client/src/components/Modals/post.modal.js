@@ -18,7 +18,16 @@ export default class PostModal extends React.Component {
             editModalVisable: false,
             imageMaxHeight: this.setMaxHeight(),
             update: true,
+            reportDisabled: false
         };
+    }
+
+    componentDidMount() {
+        const { userLogged } = this.state;
+        axios.get("http://localhost:5000/api/posts/hasUserReportedPost/" + userLogged._id + "/" + this.props.postId)
+            .then(res => {
+                this.setState({ reportDisabled: res.data });
+            }).catch(err => console.log(err));
     }
 
     setMaxHeight() {
@@ -79,6 +88,15 @@ export default class PostModal extends React.Component {
             .catch(err => console.log(err));
     }
 
+    reportPost() {
+        const { userLogged } = this.state;
+        axios.post("http://localhost:5000/api/posts/reportPost", { postID: this.props.postId, userID: userLogged._id })
+            .then(() => {
+                this.setState({ reportDisabled: true });
+            })
+            .catch(err => console.log(err));
+    }
+
     onErrorDismiss() {
         this.setState({
             errorVisible: false
@@ -86,7 +104,7 @@ export default class PostModal extends React.Component {
     };
 
     render = () => {
-        const { userLogged, errorVisible, error, editModalVisable } = this.state;
+        const { userLogged, errorVisible, error, editModalVisable, reportDisabled } = this.state;
         return (
             <div>
                 <div>
@@ -113,29 +131,37 @@ export default class PostModal extends React.Component {
                         { error }
                     </Alert>
                     <div style={{ position: "relative" }}>
-                        { userLogged && userLogged._id === this.props.userId && !this.props.postDeleted &&
+                        { userLogged && userLogged._id === this.props.userId && !this.props.postDeleted && !userLogged.is_admin &&
                             <ButtonGroup style={{ position: "absolute", zIndex: "100", right: "0", padding: "10px" }}>
                                 <Button onClick={() => this.editPostCheck()}>Edit</Button>
                                 <Button onClick={() => this.deletePost()}>Delete</Button>
                             </ButtonGroup>
                         }
+                        { ((userLogged && userLogged._id !== this.props.userId) || !userLogged) && !this.props.postDeleted && !userLogged.is_admin &&
+                            <Button style={{ position: "absolute", zIndex: "100", right: "0", padding: "10px" }} color={"danger"} onClick={() => this.reportPost()} disabled={reportDisabled}>Report</Button>
+                        }
+                        { userLogged && userLogged.is_admin &&
+                            <Button style={{ position: "absolute", zIndex: "100", right: "0", padding: "10px" }} color={"danger"} onClick={() => this.deletePost()}>Delete</Button>
+                        }
                         <img style={{maxHeight: this.state.imageMaxHeight, maxWidth: "100%", marginLeft: "auto", marginRight: "auto", display:"block"}} src={this.props.imageUrl}
                              alt={"some alt text"}/>
                     </div>
-                    <hr/>
-                    <div>
-                        <Reactions reRenderParent={this.reloadResponses} userId={this.props.userId} postId={this.props.postId} layer={1}/>
-                        <Button color={"danger"} size={"sm"} outline>Report</Button>
-                    </div>
-                    <hr/>
-                    <h4>Responses</h4>
-                    <hr/>
-                    {!localStorage.user &&
-                    <div>
-                        <SignInModal type={"login"} heading=" to Respond" closeModal={null}/>
-                    </div>
+                    { userLogged && !userLogged.is_admin &&
+                        <div>
+                            <hr/>
+                            <div>
+                                <Reactions reRenderParent={this.reloadResponses} userId={this.props.userId} postId={this.props.postId} layer={1}/>
+                            </div>
+                        </div>
                     }
-                    <Responses update={this.state.update} userId={this.props.userId} postId={this.props.postId} layer={1} maxLayers={1}/>
+                    { !userLogged &&
+                        <div>
+                            <SignInModal type={"login"} heading=" to Respond" closeModal={null}/>
+                        </div>
+                    }
+                    { !(userLogged && userLogged.is_admin) &&
+                        <Responses update={this.state.update} userId={this.props.userId} postId={this.props.postId} layer={1} maxLayers={1}/>
+                    }
                 </ModalBody>
             </div>
         );
