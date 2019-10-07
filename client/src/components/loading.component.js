@@ -1,6 +1,9 @@
 import React from 'react';
-import {Spinner} from "reactstrap";
+
 import '../styling.css' ;
+
+import NavbarComp from "./navbar.component";
+import {Spinner} from "reactstrap";
 
 export default class LoadingComp extends React.Component {
     render() {

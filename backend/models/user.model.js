@@ -11,7 +11,6 @@ const userSchema = new Schema({
     reaction_count: { type: Number, default: 0 },
     post_count: { type: Number, default: 0 },
     last_activity: { type: Date, default: Date.now() },
-    last_IP: { type: String, default: "0.0.0.0" },
     is_moderator: { type: Boolean, default: false },
     is_admin: { type: Boolean, default: false },
     user_status: { type: String, default: "VERIFIED" }

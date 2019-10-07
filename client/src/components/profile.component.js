@@ -3,6 +3,8 @@ import React from 'react';
 import '../styling.css' ;
 
 import { Button, ButtonGroup, Col, Container, Row, Input, UncontrolledAlert } from "reactstrap";
+//import Masonry from "react-masonry-css";
+import FeedComp from "./feed.component";
 import axios from 'axios';
 import Masonry from 'react-masonry-css';
 

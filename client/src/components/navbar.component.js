@@ -35,37 +35,29 @@ export default class NavbarComp extends React.Component {
     }
 
     render() {
-        const { userLogged } = this.state;
         return (
             <Navbar color="dark" dark expand="md">
-                { (!userLogged || (userLogged && !userLogged.is_admin)) &&
-                    <NavbarBrand href="/">PictureThis</NavbarBrand>
-                }
-                { userLogged && userLogged.is_admin &&
-                    <NavbarBrand href="/admin">PictureThis</NavbarBrand>
-                }
+                <NavbarBrand href="/">PictureThis</NavbarBrand>
                 <NavbarToggler onClick={this.toggle}/>
                 <Collapse isOpen={this.state.isOpen} navbar>
                     <Nav className="ml-auto" navbar>
-                        {userLogged && !userLogged.is_admin &&
+                        {this.state.userLogged &&
                         <NavItem>
                             <NavLink href="/" >Home</NavLink>
                         </NavItem>
                         }
-                        {userLogged && !userLogged.is_admin &&
+                        {this.state.userLogged &&
                         <NavItem>
                             <ModalComp type={'upload'} text={'Upload'} upload={this.props.upload} afterUpload={this.props.afterUpload}/>
                         </NavItem>
                         }
-                        { (!userLogged || (userLogged && !userLogged.is_admin)) &&
                         <NavItem>
                             <ModalComp type={'leaderboard'} text={'Leaderboard'}/>
                         </NavItem>
-                        }
-                        {userLogged && !userLogged.is_admin &&
+                        {this.state.userLogged &&
                         <UncontrolledDropdown nav inNavbar>
                             <DropdownToggle nav caret>
-                                {userLogged.username}
+                                {this.state.userLogged.username}
                             </DropdownToggle>
                             <DropdownMenu right>
                                 <DropdownItem href={"/profile"}>
@@ -79,17 +71,12 @@ export default class NavbarComp extends React.Component {
                             </DropdownMenu>
                         </UncontrolledDropdown>
                         }
-                        { userLogged && userLogged.is_admin &&
-                        <NavItem onClick={this.logout} style={{ cursor: "pointer", color: "white" }}>
-                            Logout
-                        </NavItem>
-                        }
-                        {!userLogged &&
+                        {!this.state.userLogged &&
                         <NavItem>
                             <ModalComp type={'register'} text={'Register'}/>
                         </NavItem>
                         }
-                        {!userLogged &&
+                        {!this.state.userLogged &&
                         <NavItem>
                             <ModalComp type={'login'} text={'Login'}/>
                         </NavItem>

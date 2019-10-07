@@ -13,7 +13,6 @@ export default class HomepageComp extends React.Component {
         super(props);
         this.state = {
             update: true,
-            userLogged: localStorage.user ? JSON.parse(localStorage.user) : null
         };
     }
 
@@ -24,22 +23,15 @@ export default class HomepageComp extends React.Component {
     };
 
     render() {
-        const { userLogged } = this.state;
         return (
             <Router>
                 <div>
                     <NavbarComp afterUpload={this.updateFeed}/>
                 </div>
                 <div className="container">
-                    { !(userLogged && userLogged.is_admin) &&
-                        <div>
-                            <Route path="/" exact render={(props) => <FeedComp {...props} update={this.state.update} /> } />
-                            <Route path="/profile" exact component={ProfileComp} />
-                        </div>
-                    }
-                    { userLogged && userLogged.is_admin &&
-                        <Route path="/admin" exact component={AdminComp} />
-                    }
+                    <Route path="/" exact render={(props) => <FeedComp {...props} update={this.state.update} /> } />
+                    <Route path="/profile" exact component={ProfileComp} />
+                    <Route path="/admin" exact component={AdminComp} />
                 </div>
             </Router>
         );
