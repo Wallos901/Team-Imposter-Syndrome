@@ -136,12 +136,12 @@ export default class Reactions extends React.Component {
                     <div style={replyButtonStyle}>
                         <Form>
                             <FormGroup style={{display: "inline-block"}}>
-                                <h5 style={{float: "left", paddingRight: "5px"}}>Reply:</h5>
+                                <h5>Reply</h5>
                                 <div style={{float: "right"}}>
-                                    <Input id={"fileUpload"+this.props.postId} type="file" accept=".jpg, .png, .gif" onChange={this.handleReplyUpload}/>
                                     <FormText color="muted">
                                         Please select a file of type jpg, png, or gif to reply.
                                     </FormText>
+                                    <Input id={"fileUpload"+this.props.postId} type="file" accept=".jpg, .png, .gif" onChange={this.handleReplyUpload}/>
                                 </div>
                             </FormGroup>
                         </Form>
