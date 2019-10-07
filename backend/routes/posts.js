@@ -139,10 +139,10 @@ router.post("/getReactions", (req, res) => {
 router.post("/updateReaction", (req, res) => {
     const { postID, prevReact, currReact } = req.body;
     Post.findOne({ _id: new ObjectId(postID) }).then(post => {
-        if (prevReact === currReact) post.reactions.set(currReact, post.reactions.get(currReact) - 1);
-        else if (!prevReact) post.reactions.set(currReact, post.reactions.get(currReact) + 1);
-        else {
+        if (prevReact) {
             post.reactions.set(prevReact, post.reactions.get(prevReact) - 1);
+        }
+        if (currReact) {
             post.reactions.set(currReact, post.reactions.get(currReact) + 1);
         }
         post.save()
