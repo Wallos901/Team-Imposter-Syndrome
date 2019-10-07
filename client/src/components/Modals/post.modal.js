@@ -92,7 +92,7 @@ export default class PostModal extends React.Component {
 
     reportPost() {
         const { userLogged } = this.state;
-        axios.post("http://localhost:5000/api/posts/reportPost", { postID: this.props.postId, userID: userLogged._id })
+        axios.post("http://localhost:5000/api/posts/reportPost", { postID: this.props.postId, userID: userLogged ? userLogged._id : "73" })
             .then(() => {
                 this.setState({ reportDisabled: true });
             })
