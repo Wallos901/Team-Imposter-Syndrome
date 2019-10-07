@@ -6,7 +6,6 @@ const postSchema = new Schema({
     imageURL: {
         type: String,
         required: true,
-        unique: true
     },
     replyTo: {
         type: Schema.Types.ObjectId,
@@ -30,6 +29,11 @@ const postSchema = new Schema({
     category: {
         type: String,
         default: null
+    },
+    reports: {
+        type: Array,
+        of: String,
+        default: []
     }
 }, {
     timestamps: true,

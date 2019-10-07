@@ -33,7 +33,7 @@ export default class FeedComp extends React.Component {
     async componentDidMount() {
         this.setState({
             loadedPosts: await getAll(`posts/sort/${this.state.category}?limit=${this.state.limit}`),
-            postGrid: []
+            postGrid:[]
         });
         this.updateFeed();
     }
@@ -102,7 +102,7 @@ export default class FeedComp extends React.Component {
     }
 
     loadMorePosts = async () => {
-        this.setState({loading: true});
+        this.setState({ loading: true });
         this.setState({
             loadedPosts: await getAll(`posts/sort/${this.state.category}?skip=${this.state.itemsOnPage}&limit=${this.state.limit}`)
         });

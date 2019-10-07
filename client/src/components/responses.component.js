@@ -16,7 +16,7 @@ export default class Responses extends React.Component {
             commentThread: [],
             loadedAllComments: false,
             loading: true,
-            userLogged: localStorage.user ? JSON.parse(localStorage.user) : false,
+            userLogged: localStorage.user ? JSON.parse(localStorage.user) : false
         };
     }
 
@@ -28,6 +28,7 @@ export default class Responses extends React.Component {
 
     loadComments = async () => {
         this.setState({loading: true});
+        // Load All Comments
         this.setState({
             loadedComments: await getAll(`posts/replies/${this.props.postId}?skip=${this.state.itemsOnPage}&limit=${this.state.limit}`)
         });
@@ -40,20 +41,21 @@ export default class Responses extends React.Component {
                 loadedAllComments: true,
             });
         }
-        if(this.state.loadedComments.length > 0){
+        if (this.state.loadedComments.length > 0) {
             this.state.loadedComments.forEach((comment) => {
                 this.setState(prevState => ({
                     commentThread: [...prevState.commentThread,
                         <Response 
-                        key={comment._id}
-                        postId={comment._id} 
-                        imageURL={comment.imageURL}
-                        userId={this.props.userId} 
-                        loadComments={() => this.loadComments()}
-                        update={this.props.update}
-                        layer={this.props.layer} 
-                        maxLayers={this.props.maxLayers}/>
-                    ],
+                            key={comment._id}
+                            postId={comment._id} 
+                            imageURL={comment.imageURL}
+                            userId={this.props.userId} 
+                            loadComments={() => this.loadComments()}
+                            update={this.props.update}
+                            layer={this.props.layer} 
+                            maxLayers={this.props.maxLayers}
+                        />
+                    ]
                 }));
             });
         }
@@ -61,7 +63,7 @@ export default class Responses extends React.Component {
             loading: false,
             itemsOnPage: this.state.commentThread.length,
         });
-    }
+    };
 
     async componentDidMount() {
         this.setState({
@@ -72,7 +74,7 @@ export default class Responses extends React.Component {
     }
 
     async shouldComponentUpdate(prevProps, nextProps) {
-        if(prevProps.update !== this.props.update){
+        if (prevProps.update !== this.props.update) {
             this.checkIfLoadMore();
         }
     }

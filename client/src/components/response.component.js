@@ -50,7 +50,7 @@ export default class Response extends React.Component {
             });
         }
     }
-    
+
     render() {
         return (
             <li key={this.props.postId}>
@@ -81,4 +81,4 @@ export default class Response extends React.Component {
             </li>
         )
     }
-}
+} 
