@@ -15,7 +15,8 @@ export default class ProfileModal extends React.Component {
                 mainState: null
             },
             mainAlertVisible: false,
-            toAdminPage: false
+            toAdminPage: false,
+            loading: false
         };
     }
 
@@ -38,6 +39,7 @@ export default class ProfileModal extends React.Component {
     };
 
     onSubmit(e) {
+        this.setState({loading: true});
         e.preventDefault();
         axios.post("http://localhost:5000/api/users/login", this.state)
             .then(res => {
@@ -66,6 +68,7 @@ export default class ProfileModal extends React.Component {
             .catch(err => {
                 console.log(err);
             });
+        this.setState({loading: false});
     };
 
     render() {
@@ -130,7 +133,7 @@ export default class ProfileModal extends React.Component {
                         </span>
                     </div>
                     <div>
-                        <Button style={{marginRight: "7px"}} color="primary">Login</Button>
+                        <Button style={{marginRight: "7px"}} disabled={this.state.loading} color="primary">Login</Button>
                         {this.props.closeModal &&
                             <Button color="secondary" onClick={this.props.closeModal}>Close</Button>
                         }
