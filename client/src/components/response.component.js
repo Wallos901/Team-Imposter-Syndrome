@@ -98,7 +98,6 @@ export default class Response extends React.Component {
                     </div>
                 }
                 <Reactions reRenderParent={this.reloadResponses} userId={this.props.userId} postId={this.props.postId} layer={this.props.layer}/>
-                <Button color={"danger"} size={"sm"} outline>Report</Button>
                 {(this.props.layer < this.props.maxLayers || this.state.loadedReplies) &&
                     <Responses
                     postId={this.props.postId} 
