@@ -161,7 +161,7 @@ router.post('/login', (req, res) => {
 
         jwt.sign(
             { id: user._id },
-            process.env.REACT_APP_JWT_SECRET_KEY,
+            process.env.JWT_SECRET_KEY,
             { expiresIn: 3600 },
             (err, token) => {
                 if(err) throw err;
@@ -173,7 +173,7 @@ router.post('/login', (req, res) => {
             res.status(200).json(user);
         }).catch(err => res.status(400).json(err));
     })
-    .catch(err => res.status(400).json(err));
+    .catch(err => res.status(202).json(err));
 });
 
 router.post("/logout", (req, res) => {

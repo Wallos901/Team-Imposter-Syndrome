@@ -143,7 +143,7 @@ router.post("/updateReaction", (req, res) => {
 
 router.get("/byUser/:id", (req, res) => {
     const userID = req.params.id;
-    Post.find({ userID }).then(posts => {
+    Post.find({ userID, replyTo: null }).then(posts => {
         res.json(posts);
     }).catch(err => res.status(400).json(err));
 });
