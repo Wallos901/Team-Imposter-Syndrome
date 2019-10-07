@@ -1,14 +1,12 @@
 /* eslint-disable jsx-a11y/accessible-emoji */
 import React from 'react';
-import {Button, ButtonGroup, Form, FormGroup, FormText, Input, Popover, PopoverBody} from "reactstrap";
+import {Button, ButtonGroup, Input } from "reactstrap";
 import axios from "axios";
 import upload from "../utilities/upload.util";
 
 export default class Reactions extends React.Component {
     constructor(props) {
         super(props);
-        this.togglePopover = this.togglePopover.bind(this);
-
         this.state = {
             reactionState: {
                 like: false,
