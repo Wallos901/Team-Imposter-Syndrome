@@ -1,13 +1,14 @@
 /* eslint-disable jsx-a11y/accessible-emoji */
 import React from 'react';
-import {Button, ButtonGroup, Form, FormGroup, FormText, Input} from "reactstrap";
+import {Button, ButtonGroup, Form, FormGroup, FormText, Input, Popover, PopoverBody} from "reactstrap";
 import axios from "axios";
 import upload from "../utilities/upload.util";
 
 export default class Reactions extends React.Component {
-
     constructor(props) {
         super(props);
+        this.togglePopover = this.togglePopover.bind(this);
+
         this.state = {
             reactionState: {
                 like: false,
@@ -63,9 +64,9 @@ export default class Reactions extends React.Component {
     }
 
     handleReplyUpload = () => {
-        if (document.getElementById("fileUpload"+this.props.postId).value !== "") {
-            if (upload(document.getElementById("fileUpload"+this.props.postId).files[0], this.props.postId, null, this.props.reRenderParent)){
-                document.getElementById("fileUpload"+this.props.postId).value = "";
+        if (document.getElementById("fileUpload" + this.props.postId).value !== "") {
+            if (upload(document.getElementById("fileUpload" + this.props.postId).files[0], this.props.postId, null, this.props.reRenderParent)) {
+                document.getElementById("fileUpload" + this.props.postId).value = "";
             } else {
                 alert('Error uploading image.');
             }
@@ -120,6 +121,10 @@ export default class Reactions extends React.Component {
             .catch(err => console.log(err));
     }
 
+    triggerUpload = () => {
+       document.getElementById("fileUpload" + this.props.postId).click()
+    }
+    
     render() {
         const {reactionState, reactions, userLogged, loading} = this.state;
         let replyButtonStyle = {float: "right"};
@@ -138,19 +143,16 @@ export default class Reactions extends React.Component {
                             onClick={(e) => this.toggleReact(e)}>&#x1F525; {reactions.fire}</Button>
                 </ButtonGroup>
                 {userLogged && (this.props.layer < 5) &&
-                    <div style={replyButtonStyle}>
-                        <Form>
-                            <FormGroup style={{display: "inline-block"}}>
-                                <h5>Reply</h5>
-                                <div style={{float: "right"}}>
-                                    <FormText color="muted">
-                                        Please select a file of type jpg, png, or gif to reply.
-                                    </FormText>
-                                    <Input id={"fileUpload"+this.props.postId} type="file" accept=".jpg, .png, .gif" onChange={this.handleReplyUpload}/>
-                                </div>
-                            </FormGroup>
-                        </Form>
+                <div style={replyButtonStyle} onClick={this.triggerUpload}>
+                    <Button id={"replyButton"} color={"success"}>Reply</Button>
+                    <Input id={"fileUpload" + this.props.postId}
+                            style={{display:"none", visibility:"hidden"}}
+                            type="file" accept=".jpg, .png, .gif"
+                            onChange={this.handleReplyUpload}/>
+                    <div style={{float: "right"}}>
+
                     </div>
+                </div>
                 }
                 <div style={{padding: "10px"}}/>
             </div>

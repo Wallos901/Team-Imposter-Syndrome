@@ -31,9 +31,12 @@ export default class FeedComp extends React.Component {
     }
 
     async componentDidMount() {
+        if(!localStorage.pageSize) {
+            localStorage.pageSize = 10;
+        }
         this.setState({
             loadedPosts: await getAll(`posts/sort/${this.state.category}?limit=${this.state.limit}`),
-            postGrid: []
+            postGrid:[]
         });
         this.updateFeed();
     }
@@ -44,10 +47,10 @@ export default class FeedComp extends React.Component {
             // And only update the page if it has loaded all the images. 
             let nextPost = await getAll(`posts/sort/${this.state.category}?skip=${this.state.itemsOnPage}&limit=${this.state.limit}`);
             if (nextPost.length > 0 && this.state.loadedAllPosts) {
-                // If there are already a number of items on page divisible by the page size limit
+                // If the number of items on page is not a multiple of page size limit
                 if (!(this.state.itemsOnPage%this.state.limit===0)) {
                     this.setState({
-                        loadedPosts: await getAll(`posts/sort/${this.state.category}?limit=${this.state.limit}`),
+                        loadedPosts: await getAll(`posts/sort/${this.state.category}?limit=${this.state.itemsOnPage+1}`),
                         postGrid: []
                     });
                     this.updateFeed();
@@ -102,7 +105,7 @@ export default class FeedComp extends React.Component {
     }
 
     loadMorePosts = async () => {
-        this.setState({loading: true});
+        this.setState({ loading: true });
         this.setState({
             loadedPosts: await getAll(`posts/sort/${this.state.category}?skip=${this.state.itemsOnPage}&limit=${this.state.limit}`)
         });
@@ -119,7 +122,12 @@ export default class FeedComp extends React.Component {
                         <Form className="mt-3 mb-3">
                             <Row form>
                                 <Col md={6}>
-                                    <h3>Welcome{ username }!</h3>
+                                    {localStorage.user &&
+                                    <h3>Welcome, { username }!</h3>
+                                    }
+                                    {!localStorage.user && 
+                                    <h3>Welcome!</h3>
+                                    }
                                 </Col>
                                 <Col md={2}>
                                     Page Size: 

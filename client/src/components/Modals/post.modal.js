@@ -24,10 +24,12 @@ export default class PostModal extends React.Component {
 
     componentDidMount() {
         const { userLogged } = this.state;
-        axios.get("http://localhost:5000/api/posts/hasUserReportedPost/" + userLogged._id + "/" + this.props.postId)
-            .then(res => {
-                this.setState({ reportDisabled: res.data });
-            }).catch(err => console.log(err));
+        if (userLogged) {
+            axios.get("http://localhost:5000/api/posts/hasUserReportedPost/" + userLogged._id + "/" + this.props.postId)
+                .then(res => {
+                    this.setState({ reportDisabled: res.data });
+                }).catch(err => console.log(err));
+        }
     }
 
     setMaxHeight() {
@@ -58,7 +60,7 @@ export default class PostModal extends React.Component {
                         errorVisible: true
                     });
                 }
-            })
+            })  
             .catch(err => console.log(err));
     }
 
@@ -90,7 +92,7 @@ export default class PostModal extends React.Component {
 
     reportPost() {
         const { userLogged } = this.state;
-        axios.post("http://localhost:5000/api/posts/reportPost", { postID: this.props.postId, userID: userLogged._id })
+        axios.post("http://localhost:5000/api/posts/reportPost", { postID: this.props.postId, userID: userLogged ? userLogged._id : "73" })
             .then(() => {
                 this.setState({ reportDisabled: true });
             })
@@ -137,8 +139,8 @@ export default class PostModal extends React.Component {
                                 <Button onClick={() => this.deletePost()}>Delete</Button>
                             </ButtonGroup>
                         }
-                        { ((userLogged && userLogged._id !== this.props.userId) || !userLogged) && !this.props.postDeleted && !userLogged.is_admin &&
-                            <Button style={{ position: "absolute", zIndex: "100", right: "0", padding: "10px" }} color={"danger"} onClick={() => this.reportPost()} disabled={reportDisabled}>Report</Button>
+                        { ((userLogged && userLogged._id !== this.props.userId && !userLogged.is_admin) || !userLogged) && !this.props.postDeleted &&
+                            <Button style={{ position: "absolute", zIndex: "100", right: "0", padding: "10px" }} color={"danger"} onClick={() => this.reportPost()} disabled={reportDisabled}>&#x26a0; Report</Button>
                         }
                         { userLogged && userLogged.is_admin &&
                             <Button style={{ position: "absolute", zIndex: "100", right: "0", padding: "10px" }} color={"danger"} onClick={() => this.deletePost()}>Delete</Button>
@@ -148,10 +150,10 @@ export default class PostModal extends React.Component {
                     </div>
                     { userLogged && !userLogged.is_admin &&
                         <div>
-                            <hr/>
-                            <div>
+                            <div style={{paddingTop: "10px"}}>
                                 <Reactions reRenderParent={this.reloadResponses} userId={this.props.userId} postId={this.props.postId} layer={1}/>
                             </div>
+                            <hr/>
                         </div>
                     }
                     { !userLogged &&

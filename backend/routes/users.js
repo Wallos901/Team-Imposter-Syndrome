@@ -98,42 +98,45 @@ router.post('/register', (req, res) => {
 
     // Check validation
     if (!isValid) {
-        return res.status(202).json(errors);
-    };
+        res.status(202).json(errors);
+    }
+    else {
+        // Check if username already exists
+        User.findOne({ username }).then(username_test => {
+            if (username_test) {
+                errors.username = "Invalid Field - Username already exists.";
+                res.status(202).json(errors);
+            }
+            else {
+                // Check if email already exists
+                User.findOne({ email }).then(email_test => {
+                    if (email_test) {
+                        errors.email = "Invalid Field - An account with this email address already exists.";
+                        res.status(202).json(errors);
+                    }
+                    else {
+                        // Create new user
+                        const newUser = new User({
+                            username: username,
+                            email: email,
+                            password: password,
+                            last_IP: req.connection.remoteAddress
+                        });
 
-    // Check if username already exists
-    User.findOne({ username }).then(user => {
-        if (user) {
-            errors.username = "Invalid Field - Username already exists.";
-            return res.status(202).json(errors);
-        }
-    }).catch(err => res.status(400).json(err));
+                        // Hash password before saving into the database
+                        newUser.password = newUser.generateHash(newUser.password);
 
-    // Check if email already exists
-    User.findOne({ email }).then(user => {
-        if (user) {
-            errors.email = "Invalid Field - An account with this email address already exists.";
-            return res.status(202).json(errors);
-        }
-    }).catch(err => res.status(400).json(err));
-
-    // Create new user
-    const newUser = new User({
-        username: username,
-        email: email,
-        password: password,
-        last_IP: req.connection.remoteAddress
-    });
-
-    // Hash password before saving into the database
-    newUser.password = newUser.generateHash(newUser.password);
-
-    // Save the user to the database
-    newUser.save().then(() => {
-        User.findOne({ username }).select("-password").then(user => {
-            res.status(200).json(user);
+                        // Save the user to the database
+                        newUser.save().then(() => {
+                            User.findOne({ username }).select("-password").then(user => {
+                                res.status(200).json(user);
+                            }).catch(err => res.status(400).json(err));
+                        });
+                    }
+                }).catch(err => res.status(400).json(err));
+            }
         }).catch(err => res.status(400).json(err));
-    });
+    }    
 });
 
 router.post('/login', (req, res) => {
@@ -180,7 +183,7 @@ router.post('/login', (req, res) => {
                 }).catch(err => res.status(400).json(err));
             }).catch(err => req.status(400).json(err));      
     })
-    .catch(err => res.status(202).json(err));
+    .catch(err => res.status(400).json(err));
 });
 
 router.post("/logout", (req, res) => {

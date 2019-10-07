@@ -7,9 +7,7 @@ import {
     TabPane,
     ModalHeader,
     ModalBody,
-    Table,
-    Button,
-    ModalFooter
+    Table
 } from 'reactstrap';
 import axios from "axios";
 
@@ -122,9 +120,6 @@ export default class LeaderboardModal extends React.Component {
                         </TabPane>
                     </TabContent>
                 </ModalBody>
-                <ModalFooter>
-                    <Button color="secondary" onClick={this.props.closeModal}>Close</Button>
-                </ModalFooter>
             </div>
         );
     }
