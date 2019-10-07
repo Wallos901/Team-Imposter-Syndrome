@@ -114,10 +114,6 @@ export default class Reactions extends React.Component {
             .catch(err => console.log(err));
     }
 
-    makeReactionsLocal() {
-
-    }
-
     togglePopover() {
         this.setState({
             popoverOpen: !this.state.popoverOpen
