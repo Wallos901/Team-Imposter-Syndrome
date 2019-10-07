@@ -124,6 +124,10 @@ export default class Reactions extends React.Component {
         });
     }
 
+    triggerUpload = () => {
+       document.getElementById("fileUpload" + this.props.postId).click()
+    }
+
     render() {
         const {reactionState, reactions, userLogged} = this.state;
         let replyButtonStyle = {float: "right"};
@@ -142,18 +146,12 @@ export default class Reactions extends React.Component {
                             onClick={(e) => this.toggleReact(e)}>&#x1F525; {reactions.fire}</Button>
                 </ButtonGroup>
                 {userLogged && (this.props.layer < 5) &&
-                <div style={replyButtonStyle}>
+                <div style={replyButtonStyle} onClick={this.triggerUpload}>
                     <Button id={"replyButton"}>Reply</Button>
-                    <Popover placement="bottom" isOpen={this.state.popoverOpen} target="replyButton"
-                             toggle={this.togglePopover}>
-                        <PopoverBody>
-                            <FormText color="muted">
-                                Please select a file of type jpg, png, or gif to reply.
-                            </FormText>
-                            <Input id={"fileUpload" + this.props.postId} type="file" accept=".jpg, .png, .gif"
-                                   onChange={this.handleReplyUpload}/>
-                        </PopoverBody>
-                    </Popover>
+                    <Input id={"fileUpload" + this.props.postId} 
+                            style={{display:"none", visibility:"hidden"}} 
+                            type="file" accept=".jpg, .png, .gif"
+                            onChange={this.handleReplyUpload}/>
                     <div style={{float: "right"}}>
 
                     </div>
