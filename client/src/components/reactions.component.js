@@ -38,7 +38,7 @@ export default class Reactions extends React.Component {
 
     handleReplyUpload = () => {
         if (document.getElementById("fileUpload"+this.props.postId).value !== "") {
-            if (upload(document.getElementById("fileUpload"+this.props.postId).files[0], this.props.postId, this.props.reRenderParent)){
+            if (upload(document.getElementById("fileUpload"+this.props.postId).files[0], this.props.postId, null, this.props.reRenderParent)){
                 document.getElementById("fileUpload"+this.props.postId).value = "";
             } else {
                 alert('Error uploading image.');
@@ -122,8 +122,8 @@ export default class Reactions extends React.Component {
                             onClick={(e) => this.toggleReact(e)}>&#x2764;: {reactions.love}</Button>
                     <Button id="fire" outline={!reactionState.fire} color={"warning"} disabled={!userLogged}
                             onClick={(e) => this.toggleReact(e)}>&#x1F525;: {reactions.fire}</Button>
-                </ButtonGroup>
-                {userLogged &&
+                </ButtonGroup> 
+                {userLogged && (this.props.layer < 5) &&
                     <div style={replyButtonStyle}>
                         <Form>
                             <FormGroup style={{display: "inline-block"}}>
