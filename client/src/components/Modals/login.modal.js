@@ -46,6 +46,7 @@ export default class ProfileModal extends React.Component {
                     if (res.data.is_admin) {
                         this.props.closeModal();
                         this.setState({ toAdminPage: true });
+                        this.props.reloadPage();
                     }
                     else this.props.reloadPage();
                 }
@@ -72,7 +73,6 @@ export default class ProfileModal extends React.Component {
         let modalHeading = "";
         if (this.props.heading) modalHeading = this.props.heading;
         if (toAdminPage) {
-            this.props.reloadPage();
             return <Redirect to="/admin" />
         }
         return (
