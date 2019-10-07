@@ -6,6 +6,7 @@ const postSchema = new Schema({
     imageURL: {
         type: String,
         required: true,
+        unique: false
     },
     replyTo: {
         type: Schema.Types.ObjectId,
