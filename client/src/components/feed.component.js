@@ -102,9 +102,7 @@ export default class FeedComp extends React.Component {
     }
 
     loadMorePosts = async () => {
-        this.setState(prevState => ({
-            loading: true,
-        }));
+        this.setState({ loading: true });
         this.setState({
             loadedPosts: await getAll(`posts/sort/${this.state.category}?skip=${this.state.itemsOnPage}&limit=${this.state.limit}`)
         });

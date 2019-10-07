@@ -136,7 +136,7 @@ export default class Reactions extends React.Component {
                     <div style={replyButtonStyle}>
                         <Form>
                             <FormGroup style={{display: "inline-block"}}>
-                                <h5 style={{float: "left", paddingRight: "5px"}}>Reply:</h5>
+                                <h5>Reply:</h5>
                                 <div style={{float: "right"}}>
                                     <FormText color="muted">
                                         Please select a file of type jpg, png, or gif to reply.

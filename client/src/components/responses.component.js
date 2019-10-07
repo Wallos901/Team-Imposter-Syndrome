@@ -14,6 +14,8 @@ export default class Responses extends React.Component {
             itemsOnPage: 0,
             loadedComments: {},
             commentThread: [],
+            loadedAllComments: false,
+            loading: true,
             userLogged: localStorage.user ? JSON.parse(localStorage.user) : false
         };
     }
