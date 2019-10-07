@@ -5,6 +5,7 @@ import axios from "axios";
 import upload from "../utilities/upload.util";
 
 export default class Reactions extends React.Component {
+
     constructor(props) {
         super(props);
         this.state = {
@@ -12,12 +13,14 @@ export default class Reactions extends React.Component {
                 like: false,
                 dislike: false,
                 love: false,
+                laugh: false,
                 fire: false
             },
             reactions: {
                 like: 0,
                 dislike: 0,
                 love: 0,
+                laugh: 0,
                 fire: 0
             },
             userLogged: localStorage.user ? JSON.parse(localStorage.user) : null
@@ -38,13 +41,12 @@ export default class Reactions extends React.Component {
 
     handleReplyUpload = () => {
         if (document.getElementById("fileUpload"+this.props.postId).value !== "") {
-            if (upload(document.getElementById("fileUpload"+this.props.postId).files[0], this.props.postId, this.props.reRenderParent)){
+            if (upload(document.getElementById("fileUpload"+this.props.postId).files[0], this.props.postId, null, this.props.reRenderParent)){
                 document.getElementById("fileUpload"+this.props.postId).value = "";
             } else {
                 alert('Error uploading image.');
             }
-        }
-        else {
+        } else {
             alert('Please select an image/gif to upload.');
         }
     };
@@ -96,16 +98,21 @@ export default class Reactions extends React.Component {
     }
 
     getPostReactions() {
-        let { reactions } = this.state;
-        axios.post("/api/posts/getReactions", { postID: this.props.postId })
+        let {reactions} = this.state;
+        axios.post("/api/posts/getReactions", {postID: this.props.postId})
             .then(res => {
                 reactions.like = res.data.like;
                 reactions.dislike = res.data.dislike;
                 reactions.love = res.data.love;
+                reactions.laugh = res.data.laugh;
                 reactions.fire = res.data.fire;
                 this.setState({reactions});
             })
             .catch(err => console.log(err));
+    }
+
+    makeReactionsLocal() {
+
     }
 
     render() {
@@ -114,16 +121,18 @@ export default class Reactions extends React.Component {
         return (
             <div>
                 <ButtonGroup className="reactions-group">
-                    <Button id="like" outline={!reactionState.like} color={"primary"} disabled={!userLogged}
-                            onClick={(e) => this.toggleReact(e)}>&#x1F44D;: {reactions.like}</Button>
-                    <Button id="dislike" outline={!reactionState.dislike} color={"secondary"} disabled={!userLogged}
-                            onClick={(e) => this.toggleReact(e)}>&#x1F44E;: {reactions.dislike}</Button>
-                    <Button id="love" outline={!reactionState.love} color={"danger"} disabled={!userLogged}
-                            onClick={(e) => this.toggleReact(e)}>&#x2764;: {reactions.love}</Button>
-                    <Button id="fire" outline={!reactionState.fire} color={"warning"} disabled={!userLogged}
-                            onClick={(e) => this.toggleReact(e)}>&#x1F525;: {reactions.fire}</Button>
+                    <Button id="like" outline={!reactionState.like} disabled={!userLogged}
+                            onClick={(e) => this.toggleReact(e)}>&#x1F44D; {reactions.like}</Button>
+                    <Button id="dislike" outline={!reactionState.dislike} disabled={!userLogged}
+                            onClick={(e) => this.toggleReact(e)}>&#x1F44E; {reactions.dislike}</Button>
+                    <Button id="love" outline={!reactionState.love} disabled={!userLogged}
+                            onClick={(e) => this.toggleReact(e)}>&#x2764; {reactions.love}</Button>
+                    <Button id="laugh" outline={!reactionState.laugh} disabled={!userLogged}
+                            onClick={(e) => this.toggleReact(e)}>&#x1F602; {reactions.laugh}</Button>
+                    <Button id="fire" outline={!reactionState.fire} disabled={!userLogged}
+                            onClick={(e) => this.toggleReact(e)}>&#x1F525; {reactions.fire}</Button>
                 </ButtonGroup>
-                {userLogged &&
+                {userLogged && (this.props.layer < 5) &&
                     <div style={replyButtonStyle}>
                         <Form>
                             <FormGroup style={{display: "inline-block"}}>
@@ -138,7 +147,7 @@ export default class Reactions extends React.Component {
                         </Form>
                     </div>
                 }
-                <div style={{padding: "30px"}}> </div>
+                <div style={{padding: "30px"}}></div>
             </div>
         );
     }

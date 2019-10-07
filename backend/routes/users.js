@@ -9,6 +9,7 @@ const jwt = require("jsonwebtoken");
 // Load input validation
 const validateRegisterInput = require("../../utilities/validation/register.util");
 const validateLoginInput = require("../../utilities/validation/login.util");
+const validateUpdateInput = require("../../utilities/validation/update.util");
 
 // Load ObjectId type
 const ObjectId = require("mongoose").Types.ObjectId;
@@ -45,22 +46,40 @@ router.post('/add', (req, res) => {
 });
 
 router.post('/update/:id', (req, res) => {
-    User.findById(req.params.id)
-        .then(user => {
-            user.username = req.body.username;
-            user.password = req.body.password;
-            user.email = req.body.email;
-            user.last_activity = Date.parse(req.body.last_activity);
-            user.is_moderator = req.body.is_moderator;
-            user.is_admin = req.body.is_admin;
-            user.status = req.body.status;
-            user.user_status_is = req.body.user_status_id;
+    // Create variables from request fields
+    const { email, password } = req.body;
+    const userID = req.params.id;
 
-            user.save()
-                .then(() => res.json('User updated!'))
-                .catch(err => res.status(400).json('Error: ' + err));
-        })
-        .catch(err => res.status(400).json('Error: ' + err));
+    // Input Validation
+    const { errors, isValid } = validateUpdateInput(req.body);
+
+    // Check validation
+    if (!isValid) {
+        return res.status(202).json(errors);
+    };
+
+    // Check for no inputs
+    if (email === "" && password === "") {
+        errors.main = "No fields were filled out, please try again.";
+        return res.status(202).json(errors);
+    }
+
+    // Check if email already exists
+    User.findOne({ email }).then(user => {
+        if (user) {
+            errors.email = "Invalid Field - An account with this email address already exists.";
+            return res.status(202).json(errors);
+        }
+    }).catch(err => res.status(400).json(err));
+
+    User.findById(userID).then(user => {
+        if (email !== "") user.email = email;
+        if (password !== "") user.password = user.generateHash(password);
+
+        user.save()
+            .then(res.json(user))
+            .catch(err => res.status(400).json('Error: ' + err));
+    }).catch(err => res.status(400).json('Error: ' + err));
 });
 
 router.delete('/:id', (req, res) => {
@@ -92,7 +111,7 @@ router.post('/register', (req, res) => {
     // Check if email already exists
     User.findOne({ email }).then(user => {
         if (user) {
-            errors.email = "Invalid Field - An accound with this email address already exists.";
+            errors.email = "Invalid Field - An account with this email address already exists.";
             return res.status(202).json(errors);
         }
     }).catch(err => res.status(400).json(err));
