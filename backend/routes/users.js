@@ -180,7 +180,7 @@ router.post('/login', (req, res) => {
                 }).catch(err => res.status(400).json(err));
             }).catch(err => req.status(400).json(err));      
     })
-    .catch(err => res.status(202).json(err));
+    .catch(err => res.status(400).json(err));
 });
 
 router.post("/logout", (req, res) => {

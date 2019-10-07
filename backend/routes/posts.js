@@ -88,10 +88,7 @@ router.delete("/:id", (req, res) => {
                 errors.error = "This post has replies, it will be replaced with a placeholder image."
                 post.save()
                     .then(() => res.status(202).json(errors))
-                    .catch(err => {
-                        console.log(err);
-                        res.status(400).json(err);
-                    });
+                    .catch(err => res.status(400).json(err));
             } else {
                 post.remove()
                     .then(post => res.status(200).json(post))
@@ -118,12 +115,11 @@ router.post("/editCheck/:id", (req, res) => {
 });
 
 router.get("/replies/:postID", (req, res) => {
+    const skip = (req.query && req.query.skip) ? parseInt(req.query.skip) : 0;
+    const limit = (req.query && req.query.limit) ? parseInt(req.query.limit) : 5;
     const postID = req.params.postID;
 
-    Post.find({ replyTo: postID }).populate({ path: "user", select: "username -_id" }).then(replies => {
-        // Object.keys(post.replies).forEach(reply => {
-        //     reply.populate({ path: "user", select: "username -_id" });
-        // });
+    Post.find({ replyTo: postID }).populate({ path: "user", select: "username -_id" }).limit(limit).skip(skip).then(replies => {
         replies
             ? res.json(replies)
             : res.sendStatus(400);
@@ -162,9 +158,7 @@ router.get("/byUser/:id", (req, res) => {
 router.post("/reportPost", (req, res) => {
     const { postID, userID } = req.body;
     Post.findOne({ _id: new ObjectId(postID) }).then(post => {
-        console.log("here");
         post.reports.push(userID);
-        console.log(post);
         post.save()
             .then(() => res.sendStatus(200))
             .catch(err => res.status(400).json(err));
