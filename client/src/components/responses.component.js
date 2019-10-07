@@ -85,9 +85,6 @@ export default class Responses extends React.Component {
                 }
                 {(this.state.commentThread).length > 0 &&
                 <div>
-                    <hr/>
-                    <h4>Responses</h4>
-                    <hr/>
                     <div>
                         <ul className={"comment-list-parent"}>
                             {this.state.commentThread}

@@ -49,7 +49,7 @@ export default class PostModal extends React.Component {
                         errorVisible: true
                     });
                 }
-            })  
+            })
             .catch(err => console.log(err));
     }
 
@@ -127,6 +127,9 @@ export default class PostModal extends React.Component {
                         <Reactions reRenderParent={this.reloadResponses} userId={this.props.userId} postId={this.props.postId} layer={1}/>
                         <Button color={"danger"} size={"sm"} outline>Report</Button>
                     </div>
+                    <hr/>
+                    <h4>Responses</h4>
+                    <hr/>
                     {!localStorage.user &&
                     <div>
                         <SignInModal type={"login"} heading=" to Respond" closeModal={null}/>
