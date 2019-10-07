@@ -2,7 +2,7 @@ import React from 'react';
 import {Button, CardImg, DropdownItem, Modal, ModalFooter, NavLink} from 'reactstrap';
 import PostModal from "./Modals/post.modal";
 import UploadModal from "./Modals/upload.modal";
-import SettingsModal from "./Modals/settings.modal";
+import AboutModal from "./Modals/about.modal";
 import LeaderboardModal from "./Modals/leaderboard.modal";
 import SignInModal from "./Modals/signin.modal";
 
@@ -33,7 +33,7 @@ export default class ModalComp extends React.Component {
                         case "login":
                         case "register":
                             return <NavLink onClick={this.toggleModal}>{this.props.text}</NavLink>;
-                        case "settings":
+                        case "about":
                             return <DropdownItem onClick={this.toggleModal}>{this.props.text}</DropdownItem>;
                         case "post":
                             return (
@@ -67,8 +67,8 @@ export default class ModalComp extends React.Component {
                                 />;
                             case "leaderboard":
                                 return <LeaderboardModal closeModal={() => this.toggleModal()}/>;
-                            case "settings":
-                                return <SettingsModal closeModal={() => this.toggleModal()}/>;
+                            case "about":
+                                return <AboutModal closeModal={() => this.toggleModal()}/>;
                             case "login":
                             case "register":
                                 return <SignInModal

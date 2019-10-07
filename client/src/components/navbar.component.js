@@ -71,7 +71,7 @@ export default class NavbarComp extends React.Component {
                                 <DropdownItem href={"/profile"}>
                                     View Profile
                                 </DropdownItem>
-                                <ModalComp type={'settings'} text={'Settings'}/>
+                                <ModalComp type={'about'} text={'About'}/>
                                 <DropdownItem divider/>
                                 <DropdownItem onClick={this.logout}>
                                     Logout
