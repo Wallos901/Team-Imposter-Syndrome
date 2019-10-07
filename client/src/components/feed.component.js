@@ -44,10 +44,10 @@ export default class FeedComp extends React.Component {
             // And only update the page if it has loaded all the images. 
             let nextPost = await getAll(`posts/sort/${this.state.category}?skip=${this.state.itemsOnPage}&limit=${this.state.limit}`);
             if (nextPost.length > 0 && this.state.loadedAllPosts) {
-                // If there are already a number of items on page divisible by the page size limit
+                // If the number of items on page is not a multiple of page size limit
                 if (!(this.state.itemsOnPage%this.state.limit===0)) {
                     this.setState({
-                        loadedPosts: await getAll(`posts/sort/${this.state.category}?limit=${this.state.limit}`),
+                        loadedPosts: await getAll(`posts/sort/${this.state.category}?limit=${this.state.itemsOnPage+1}`),
                         postGrid: []
                     });
                     this.updateFeed();
