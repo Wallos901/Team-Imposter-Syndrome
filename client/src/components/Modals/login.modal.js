@@ -1,6 +1,7 @@
 import React from "react";
 import { ModalHeader, ModalBody, ModalFooter, Col, Form, FormGroup, FormFeedback, Label, Input, Button, Alert } from "reactstrap";
 import axios from "axios";
+import { Redirect } from "react-router-dom";
 
 export default class ProfileModal extends React.Component {
     constructor(props) {
@@ -13,7 +14,8 @@ export default class ProfileModal extends React.Component {
                 passwordState: null,
                 mainState: null
             },
-            mainAlertVisible: false
+            mainAlertVisible: false,
+            toAdminPage: false
         };
     }
 
@@ -37,13 +39,18 @@ export default class ProfileModal extends React.Component {
 
     onSubmit(e) {
         e.preventDefault();
-        axios.post("/api/users/login", this.state)
+        axios.post("http://localhost:5000/api/users/login", this.state)
             .then(res => {
                 if(res.status === 200) {
                     localStorage.user = JSON.stringify(res.data);
-                    this.props.reloadPage();
+                    if (res.data.is_admin) {
+                        this.props.closeModal();
+                        this.setState({ toAdminPage: true });
+                    }
+                    else this.props.reloadPage();
                 }
                 else if(res.status === 202) {
+                    console.log(res);
                     const { validate } = this.state;
                     const { username, password, main } = res.data;
                     if(username) validate.usernameState = username;
@@ -61,9 +68,13 @@ export default class ProfileModal extends React.Component {
     };
 
     render() {
-        const { username, password, validate, mainAlertVisible } = this.state;
+        const { username, password, validate, mainAlertVisible, toAdminPage } = this.state;
         let modalHeading = "";
-        if(this.props.heading) modalHeading = this.props.heading;
+        if (this.props.heading) modalHeading = this.props.heading;
+        if (toAdminPage) {
+            this.props.reloadPage();
+            return <Redirect to="/admin" />
+        }
         return (
             <div>
                 <ModalHeader toggle={this.props.closeModal}>{"Log In" + modalHeading}</ModalHeader>
