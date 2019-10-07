@@ -232,7 +232,8 @@ router.post("/updateReaction", (req, res) => {
 });
 
 router.get("/findUsersByReactionCount", (req, res) => {
-    User.find().select("username reaction_count").sort({ reaction_count: -1 }).limit(10).then(users => {
+    User.findOne({ username: "tester4" }).populate("posts").then(user => {
+        console.log(user);
         res.status(200).json(users);
     }).catch(err => res.status(400).json(err));
 });

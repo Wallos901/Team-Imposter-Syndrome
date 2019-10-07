@@ -38,7 +38,8 @@ const postSchema = new Schema({
     }
 }, {
     timestamps: true,
-    toJSON: { virtuals: true }
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true }
 });
 
 postSchema.virtual("replies", {

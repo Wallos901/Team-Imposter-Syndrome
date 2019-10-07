@@ -17,6 +17,14 @@ const userSchema = new Schema({
     user_status: { type: String, default: "VERIFIED" }
 }, {
     timestamps: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true }
+});
+
+userSchema.virtual("posts", {
+    ref: "Post",
+    localField: "_id",
+    foreignField: "userID"
 });
 
 userSchema.methods.generateHash = function(password) {
