@@ -34,7 +34,7 @@ export default class HomepageComp extends React.Component {
                     { !(userLogged && userLogged.is_admin) &&
                         <div>
                             <Route path="/" exact render={(props) => <FeedComp {...props} update={this.state.update} /> } />
-                            <Route path="/profile" exact render={() => <ProfileComp/>} />
+                            <Route path="/profile" exact component={ProfileComp} />
                         </div>
                     }
                     { userLogged && userLogged.is_admin &&
