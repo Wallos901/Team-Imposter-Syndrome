@@ -3,6 +3,7 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
 const path = require("path");
+const csp = require("content-security-policy");
 
 require("dotenv").config();
 
@@ -11,6 +12,7 @@ const port = process.env.PORT || 5000;
 
 app.use(cors());
 app.use(express.json());
+app.use(csp.getCSP(csp.STARTER_OPTIONS));
 
 app.use(cookieParser());
 
