@@ -1,9 +1,11 @@
 import React from 'react';
 import Reactions from "./reactions.component";
 import { getAll } from "../utilities/download.util";
-import { Button, ButtonGroup } from "reactstrap";
+import { Modal, ModalHeader, ModalBody, ModalFooter, Button, ButtonGroup, Alert, Form, FormGroup, Input, FormText} from 'reactstrap';
 import axios from "axios";
 
+import uploadFile from "../utilities/upload.util";
+import deleteFile from "../utilities/delete.util";
 import Responses from "./responses.component";
 import LoadingComp from './loading.component';
 
@@ -17,7 +19,11 @@ export default class Response extends React.Component {
             replies: [],
             update: true,
             userLogged: localStorage.user ? JSON.parse(localStorage.user) : null,
-            reportDisabled: false
+            reportDisabled: false,
+            error: "",
+            errorVisible: false,
+            editModalVisable: false,
+            loading: false,
         };
     }
 
@@ -62,15 +68,101 @@ export default class Response extends React.Component {
         }
     }
 
+    onErrorDismiss() {
+        this.setState({
+            errorVisible: false
+        });
+    };
+
+    editPost() {
+        if (document.getElementById("editfileUpload").value !== "") {
+            console.log(this.props.postId);
+            if (deleteFile(this.props.postId)) {
+                if (uploadFile(document.getElementById("editfileUpload").files[0], this.props.parentId)) {
+                    window.location.reload();
+                }
+            }
+        }
+    }
+
+    editPostCheck() {
+        this.setState({loading: true});
+        axios.post("/api/posts/editCheck/" + this.props.postId)
+            .then(res => {
+                if (res.status === 200) {
+                    this.toggleEditModal();
+                }
+                else if (res.status === 202) {
+                    this.setState({
+                        error: res.data.error,
+                        errorVisible: true
+                    });
+                }
+            })  
+            .catch(err => console.log(err));
+        this.setState({loading: false});
+    }
+
+    toggleEditModal() {
+        this.setState(prevState => ({
+            editModalVisable: !prevState.editModalVisable
+        }));
+    }
+
+    deletePost() {
+        axios.delete("/api/posts/" + this.props.postId)
+            .then(res => {
+                if (res.status === 200) {
+                    window.location.reload();
+                }
+                else if (res.status === 202) {
+                    this.setState({
+                        error: res.data.error,
+                        errorVisible: true
+                    });
+                }
+            })
+            .catch(err => console.log(err));
+    }
+
+    reportPost() {
+        const { userLogged } = this.state;
+        axios.post("/api/posts/reportPost", { postID: this.props.postId, userID: userLogged ? userLogged._id : "73" })
+            .then(() => {
+                this.setState({ reportDisabled: true });
+            })
+            .catch(err => console.log(err));
+    }
+
     render() {
-        const { userLogged, reportDisabled } = this.state;
+        const { userLogged, errorVisible, error, editModalVisable, reportDisabled } = this.state;
         return (
             <li key={this.props.postId}>
                 <div style={{ position: "relative" }}>
+                    <Modal isOpen={ editModalVisable } toggle={ this.toggleEditModal } centered>
+                        <ModalHeader>Upload Replacement Image</ModalHeader>
+                        <ModalBody>
+                            <Form>
+                                <FormGroup>
+                                    <Input id="editfileUpload" type="file" accept=".jpg, .png, .gif"/>
+                                    <FormText color="muted">
+                                        Please select a file of type jpg, png, or gif.
+                                    </FormText>
+                                </FormGroup>
+                            </Form>
+                        </ModalBody>
+                        <ModalFooter>
+                            <Button color="primary" onClick={() => this.editPost()}>Continue</Button>
+                            <Button color="secondary" onClick={() => this.toggleEditModal()}>Cancel</Button>
+                        </ModalFooter>
+                    </Modal>
+                    <Alert color="danger" isOpen={ errorVisible } toggle={ () => this.onErrorDismiss() }>
+                        { error }
+                    </Alert>
                     { userLogged && userLogged._id === this.props.userId && !this.props.postDeleted && !userLogged.is_admin &&
                         <ButtonGroup style={{ position: "absolute", zIndex: "100", right: "0", padding: "10px" }}>
-                            <Button onClick={() => this.editPostCheck()}>Edit</Button>
-                            <Button onClick={() => this.deletePost()}>Delete</Button>
+                            <Button disabled={this.state.loading} onClick={() => this.editPostCheck()}>Edit</Button>
+                            <Button disabled={this.state.loading} onClick={() => this.deletePost()}>Delete</Button>
                         </ButtonGroup>
                     }
                     { ((userLogged && userLogged._id !== this.props.userId && !userLogged.is_admin) || !userLogged) && !this.props.postDeleted &&

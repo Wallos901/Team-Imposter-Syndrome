@@ -54,6 +54,7 @@ export default class Responses extends React.Component {
                             update={this.props.update}
                             layer={this.props.layer} 
                             maxLayers={this.props.maxLayers}
+                            parentId={this.props.postId}
                         />
                     ]
                 }));

@@ -11,9 +11,11 @@ const config = {
 };
 
 export default function deletePost(postID) {
+    console.log(postID);
     return axios.delete("/api/posts/" + postID)
         .then(post => {
-            const file = post.imageURL.split("/");
+            console.log(post.data);
+            const file = post.data.imageURL.split("/");
             const fileName = file[-1];
             ReactS3.deleteFile(fileName, config)
                 .catch(err => console.log(err));
