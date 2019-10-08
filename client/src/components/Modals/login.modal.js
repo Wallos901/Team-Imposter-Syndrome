@@ -41,7 +41,7 @@ export default class ProfileModal extends React.Component {
     onSubmit(e) {
         this.setState({loading: true});
         e.preventDefault();
-        axios.post("http://localhost:5000/api/users/login", this.state)
+        axios.post("/api/users/login", this.state)
             .then(res => {
                 if(res.status === 200) {
                     localStorage.user = JSON.stringify(res.data);

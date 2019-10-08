@@ -48,7 +48,7 @@ export default class Reactions extends React.Component {
         if (!(prevReact === null && currReact === null)) {
             prevReact = storedReact;
 
-            axios.post("http://localhost:5000/api/users/updateReaction", {
+            axios.post("/api/users/updateReaction", {
                 reaction: currReact,
                 username: userLogged.username,
                 postID: this.props.postId
@@ -56,7 +56,7 @@ export default class Reactions extends React.Component {
             .then(res => localStorage.user = JSON.stringify(res.data))
             .catch(err => console.log(err));
 
-            axios.post("http://localhost:5000/api/posts/updateReaction", { postID: this.props.postId, prevReact, currReact })
+            axios.post("/api/posts/updateReaction", { postID: this.props.postId, prevReact, currReact })
                 .catch(err => console.log(err));
         }
     }

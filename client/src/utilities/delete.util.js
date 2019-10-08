@@ -11,7 +11,7 @@ const config = {
 };
 
 export default function deletePost(postID) {
-    return axios.delete("http://localhost:5000/api/posts/" + postID)
+    return axios.delete("/api/posts/" + postID)
         .then(post => {
             const file = post.imageURL.split("/");
             const fileName = file[-1];

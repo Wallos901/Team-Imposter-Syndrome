@@ -35,7 +35,7 @@ export default class Response extends React.Component {
 
         const { userLogged } = this.state;
         if (userLogged) {
-            axios.get("http://localhost:5000/api/posts/hasUserReportedPost/" + userLogged._id + "/" + this.props.postId)
+            axios.get("/api/posts/hasUserReportedPost/" + userLogged._id + "/" + this.props.postId)
                 .then(res => {
                     this.setState({ reportDisabled: res.data });
                 }).catch(err => console.log(err));

@@ -25,7 +25,7 @@ export default class PostModal extends React.Component {
     componentDidMount() {
         const { userLogged } = this.state;
         if (userLogged) {
-            axios.get("http://localhost:5000/api/posts/hasUserReportedPost/" + userLogged._id + "/" + this.props.postId)
+            axios.get("/api/posts/hasUserReportedPost/" + userLogged._id + "/" + this.props.postId)
                 .then(res => {
                     this.setState({ reportDisabled: res.data });
                 }).catch(err => console.log(err));
@@ -49,7 +49,7 @@ export default class PostModal extends React.Component {
     }
 
     editPostCheck() {
-        axios.post("http://localhost:5000/api/posts/editCheck/" + this.props.postId)
+        axios.post("/api/posts/editCheck/" + this.props.postId)
             .then(res => {
                 if (res.status === 200) {
                     this.toggleEditModal();
@@ -75,7 +75,7 @@ export default class PostModal extends React.Component {
     }
 
     deletePost() {
-        axios.delete("http://localhost:5000/api/posts/" + this.props.postId)
+        axios.delete("/api/posts/" + this.props.postId)
             .then(res => {
                 if (res.status === 200) {
                     window.location.reload();
@@ -92,7 +92,7 @@ export default class PostModal extends React.Component {
 
     reportPost() {
         const { userLogged } = this.state;
-        axios.post("http://localhost:5000/api/posts/reportPost", { postID: this.props.postId, userID: userLogged ? userLogged._id : "73" })
+        axios.post("/api/posts/reportPost", { postID: this.props.postId, userID: userLogged ? userLogged._id : "73" })
             .then(() => {
                 this.setState({ reportDisabled: true });
             })

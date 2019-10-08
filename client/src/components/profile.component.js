@@ -68,7 +68,7 @@ export default class ProfileComp extends React.Component {
 
     saveUserInfo() {
         let { userLogged, updateFormContent, updateErrors } = this.state;
-        axios.post("http://localhost:5000/api/users/update/" + userLogged._id, updateFormContent)
+        axios.post("/api/users/update/" + userLogged._id, updateFormContent)
             .then(res => {
                 if(res.status === 200) {
                     localStorage.user = JSON.stringify(res.data);

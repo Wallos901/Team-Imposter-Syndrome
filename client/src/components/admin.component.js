@@ -26,7 +26,7 @@ export default class AdminComp extends React.Component {
     }
 
     componentDidMount() {
-        axios.get("http://localhost:5000/api/users/findSockPuppets")
+        axios.get("/api/users/findSockPuppets")
             .then(res => {
                 res.data.forEach(userList => {
                     userList.userList.forEach(user => {
@@ -55,7 +55,7 @@ export default class AdminComp extends React.Component {
             })
             .catch(err => console.log(err));
 
-        axios.get("http://localhost:5000/api/posts/reportedPosts")
+        axios.get("/api/posts/reportedPosts")
             .then(res => {
                 res.data.forEach(post => {
                     this.setState(prevState => ({
