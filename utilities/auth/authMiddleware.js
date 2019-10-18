@@ -1,6 +1,14 @@
+
+/*
+    Code inspired from https://www.youtube.com/watch?v=USaB1adUHM0&list=PLillGF-RfqbbiTGgA77tGO426V3hRF9iE&index=9
+    Middleware implementation of token checking to authenticate the user on backend API calls.
+*/
+
+// Package Imports
 const jwt = require('jsonwebtoken');
 
 function auth(req, res, next) {
+    // Get the token from the request cookies.
     const token = req.cookies.token;
 
     // Check for token
@@ -17,4 +25,5 @@ function auth(req, res, next) {
     }
 }
 
+// Export the auth function so it can be used by backend API routes.
 module.exports = auth;
