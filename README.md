@@ -8,19 +8,19 @@ Running this program from the root directory of the file structure will install 
 ### `npm run start`
 Running this program from the root directory of the file structure will start the backend express server, giving access to all API functionality (using a program such as Postman or Insomnia).<br>
 
-References [http://localhost:5000](http://localhost:5000) when making http calls.
+References [http://localhost:5000/](http://localhost:5000/) when making http calls.
 
 ### `npm run server`
 Running this program from the root directory of the file structure will provide the same functionality as running `npm run start`.<br>
 
-References [http://localhost:5000](http://localhost:5000) when making http calls.<br>
+References [http://localhost:5000/](http://localhost:5000/) when making http calls.<br>
 
 In addition to this, it will also automatically restart the express server whenever a change to the code has been made. This is perfect for development changes or ongoing maintenance.
 
 ### `npm run client`
 Running this program from the root directory of the file structure will start the react app running on http://localhost:3000/.<br>
 
-Click the following link to view it in the browser: [http://localhost:3000](http://localhost:3000).<br>
+Click the following link to view it in the browser: [http://localhost:3000/](http://localhost:3000/).<br>
 
 The page will reload if you make edits.<br>
 You will also see any lint errors in the console.
@@ -39,14 +39,14 @@ This command will allow the front-end and back-end of the application to communi
 ### Comments
 4. Classes must be explained in a multiline comment above the class definition.
 5. Methods must be explained in a singleline comment above the function.
-## Syntax
+### Syntax
 6. Semicolons must be used at the end of lines.
 7. Multiline if statements must use curly braces.
 8. Singleline if statements exist on the same line.
 9. Arrow functions must be used rather than bindings.
-## Naming
+### Naming
 10. Component/Model/Utility/Modal files must end with respective type suffix.
-## General
+### General
 11. Object-Oriented coding principles should be followed.
 12. For every database model a create, read, update and delete API route must be accessible.
 13. Only components that link to another page may exist in app.js.
