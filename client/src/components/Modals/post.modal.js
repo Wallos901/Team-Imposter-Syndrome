@@ -25,6 +25,7 @@ export default class PostModal extends React.Component {
     componentDidMount() {
         const { userLogged } = this.state;
         if (userLogged) {
+            //check if user has already reported the current post - if yes then disable the report button
             axios.get("/api/posts/hasUserReportedPost/" + userLogged._id + "/" + this.props.postId)
                 .then(res => {
                     this.setState({ reportDisabled: res.data });

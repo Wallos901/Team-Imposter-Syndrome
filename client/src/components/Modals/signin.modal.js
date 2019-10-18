@@ -18,6 +18,7 @@ export default class SignInModal extends React.Component {
         }));
     };
 
+    /* change modal layout depending on whether or not user is logging in or registering */
     toggleModalType = () => {
         (this.state.type === "register")
             ? this.setState(() => ({type: "login"}))

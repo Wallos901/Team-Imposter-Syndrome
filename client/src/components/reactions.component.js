@@ -30,6 +30,9 @@ export default class Reactions extends React.Component {
         };
     }
 
+    /* check if user has already reacted to the current post
+    and if yes then display their reaction as selected
+     */
     componentDidMount() {
         this.setState({loading: true});
         let { reactionState, userLogged, storedReact } = this.state;
@@ -43,6 +46,7 @@ export default class Reactions extends React.Component {
         this.getPostReactions();
     }
 
+    /* set the new reaction selected by the user */
     componentWillUnmount() {
         let { prevReact, currReact, storedReact, userLogged } = this.state;
         if (!(prevReact === null && currReact === null)) {

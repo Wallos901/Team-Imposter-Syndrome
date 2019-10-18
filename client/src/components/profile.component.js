@@ -34,6 +34,7 @@ export default class ProfileComp extends React.Component {
         };
     };
 
+    /* load and display only the current user's posts */
     async componentDidMount() {
         const { userLogged } = this.state;
         this.setState({
