@@ -1,53 +1,34 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Important Scripts
+## Runnable NPM Scripts
 
-In the project directory, you can run:
+### `npm run client-install`
+Running this program from the root directory of the file structure will install all the necessary packages for the client folder's react server.
 
-### `npm start`
+### `npm run start`
+Running this program from the root directory of the file structure will start the backend express server, giving access to all API functionality (using a program such as Postman or Insomnia).<br>
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+References [http://localhost:5000](http://localhost:5000) when making http calls.
+
+### `npm run server`
+Running this program from the root directory of the file structure will provide the same functionality as running `npm run start`.<br>
+
+References [http://localhost:5000](http://localhost:5000) when making http calls.<br>
+
+In addition to this, it will also automatically restart the express server whenever a change to the code has been made. This is perfect for development changes or ongoing maintenance.
+
+### `npm run client`
+Running this program from the root directory of the file structure will start the react app running on http://localhost:3000/.<br>
+
+Click the following link to view it in the browser: [http://localhost:3000](http://localhost:3000).<br>
 
 The page will reload if you make edits.<br>
 You will also see any lint errors in the console.
 
-### `npm run database`
+### `npm run dev`
+Running this program from the root directory of the file structure will run the `npm run server` and `npm run client` commands concurrently, effectively simulating the application in production.<br>
 
-Runs the server.js file, connecting the application to the MongoDB Database instance.<br>
-References [http://localhost:5000](http://localhost:5000) when making http calls.
-
-Server will reload if any changes are made to the server.js file.
-
-
-## Additional Scripts
-
-In the project directory you can run:
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+This command will allow the front-end and back-end of the application to communicate with each other and allow the developer to test the app effectively.
 
 ## Coding Standards
 
