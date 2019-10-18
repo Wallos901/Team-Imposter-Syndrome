@@ -29,6 +29,8 @@ export default class LeaderboardModal extends React.Component {
     populateLeaderboard() {
         let { reactionsTable, postsTable } = this.state;
         let reactionCounter = 1;
+
+        //get a list of users ordered by the amount of reactions their posts have and display them in a table
         axios.get("/api/users/findUsersByReactionCount")
             .then(res => {
                 res.data.forEach(user => {
@@ -44,6 +46,7 @@ export default class LeaderboardModal extends React.Component {
             });
 
         let postCounter = 1;
+        //get a list of users ordered by the amount of posts they've made and display them in a table
         axios.get("/api/users/findUsersByPostCount")
         .then(res => {
             res.data.forEach(user => {

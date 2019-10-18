@@ -25,6 +25,8 @@ export default class AdminComp extends React.Component {
         }
     }
 
+    /* Get and display the required admin components - a list of
+    * potential sock puppet users and a list of reported posts */
     componentDidMount() {
         axios.get("/api/users/findSockPuppets")
             .then(res => {

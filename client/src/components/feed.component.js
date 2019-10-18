@@ -30,6 +30,9 @@ export default class FeedComp extends React.Component {
         };
     }
 
+    /* get and display the correct amount of
+    posts based on the page size preference
+     */
     async componentDidMount() {
         if(!localStorage.pageSize) {
             localStorage.pageSize = 10;
@@ -63,6 +66,7 @@ export default class FeedComp extends React.Component {
         }
     }
 
+    /* reload posts to match the current category */
     async handleFilterChange(category) {
         this.setState({
             category: category.target.value,
@@ -73,6 +77,7 @@ export default class FeedComp extends React.Component {
         this.updateFeed();
     }
 
+    /* reload posts to match the current page size */
     async handleSizeChange(size) {
         localStorage.pageSize = parseInt(size.target.value);
         this.setState({
