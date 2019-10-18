@@ -1,10 +1,29 @@
-// Model definition for the User data entity.
+/* 
+    Code inspired from https://mongoosejs.com/docs/models.html
+    Model definition for the User data entity.
+*/
 
 // Package Imports
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 
-// Schema Definition
+/*
+    Schema Definition
+
+    username        - String value storing the username of the user.
+    password        - String value storing the hashed value of the user's password.
+    email           - String value storing the email of the user.
+    post_reactions  - Map object containing key value pairs of a post ID and the type of reaction: like, dislike, love, laugh, or fire.
+    reaction_count  - Count of the total reactions to user's posts, used for leaderboard filtering.
+    post_count      - Count of the user's total posts, used for leaderboard filtering.
+    last_activity   - Date value that tracks the time of the user's last interaction with the system.
+    last_IP         - String value that contains the IP address of where the user last accessed the system.
+    is_moderator    - Boolean value determining if the user is a moderator and has access to moderator priviledges.
+    is_admin        - Boolean value determining if the user is a admin and has access to admin priviledges.
+    user_status     - Used to determine whether the user is allowed to make posts in the application; values: VERIFIED, NEEDS VERIFICATION, TERMINATED
+
+    timestamps      - Mongoose attribute that creates two extra attributes ~ 'createdAt' and 'updatedAt'.
+*/
 const userSchema = new mongoose.Schema({
     username: { 
         type: String, 

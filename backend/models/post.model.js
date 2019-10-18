@@ -1,9 +1,25 @@
-// Model definition for the Post data entity.
+/*
+    Code inspired from https://mongoosejs.com/docs/models.html
+    Model definition for the Post data entity.
+*/
 
 // Package Imports
 const mongoose = require('mongoose');
 
-// Schema Definition
+/*
+    Schema Definition
+
+    imageURL   - The image url connecting to the S3 bucket holding all images uploaded to the application.
+    replyTo    - Foreign key refering to the parent post of the current post. If this value is null, it is a post, if it is populated, it is a comment with a parent post.
+    userID     - Foreign key linking back to the user's document ID. Used to populate the 'user' virtual.
+    reactions  - A count of the total number of all reaction types, updated when a user reacts to the post.
+    deleted    - Flag determining whether a post has been deleted. If true it will not be shown in the application.
+    category   - String value pertaining to the category this post belongs to; values: Animal, Fashion, Funny, Landscape, Nature, Random, Sports, Travel, Vehicle.
+    reports    - Array of user IDs, each entry is a user that has reported the post.
+
+    timestamps - Mongoose attribute that creates two extra attributes ~ 'createdAt' and 'updatedAt'.
+    toJSON     - Setting virtuals to true allows the populates virtual attributes to be returned to the application using the res.json() method.
+*/
 const postSchema = new mongoose.Schema({
     imageURL: {
         type: String,
