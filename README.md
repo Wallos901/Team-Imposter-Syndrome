@@ -1,14 +1,14 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
-Picture This™
+# Picture This™
 Created by Ben Walton, Maddie Mackey and Josh Nairn
 
-Assessment 3 project
+## Assessment 3 project
 Advanced Internet Programming
 Spring 2019  
 
 Built using React
 Other technologies include: JavaScript, Node.js, MongoDB, Heroku, Amazon S3, Reactstrap, react-masonry-css. 
+
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Runnable NPM Scripts
 
