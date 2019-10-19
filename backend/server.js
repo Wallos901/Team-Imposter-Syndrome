@@ -25,14 +25,10 @@ connection.once("open", () => {
 const usersRouter = require('./routes/users');
 const postsRouter = require('./routes/posts');
 const commentsRouter = require('./routes/comments');
-const statusRouter = require('./routes/status');
-const user_statusRouter = require('./routes/user_status');
 
 app.use('/api/users', usersRouter);
 app.use('/api/posts', postsRouter);
 app.use('/api/comments', commentsRouter);
-app.use('/api/status', statusRouter);
-app.use('/api/user_status', user_statusRouter);
 
 if (process.env.NODE_ENV === "production") {
     app.use(express.static("client/build"));

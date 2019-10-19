@@ -15,7 +15,7 @@ export default class AboutModal extends React.Component {
                     <br/>Spring 2019</p>    
 
                     <p>Built using React
-                    <br/>Other technologies include: Node.js, MongoDB, Heroku, Amazon S3, Reactstrap, react-masonry</p>            
+                    <br/>Other technologies include: Node.js, MongoDB, Heroku, Amazon S3, Reactstrap, react-masonry-css</p>            
                 </ModalBody>
             </div>
         );

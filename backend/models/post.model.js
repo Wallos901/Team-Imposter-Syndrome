@@ -27,12 +27,12 @@ const postSchema = new mongoose.Schema({
         unique: false
     },
     replyTo: {
-        type: Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: "Post",
         default: null
     },
     userID: {
-        type: Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: "User",
         required: true
     },

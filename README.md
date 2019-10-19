@@ -1,5 +1,15 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+Picture This™
+Created by Ben Walton, Maddie Mackey and Josh Nairn
+
+Assessment 3 project
+Advanced Internet Programming
+Spring 2019  
+
+Built using React
+Other technologies include: JavaScript, Node.js, MongoDB, Heroku, Amazon S3, Reactstrap, react-masonry-css. 
+
 ## Runnable NPM Scripts
 
 ### `npm run client-install`
@@ -38,7 +48,7 @@ This command will allow the front-end and back-end of the application to communi
 3. Other variables should be in generic camelCase.
 ### Comments
 4. Classes must be explained in a multiline comment above the class definition.
-5. Methods must be explained in a singleline comment above the function.
+5. Methods may be explained in a singleline comment above the function, unless they are self-explanatory (e.g. short or the method name explains it).
 ### Syntax
 6. Semicolons must be used at the end of lines.
 7. Multiline if statements must use curly braces.
