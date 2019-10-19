@@ -5,6 +5,11 @@ import { Button } from "reactstrap";
 import LoadingComp from "./loading.component";
 import Response from './response.component';
 
+/** Responses Component
+ * 
+ * Formats the responses to a post or response, based on which layer deep the response is, and whether or not there are any to load.
+ * Displays a "see more" button at the bottom to load more responses if they are available. 
+ */
 export default class Responses extends React.Component {
     constructor(props) {
         super(props);

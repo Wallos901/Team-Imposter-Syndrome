@@ -63,6 +63,8 @@ export default class ProfileModal extends React.Component {
             });
     };
 
+    /** Handles validating fields (e.g. ensuring username isn't already taken) and registers user.
+     * Or alerts user of problems with registration. */
     onSubmit(e) {
         this.setState({loading: true});
         e.preventDefault();

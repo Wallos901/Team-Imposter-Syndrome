@@ -1,3 +1,4 @@
+// Design inspired by masonry and uses reactstrap and react-masonry-css from https://www.npmjs.com/package/react-masonry-css.
 import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 
@@ -16,6 +17,13 @@ const dynamicColumnBreakpoints = {
     500: 1
 };
 
+/** Admin Component
+ * 
+ * Displays admin page when admin is logged in.
+ * 
+ * Displays potential sock puppet users, 
+ * And posts that have been reported, with ability to delete.
+ */
 export default class AdminComp extends React.Component {
     constructor(props) {
         super(props);

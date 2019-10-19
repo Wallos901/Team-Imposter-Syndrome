@@ -6,7 +6,7 @@ import SignInModal from "./signin.modal";
 import axios from 'axios';
 import uploadFile from "../../utilities/upload.util";
 import deleteFile from "../../utilities/delete.util";
-import '../../styling.css'
+import '../../styling.css';
 
 export default class PostModal extends React.Component {
     constructor(props) {
@@ -22,6 +22,7 @@ export default class PostModal extends React.Component {
         };
     }
 
+    /** Loads post data when component loads. */
     componentDidMount() {
         const { userLogged } = this.state;
         if (userLogged) {
@@ -49,6 +50,8 @@ export default class PostModal extends React.Component {
         }));
     }
 
+    /** Checks if user can edit the post.
+     * Toggles the edit state if it is the user's post. */
     editPostCheck() {
         axios.post("/api/posts/editCheck/" + this.props.postId)
             .then(res => {
@@ -65,6 +68,7 @@ export default class PostModal extends React.Component {
             .catch(err => console.log(err));
     }
 
+    /** Uploads new image and replaces old post image */
     editPost() {
         if (document.getElementById("fileUpload").value !== "") {
             if (deleteFile(this.props.postId)) {

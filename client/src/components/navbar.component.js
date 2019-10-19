@@ -4,6 +4,12 @@ import axios from 'axios';
 
 import ModalComp from "./modal.component";
 
+/** Navbar Component
+ * 
+ * Displays the navigation bar links based on whether a user is logged in, and if so what type of user they are.
+ * (e.g. Page logo that links to homepage, upload, leaderboard)
+ * As well as a drop down that displays the username, profile, about the page info, and option to logout.
+ */
 export default class NavbarComp extends React.Component {
     constructor(props) {
         super(props);

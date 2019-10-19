@@ -17,6 +17,7 @@ export default class UploadModal extends React.Component {
         this.props.afterUpload();
     };
 
+    /** Validates input fields and uploads image or alerts error. */
     handleUploadClick = () => {
         let file = document.getElementById("fileUpload");
         let category = document.getElementById("category");

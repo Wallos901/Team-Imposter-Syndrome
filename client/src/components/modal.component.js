@@ -6,6 +6,21 @@ import AboutModal from "./Modals/about.modal";
 import LeaderboardModal from "./Modals/leaderboard.modal";
 import SignInModal from "./Modals/signin.modal";
 
+/** Modal Component
+ * 
+ * Handles creating a reactstrap Modal component, by generating default fields for similar modals.
+ * 
+ * Creates button that opens modal (e.g. Upload, Leaderboard and Login/Register all appear in the navigation bar, so the button is a navigation menu button).
+ * 
+ * Also passes the Modal content into the specific component with props
+ * 
+ * Types of Modals in this project:  
+ * - Upload
+ * - Leaderboard
+ * - Login and Register (sign in)
+ * - About 
+ * - Post
+ */
 export default class ModalComp extends React.Component {
     constructor(props) {
         super(props);

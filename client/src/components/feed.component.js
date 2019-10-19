@@ -1,3 +1,4 @@
+// Design inspired by masonry and uses reactstrap and react-masonry-css from https://www.npmjs.com/package/react-masonry-css.
 import React from "react";
 import Masonry from 'react-masonry-css';
 import { Form, FormGroup, CustomInput, Col, Row, Button } from "reactstrap";
@@ -15,6 +16,13 @@ const dynamicColumnBreakpoints = {
     500: 1
 };
 
+/** Feed Component
+ * 
+ * Displays all of the post cards in a masonry layout.
+ * 
+ * Handles loading and updating posts in feed, 
+ * And filtering category and page size.
+ */
 export default class FeedComp extends React.Component {
     constructor(props) {
         super(props);

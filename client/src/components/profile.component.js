@@ -1,3 +1,4 @@
+// Design inspired by masonry and uses reactstrap and react-masonry-css from https://www.npmjs.com/package/react-masonry-css.
 import React from 'react';
 
 import '../styling.css' ;
@@ -16,6 +17,13 @@ const dynamicColumnBreakpoints = {
     500: 1
 };
 
+/** Profile Component
+ * 
+ * Displays profile information for the currently logged in user. 
+ * 
+ * Displays and allows the option to edit the user email and password.
+ * Displays all the user's posts in a masonry layout. 
+ */
 export default class ProfileComp extends React.Component {
     constructor(props) {
         super(props);

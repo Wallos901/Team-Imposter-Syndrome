@@ -3,6 +3,10 @@ import { Card } from "reactstrap";
 
 import ModalComp from "./modal.component";
 
+/** Card Component
+ * 
+ * Contains post props and creates Modal Component for each post.
+ */
 export default class CardComp extends React.Component {
     constructor(props) {
         super(props);

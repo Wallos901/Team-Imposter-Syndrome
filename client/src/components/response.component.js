@@ -9,6 +9,11 @@ import deleteFile from "../utilities/delete.util";
 import Responses from "./responses.component";
 import LoadingComp from './loading.component';
 
+/** Response Component
+ * 
+ * Formats a reply to an image, displaying the responses component for it 
+ * and shows responses to that image if there are any. 
+ */
 export default class Response extends React.Component {
     constructor(props) {
         super(props);
@@ -177,11 +182,6 @@ export default class Response extends React.Component {
                         style={{maxWidth: "30%"}}
                     />
                 </div>
-                {/* <img className={"comment-post"}
-                        alt=""
-                        src={this.props.imageURL}
-                        style={{maxWidth: "30%"}}
-                /> */}
                 {(this.props.layer >= this.props.maxLayers && !this.state.loadedReplies && this.state.replies.length>0) && 
                     <Button style={{width:"30%", float: "right"}} color="secondary" onClick={() => this.loadReplies()}>See replies</Button>
                 } {this.state.loadingReplies && 

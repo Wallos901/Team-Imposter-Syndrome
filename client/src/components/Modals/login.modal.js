@@ -20,11 +20,13 @@ export default class ProfileModal extends React.Component {
         };
     }
 
+    /** Updates state as fields are input. */
     handleInputChange = async (event) => {
         const { value, name } = event.target;
         this.setState({ [name]: value });
     };
 
+    /** Handles clicking on input fields. */
     handleClick = async (event) => {
         const { id } = event.target;
         const { validate } = this.state;
@@ -38,9 +40,11 @@ export default class ProfileModal extends React.Component {
         });
     };
 
+    /* Handles logging in. */
     onSubmit(e) {
         this.setState({loading: true});
         e.preventDefault();
+        // Attempts to login with user details entered with a post request.
         axios.post("/api/users/login", this.state)
             .then(res => {
                 if(res.status === 200) {
@@ -52,6 +56,7 @@ export default class ProfileModal extends React.Component {
                     }
                     else this.props.reloadPage();
                 }
+                // If login request failed, runs the validation on all fields and alerts user what went wrong. 
                 else if(res.status === 202) {
                     console.log(res);
                     const { validate } = this.state;

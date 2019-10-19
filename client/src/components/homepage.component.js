@@ -8,6 +8,16 @@ import FeedComp from "./feed.component";
 import ProfileComp from "./profile.component";
 import AdminComp from "./admin.component";
 
+/** Homepage Component
+ * 
+ * Displays the navigation bar, and handles routing.
+ * 
+ * Home, or "/" location, displays the Feed component of posts. 
+ * Profile displays the user profile of the currently logged in user.
+ * Admin displays the admin page when an admin user is logged in.
+ * 
+ * By default, a generic user sees home on log in, and an admin user sees the admin page.
+ */
 export default class HomepageComp extends React.Component {
     constructor(props){
         super(props);

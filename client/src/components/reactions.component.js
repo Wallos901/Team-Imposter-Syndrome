@@ -4,6 +4,14 @@ import {Button, ButtonGroup, Input } from "reactstrap";
 import axios from "axios";
 import upload from "../utilities/upload.util";
 
+/** Reactions Component
+ * 
+ * Used on posts and under responses to give users post options.
+ * 
+ * Options displayed in the reactions component: 
+ * - Emoji reactions (like, dislike, love, laugh, fire)
+ * - Post a response image
+ */
 export default class Reactions extends React.Component {
     constructor(props) {
         super(props);
